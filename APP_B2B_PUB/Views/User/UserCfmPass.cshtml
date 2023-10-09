@@ -1,0 +1,250 @@
+﻿@{
+
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    var strTitle = "Xác nhận mật khẩu";
+
+    string storageItem = Request.QueryString["lang"];
+
+    //HttpCookieCollection cook = Request.Cookies;
+    //var value = Request.Cookies["lang"].Value;
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle;
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = "Một nền tảng giúp các công ty và các nhà cung cấp dịch vụ du lịch kết nối đến các đại lý của họ.Hệ thống giúp mở rộng kênh bán hàng, tăng doanh số, giảm chi phí.    Tạo mối liên kết mở rộng B2B giữa các doanh nghiệp, giúp các công ty phát triển bền vững";
+}
+<app-content-display>
+
+    <div id="Content" style="background: #F5F7F8; padding: 40px 0;">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12" id="title" style=" "> </div>
+                <div class="col-md-offset-3 col-md-6" id="pnForm" style="background: #fff; padding: 30px; border-radius: 2em;"> </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $.ModulePublic_PageConfirmAccountMain = function (options) {
+            var defaults = {
+                roottab: null
+            }
+            options = $.extend(defaults, options);
+
+
+            var strPassengerGUID = $.pngGetQSVal("mguid")
+
+            var ObjList_Api = {
+                GetDetaiPassengerRegister: {
+                    strApiLink: 'api/public/GetDetaiPassengerRegister'
+                    , objParams: {
+                        strPassengerGUID: strPassengerGUID
+                        , intLangID: 18
+
+                    }
+                },
+                UpdPassengerPassword: {
+                    strApiLink: 'api/public/UpdPassengerPassword'
+                    , objParams: {
+                        strPassengerGUID: strPassengerGUID
+                        , strPassword: null
+
+                    }
+                },
+            }
+
+            var Is_Exists = false
+            var Is_Enable = false
+            var Str_Result = null
+            var Obj_Detail = {}
+
+            var Obj_FN_Main = {}
+
+            png.postListApiGetValue({
+                objList_Api: ObjList_Api
+                , objListApi_RtnVal: {
+                    'GetDetaiPassengerRegister': {
+                        objParams_Cus: {},
+                        OnSuccess: function (data) {
+                            var arr = JSON.parse(data)
+                            if (arr.length > 1) {
+                                Is_Exists = true
+                                Obj_Detail = arr[0][0]
+                                Is_Enable = arr[0][0].IsEnable
+                                Str_Result = arr[1][0].strResult
+                            } else {
+                                Str_Result = arr[0][0].strResult
+                            }
+                            GetMainPanel()
+                        }
+                    }
+                }
+            })
+
+            function GetMainPanel() {
+                var IdOrClassPn = "#Content"
+
+                if (Is_Exists) {
+                    if (Is_Enable) {
+                        var temp1 = '    <h3 align="center"> <span>' + Str_Result + ' </span></h3>'
+                        temp1 += '<div align="center" class="pn-margin-b-30"><button type="button" class="btn bg-primary"><a href="./login"><span langkey="sys_Btn_Login" style="color: white"></span> </a></button></div>'
+                        $("#title").html(temp1);
+                    } else {
+                        var temp1 = '    <h3 align="center"> <span langkey="sys_Txt_Confirm_Congratulate" ></span> <b>Itourlink.com</b></h3>'
+                        temp1 += '    <h3 align="center"> <span langkey="sys_Txt_Confirm_SetPW"></span></h3>'
+                        $("#title").html(temp1);
+                        GetFrom()
+                    }
+                } else {
+                    var temp1 = '    <h3 align="center"> <span>' + Str_Result + ' </span></h3>'
+                    temp1 += '<div align="center" class="pn-margin-b-30"><button type="button" class="btn bg-primary"><a href="./signup"><span langkey="sys_Btn_Res" style="color: white"></span> </a></button></div>'
+                    $("#title").html(temp1);
+                }
+
+
+            }
+
+            function GetFrom() {
+
+                var Obj_FormInput = {}
+
+                pngPn.getPanelHtml({
+                    objPanel: {
+                        pnMain: {
+                            tag: 'div', attr: 'class=""', childTags: [{ div: 'class=""' }, { div: 'class="row"' }]
+                            , pnTable: { tag: 'div', attr: 'class="col-md-12"' }
+                            , pnBtn: { tag: 'div', attr: 'class="col-md-12"' }
+                        }
+                    }
+                    , objEvtPanel: {
+
+                        pnTable: function (_IdOrClassPn, _objAll, _OnRtn) {
+                            var IdOrClass_Pn = _IdOrClassPn
+                            Obj_FormInput = {
+                                strFullName: {
+                                    title: '<span langkey="sys_Txt_FullName"> </span>', isRequire: false, attr: "class='col-md-12'", IsRtn: true
+                                    , input: { IsNoInput: true, IsViewDtl: true }
+                                }
+                                , strEmail: {
+                                    title: '<span langkey=""> Email </span>', isRequire: false, attr: "class='col-md-12'", IsRtn: true
+                                    , input: { IsNoInput: true, IsViewDtl: true }
+
+                                }
+                                , strMobile: {
+                                    title: '<span langkey=""> Phone </span>', isRequire: false, attr: "class='col-md-12'", IsRtn: true
+                                    , input: { IsNoInput: true, IsViewDtl: true }
+
+                                }
+
+                                , strPassword:{title:'<span langkey="sys_Txt_Hd-PW"></span>',attr:"class='col-md-12'",isRequire: true
+                                    ,input:{type:'password',classEx:'form-control',attr:''}
+                                    ,validate:{format:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@@#$%^&*?])[A-Za-z\d!@@#$%^&*?]{8,30}$/,confirmFormat:''}
+                                },
+                                strCfmPassword:{title:'<span langkey="sys_Txt_Hd-PWConfirm"></span>',attr:"class='col-md-12'",isRequire: true
+                                    ,input:{type:'password',classEx:'form-control',attr:''}
+                                    ,arrValidateEx:[{strConfirm:'<span langkey="sys_Txt_ppChgPW_cfm-same-npw"></span>',IsCheckSS:function(strVal){
+                                        return (strVal == $(_IdOrClassPn + " .strPassword").val())
+                                    }}]
+                                }
+                                ,showPW:{title:'<span langkey="sys_Txt_ppChgPW_show-hide"> </span>',isRequire:false,attr:"class='col-md-12'",IsRtn:true
+                                    ,input:{type:'checkbox',classEx:'chkCustom-1',attr:'style="float: left;margin-right: 5px;margin-top: 2px;" id = "showPW" '}
+                                }
+                            }
+
+                            pngPn.getForm({
+                                action: 1,
+                                //objDetail:{},
+                                objInput: Obj_FormInput,
+                                idOrClass: _IdOrClassPn,
+                                objDetail: Obj_Detail
+                            })
+
+                            $(".strPassword", IdOrClass_Pn).parent().append("<span langkey='sys_Txt_Confirm_required-PW'></span>");
+
+                            $('#showPW').click(function () {
+                                if ($(this).is(":checked") == true) {
+                                    $(IdOrClass_Pn + " .strPassword").attr("type", "text");
+                                    $(IdOrClass_Pn + " .strCfmPassword").attr("type", "text");
+                                } else {
+                                    $(IdOrClass_Pn + " .strPassword").attr("type", "password");
+                                    $(IdOrClass_Pn + " .strCfmPassword").attr("type", "password");
+                                }
+                            })
+
+                        },
+                        pnBtn: function (_IdOrClassPn, _objAll, _OnRtn) {
+                            var IdOrClass_Pn = _IdOrClassPn
+
+                            var strHtml = ''
+                            strHtml += '<button class="btn bg-primary" id="btnSubmit" >Submit</button>';
+                            $(IdOrClass_Pn).html(strHtml)
+
+                            $('#btnSubmit').click(function () {
+                                pngPn.getForm({
+                                    action: 2,
+                                    //objDetail:{},
+                                    objInput: Obj_FormInput,
+                                    idOrClass: "#pnForm",
+                                    OnChkSuccess: chkAjax
+                                })
+                                // chkAjax()
+                                function chkAjax(objRtn) {
+                                    if (objRtn) {
+                                        png.postListApiGetValue({
+                                            objList_Api: ObjList_Api
+                                            , objListApi_RtnVal: {
+                                                'UpdPassengerPassword': {
+                                                    objParams_Cus: {
+                                                        strPassword: objRtn.strPassword
+                                                    }, OnSuccess: function (data) {
+                                                        if (JSON.parse(data)[0][0].Column1 == "1") {
+                                                            location.reload()
+                                                        } else {
+                                                            $.Confirm({ strContent: '<span langkey="sys_Txt_ppChgPW_SetFail"></span>' })
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        })
+
+                                    }
+
+                                }
+
+                            })
+                        }
+                    }
+                    , idOrClass: "#pnForm"
+                    , OnChangeIdPn: function (_Fn) {
+                        // Obj_FN_Main.pnMain = _Fn
+                    }
+                })
+            }
+        }
+
+        coreSystem.getLoadPage({
+            OnSuccess: function () {
+                pngElm.getLangKey()
+                $.ModulePublic_PageConfirmAccountMain()
+
+            }
+        })
+
+    </script>
+</app-content-display>

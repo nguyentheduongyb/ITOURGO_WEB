@@ -1,0 +1,478 @@
+﻿@{
+
+    string strTitleURL = ViewContext.RouteData.Values["strTitleURL"].ToString();
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+
+    System.Data.DataSet ds = APP_B2B_PUB.Controllers.ComController.GetDetailCompanyOwnerByPUB("{"
+        + "strCompanyNameUrl: '" + strTitleURL + "'"
+        + ",tblsReturn:'[0][1]'"
+        + "}");
+
+
+    System.Data.DataRow objDetail = ds.Tables[0].Rows[0];
+    System.Data.DataTable arrListAgent = ds.Tables[1];
+
+    var strTitle = "Danh sách Tour";
+
+    string storageItem = Request.QueryString["lang"];
+
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle+   " - "+ objDetail["strCompanyName"];
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = objDetail["strDescription"];
+}
+    <app-content-display>
+
+        <app-breadcrumb-root></app-breadcrumb-root>
+        <div id="Content">
+            <div class="panel-itl" style="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style=" margin-bottom: 30px; font-size:24px"><b>@objDetail["strCompanyName"] /</b> Danh sách Tour</h1>
+                        </div>
+                        <div class="col-md-3 pn-margin-b-30">
+                            <img src="@( !String.IsNullOrEmpty(objDetail["strCompanyLogo"].ToString()) ? GetUrl("strImgURL")+objDetail["strCompanyLogo"] : "/Lib_Common/assets/images/img-noimage.png")" style=" border: 1px solid #dedede;margin-bottom:20px" width="100%" />
+                            <div class="pnAgentPolicy" style="margin-bottom: 15px;">Bạn có thể đăng ký Đại lý làm đối tác của nhà cung cấp trên</div>
+                            <script>
+
+                            var Obj_Detail = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(objDetail))
+                                Obj_Detail = Obj_Detail.Table[0]
+
+                            if (Obj_Detail.strAgentPolicy) {
+
+                                ViewAgentPolicy(0)
+
+                                function ViewAgentPolicy(_IsViewMore) {
+                                    if (!_IsViewMore) {
+                                        $('.pnAgentPolicy').html($.pngLimitText(Obj_Detail.strAgentPolicy, 200, '...<a class="btnViewMore">Xem thêm</a>'))
+
+                                        $('.pnAgentPolicy .btnViewMore').click(function () {
+                                            ViewAgentPolicy(!_IsViewMore)
+                                        })
+                                    } else {
+                                        $('.pnAgentPolicy').html(Obj_Detail.strAgentPolicy+'<a class="btnHideMore">Ẩn thêm</a>')
+
+                                        $('.pnAgentPolicy .btnHideMore').click(function () {
+                                            ViewAgentPolicy(!_IsViewMore)
+                                        })
+                                    }
+                                }
+                            }
+                            </script>
+                            <a href="@GetUrl("APPB2B_Agent")?page=register&strCodeInvite=@objDetail["strCompanyCode"]&lang=@Request.QueryString["lang"]" target="_Register" class="btn" style="border-radius:10em;background: #fff;color: #3838d1;border:1px solid #3838d1;margin-bottom: 15px;width:100%">Đăng ký làm Đại lý</a>
+
+                            @if (arrListAgent.Rows.Count != 0)
+                            {
+                                <div style="border: 1px solid #ccc; padding: 15px; border-radius: 1em;">
+
+                                    <h3 style="margin-top: 0;"><b>Các đại lý</b></h3>
+                                    <div style="">
+                                        @foreach (System.Data.DataRow item in arrListAgent.Rows)
+                                        {
+                                            var rowIndex = arrListAgent.Rows.IndexOf(item);
+                                            <div style="">
+                                                <div class="btn_Custom" guid="" title="@item["strCompanyName"]" style="background:url('@( !String.IsNullOrEmpty(item["strCompanyLogo"].ToString())  ? GetUrl("strImgURL")+item["strCompanyLogo"] : "/Lib_Common/assets/images/img-noimage.png")') no-repeat center;background-size: cover;cursor:pointer;height:100px" title=""> </div>
+                                                <div class="pn-padding-t-b-15"><b>@item["strCompanyName"]</b></div>
+                                                @if (rowIndex != arrListAgent.Rows.Count - 1)
+                                                {
+                                                    <div style="border-bottom: 2px dotted #ccc; margin-bottom: 15px;"></div>
+                                                }
+                                            </div>
+                                        }
+
+
+                                        @if (Convert.ToInt32(arrListAgent.Rows[0]["intTotal"]) > 5)
+                                        {
+                                            <a href="@objDetail["strCompanyNameUrl"]/agents" style=" margin: 20px 0 0; display: inline-block;">Hiển thị tất cả @arrListAgent.Rows[0]["intTotal"] Đại lý ></a>
+                                        }
+
+                                        @*<a style=" border: 1px solid #d0d0d0; padding: 5px; text-align: center; display: block;">Xem thêm Đại lý</a>*@
+                                    </div>
+                                </div>
+
+                            }
+
+                        </div>
+                        <div class="col-md-9">
+                            <div id="pnListTour"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+
+            $.ModuleMainLead_Tour_SrcRtl = function (options) {
+                var defaults = {
+                    strUserGUID: '47ecbd6d-897a-4a41-a061-95d5d3b166b6'
+                    , strCompanyPartnerGUID: 'e824fd66-a3ca-46f4-a1be-ab7a0d1f6137'
+                    , strCompanyOwnerGUID: null,
+                    OnSuccess: function () {
+
+                    }
+                }
+                options = $.extend(defaults, options);
+
+
+                var IdOrClass_Main = "#pnListTour"
+
+
+
+                var langID
+                if (png.ArrLS.Language.get() == "en")
+                    langID = 1
+                else if (png.ArrLS.Language.get() == "vi")
+                    langID = 18
+
+                var ObjList_Api = {
+                    GetListTourPublishByPUB: {
+                        strApiLink: 'api/public/traveller/GetListTourPublishByPUB'
+                        , objParams: {
+                            strUserGUID: null
+                            , strTourGUID: null
+                            , strCompanyOwnerGUID: options.strCompanyOwnerGUID
+                            , strCompanyPartnerGUID: null
+                            , intLangID: langID
+                            , strPriceLevelGUID: null//JSON.parse(png.ArrLS.CompanyFriend.get()).strPriceLevelGUID
+                            , intCateID: null
+                            , strNoOfDayRange: null
+                            , strFilterServiceName: null
+                            , strListEasiaCateID: null
+                            , strListTransportOptionID: null
+
+                            , dtmFilterDateStart:  null
+                            , dtmFilterDateValidFrom:  null
+                            , dtmFilterDateValidTo: null
+
+                            , strOrder: null
+
+                            , strPriceFromRange: null
+                            , intCurrencyView: JSON.parse(png.ArrLS.Currency.get()).intCurrencyID
+                            , strLocationCode:  null
+                            , intCurPage: null
+                            , intPageSize: null
+                            , tblsReturn: '[0]'
+                        }
+                    }
+                }
+
+                var ObjList_ComboValue = {
+                    ArrTourType: {
+                        getValCode: { strCombocode: "053" }
+                        , OnSuccessItem: function (data) {
+                            // data.unshift({'':'Select...'})
+                            return data
+                        }
+                    }
+                    , Arr_EasiaCate: {
+                        strTableName: 'CM37'
+                        , strFeildSelect: 'CM37_EasiaCateID AS intID,CM37_EasiaCateName AS strName'
+                        , strWhere: 'WHERE IsActive = 1'
+                    }
+                    , Arr_TransportOption: {
+                        strTableName: 'CM40'
+                        , strFeildSelect: 'CM40_TransportOptionID AS intID,CM40_TransportOptionName AS strName'
+                        , strWhere: 'WHERE IsActive = 1'
+                    }
+                }
+
+                var Arr_EasiaCate = []
+                var Arr_TransportOption = []
+
+
+                var Dbl_MaxPriceFrom = null
+                var Int_MaxNoOfDay = null
+
+                var Int_CurPage = 1
+                var Int_PageSize = 10
+
+
+                //---------
+                var Obj_Filter = {}       // Biến lọc
+                var Arr_ListTbl = []
+                // var Obj_FormInput = {}
+
+                var Obj_FN_Main = {}
+                //---------
+
+
+                GetMainPanel()
+                function GetMainPanel() {
+
+
+                    pnListSrcRsl(IdOrClass_Main)
+                    function pnListSrcRsl(_idOrClassPn) {
+                        var IdOrClass_Pn = _idOrClassPn
+
+                        var intNoOfFilter = 0
+                        Object.keys(Obj_Filter).forEach(function (value) {
+                            if (Obj_Filter[value]) {
+                                intNoOfFilter++
+                            }
+                        })
+                        if (intNoOfFilter)
+                            $('#pnSearchbar #btnFilter .intITs').html('(' + intNoOfFilter + ')')
+                        else {
+                            $('#pnSearchbar #btnFilter .intITs').html('')
+                        }
+                        var strHtml = ''
+                        strHtml += '<div id="pnGetList"></div>'
+                        strHtml += '<div id="pnPaging"></div>'
+                        $(IdOrClass_Pn).html(strHtml)
+
+                        GetListSrcRsl()
+
+                        function GetListSrcRsl(_intCurPage, _intPageSize) {
+                            if (!_intCurPage) {
+                                Int_CurPage = 1
+                                Int_PageSize = 10
+                                _intCurPage = Int_CurPage
+                                _intPageSize = Int_PageSize
+                            } else {
+
+                                Int_CurPage = _intCurPage
+                                Int_PageSize = _intPageSize
+                            }
+
+                            if ($(window).width() >= 767) {
+
+                                Obj_Filter = $.pngExtendObj(Obj_Filter, {
+                                    intCurPage: _intCurPage
+                                    , intPageSize: _intPageSize
+                                    , strPriceFromRange: ($('#pnSearchBar_Form .pnElm-strPnRange .strPriceRange').val() || null)
+                                    , strNoOfDayRange: ($('#pnSearchBar_Form .pnElm-strPnRange .strDurationRange').val() || null)
+                                })
+                            } else {
+
+                                Obj_Filter = $.pngExtendObj(Obj_Filter, {
+                                    intCurPage: _intCurPage
+                                    , intPageSize: _intPageSize
+                                })
+                            }
+
+
+                            png.postListApiGetValue({           // Post list các Api phía trên và lấy về dữ liệu
+                                objList_Api: ObjList_Api            // Tên các Object api đã khai báo phía trên
+                                , objListApi_RtnVal: {           // Giá trị nhận về từ API
+                                    'GetListTourPublishByPUB': {               // Tên api tương ứng với giá trị trả về
+                                        objParams_Cus: Obj_Filter
+                                        , OnSuccess: function (data) {
+                                            Arr_ListTbl = JSON.parse(data)[0]
+
+                                            //if (!Dbl_MaxPriceFrom)
+                                            //    Dbl_MaxPriceFrom = Arr_ListTbl[0].dblMaxPriceFrom
+
+                                            //if (!Int_MaxNoOfDay)
+                                            //    Int_MaxNoOfDay = Arr_ListTbl[0].intMaxNoOfDay
+
+                                            if (!$('#pnSearchBar_Form .pnElm-strPnRange').html()) {
+
+                                                //var dblMaxPriceFrom = 0
+                                                //var intMaxNoOfDay = 0
+                                                //if (Arr_ListTbl.length) {
+                                                //    dblMaxPriceFrom = Arr_ListTbl[0].dblMaxPriceFrom
+                                                //    intMaxNoOfDay = Arr_ListTbl[0].intMaxNoOfDay
+                                                //}
+
+                                                //pngPn.getForm({
+                                                //    objInput: {
+                                                //        strPriceRange: {
+                                                //            title: '<span langkey="pg_Main_Tour_FF-Price"></span>', attr: 'class="col-md-12"', isRequire: false
+                                                //            , inputRange: { step: 1, min: 0, max: dblMaxPriceFrom, value: '0,' + dblMaxPriceFrom, format: $.pngFormatPrice(0).replace('0', '{0}') }
+                                                //            , input: { class: 'txtPriceRange' }
+                                                //        }
+                                                //        , strDurationRange: {
+                                                //            title: '<span langkey="pg_Main_Tour_FF-Duration"></span>', attr: 'class="col-md-12"', isRequire: false
+                                                //            , inputRange: { step: 1, min: 0, max: intMaxNoOfDay, value: '0,' + intMaxNoOfDay, format: '{0} <span langkey="sys_Txt-Days"></span>' }
+                                                //            , input: { class: 'txtDurationRange' }
+                                                //        }
+                                                //    },
+                                                //    idOrClass: '#pnSearchBar_Form .pnElm-strPnRange'
+                                                //})
+                                            }
+
+
+
+                                            var strHtml = ''
+                                            Arr_ListTbl.forEach(function (value, key) {
+                                                var strImg = value.strTourImageUrl
+                                                if (strImg)
+                                                    strImg = png.getServerImgURL(strImg)
+                                                else
+                                                    strImg = coreSystem.getLib_CommonURL('assets/images/img-noimage.png')
+
+                                                if ($(window).width() >= 767) {
+                                                    strHtml += '<div class="" style="display:flex;margin-bottom:30px">'
+                                                    strHtml += '<div style="width: 40%;margin-right:20px; background:url(\'' + strImg + '\') no-repeat center, linear-gradient(#fff0, #fff0, #000); background-blend-mode: overlay;background-size: cover;border-radius:1em;position:relative"> <span class="txtLangCode" langkeyDB="' + value["strLangCode"] + '" style="position: absolute;bottom: 5px;right: 5px;padding: 3px;color:#fff">' + pngElm.getLangKeyDB({ langkey: value.strLangCode })+'</span></div>'
+                                                    strHtml += '<div style="width: 55%;">'
+                                                    strHtml += '<h3 class="title" style="font-size: 18px;line-height: 25px;"><b>' + value.strTourName + '</b></h3>'
+                                                    //strHtml += '<div class="pn-margin-b-15" style="font-size:12px;color: #888;"><b>By: </b><a href="/com/' + value["strOwnerCompanyNameUrl"] + '">' + value.strOwnerCompanyName + '</a></div>'
+                                                    // strHtml += '<div style="color: #f19e22; ">'+$.pngHtmlStars(value.intEasiaCateID)+'</div>'
+                                                    strHtml += '<div style="font-weight:bold;color:#ADADAD;margin-bottom:5px">' + value.intNoOfDay + ' ' + pngElm.getLangKey({ langkey: 'sys_Txt-Days' }) + '/' + (value.intNoOfDay - 1) + ' ' + pngElm.getLangKey({ langkey: 'pg_Main_Tour_MdDtl_Nights' }) + '</div>'
+                                                    strHtml += '<div style="height: 57px;overflow: hidden;">'
+                                                    strHtml += '    <div><b>' + pngElm.getLangKey({ langkey: 'pg_Main_Tour_MdDtl_Citiescovered' }) + ': </b>' + value.strListTourDestinationName + '</div>'
+                                                    strHtml += '    <div><b>' + pngElm.getLangKey({ langkey: 'pg_Main_Tour_MdDtl_MainAttractions' }) + ': </b>' + (value.strListTourMainAttractionName || '<i>Không có dữ liệu</i>') + '</div>'
+                                                    strHtml += '</div>'
+                                                    strHtml += '<div>'
+                                                    strHtml += '    <div style="margin-top:10px"><b style="color: #1076FC;font-size: 16px; padding-top: 10px;"><span langkey="pg_Main_Tour_LT-PriceFrom"></span>: ' + (value.dblPriceFrom == null ? '<b style="color:#000">N/A</b>' : '' + $.pngFormatPrice(value.dblPriceFrom)) + '</b>'
+                                                    if (value.dblOldPriceFrom)
+                                                        strHtml += '    <b style="font-size:12px;text-decoration: line-through;">(Giá cũ: ' + $.pngFormatPrice(value.dblOldPriceFrom) + ')</b>'
+                                                    strHtml += '    </div>'
+                                                    // strHtml += '    <button class="btn btn-texticon txt-white bg-primary btn_Custom" guid="'+value.strTourGUID+'">Xem chi tiết</button>'
+                                                    strHtml += '    <br><button class="btn btn_Custom" style="padding: 5px 40px;background: none;border: 1px solid #000;border-radius: 10em;" strUrl="' + value["strServiceNameUrl"] + '" guid="' + value.strTourGUID + '">Xem chi tiết</button>'
+                                                    strHtml += '</div>'
+                                                    strHtml += '</div>'
+                                                    strHtml += '</div>'
+                                                } else {
+                                                    strHtml += '<div style="margin-bottom:30px;box-shadow: 0px 0px 18px -9px; border-radius: 1em;   ">'
+                                                    strHtml += '    <div class="btn_Custom"  strUrl="' + value["strServiceNameUrl"] + '" guid="' + value.strTourGUID + '" style="margin-right:20px; height: 200px; width: 100%; background:url(\'' + strImg + '\') no-repeat center;background-size: cover;border-radius:1em; border-bottom-left-radius: 0;border-bottom-right-radius: 0;"> </div>'
+                                                    strHtml += '<div style="padding: 15px">'
+                                                    strHtml += '    <h3 class="title btn_Custom"  strUrl="' + value["strServiceNameUrl"] + '" guid="' + value.strTourGUID + '"  style="font-size: 18px;"><b>' + value.strTourName + '</b></h3>'
+                                                    //strHtml += '<div class="pn-margin-b-15" style="font-size:12px;color: #888;"><b>By: </b> <a href="/com/' + value["strOwnerCompanyNameUrl"] + '">' + value.strOwnerCompanyName + '</a></div>'
+                                                    // strHtml += '<div style="color: #f19e22; ">'+$.pngHtmlStars(value.intEasiaCateID)+'</div>'
+                                                    strHtml += '<div style="font-weight:bold;color:#ADADAD;margin-bottom:5px">' + value.intNoOfDay + ' ' + pngElm.getLangKey({ langkey: 'sys_Txt-Days' }) + '/' + (value.intNoOfDay - 1) + ' ' + pngElm.getLangKey({ langkey: 'pg_Main_Tour_MdDtl_Nights' }) + '</div>'
+                                                    strHtml += '<div style="height: 57px;overflow: hidden;">'
+                                                    strHtml += '    <div><b>' + pngElm.getLangKey({ langkey: 'pg_Main_Tour_MdDtl_Citiescovered' }) + ': </b>' + value.strListTourDestinationName + '</div>'
+                                                    strHtml += '    <div><b>' + pngElm.getLangKey({ langkey: 'pg_Main_Tour_MdDtl_MainAttractions' }) + ': </b>' + (value.strListTourMainAttractionName || '<i>Không có dữ liệu</i>') + '</div>'
+                                                    strHtml += '</div>'
+                                                    strHtml += '<div style="margin: 20px 0 0;color: #1076FC;"><b>' + (value.dblPriceFrom == null ? '<b style="color: #000;">N/A</b>' : '<span langkey="pg_Main_Tour_LT-PriceFrom"></span>: ' + $.pngFormatPrice(value.dblPriceFrom)) + '</b>'
+                                                    if (value.dblOldPriceFrom)
+                                                        strHtml += '    <b style="font-size:12px;text-decoration: line-through;">(Giá cũ: ' + $.pngFormatPrice(value.dblOldPriceFrom) + ')</b>'
+                                                    strHtml += '</div>'
+                                                    // strHtml += '<button class="btn " style="padding: 5px 40px;background: none;border: 1px solid #000;border-radius: 10em;" >Xem chi tiết</button>'
+                                                    strHtml += '</div>'
+                                                    strHtml += '</div>'
+                                                }
+                                            })
+                                            $(IdOrClass_Pn + ' #pnGetList').html(strHtml)
+
+
+
+                                            if (Arr_ListTbl.length != 0)
+                                                $.WebPaging({
+                                                    intCurrentPage: Int_CurPage,
+                                                    intPageSize: Int_PageSize,
+                                                    intTotalRecode: Arr_ListTbl[0]['intTotalRecords'],
+                                                    strControlID: IdOrClass_Pn + " #pnPaging",
+                                                    ChangePages: function (intCurrPage, intPageSize) {
+                                                        GetListSrcRsl(intCurrPage, intPageSize)
+                                                    }
+                                                });
+                                            else
+                                                $(IdOrClass_Pn + ' #pnGetList').html('<div style="background: #004992;padding: 10px;font-weight: bold;color: #fff;">Not Tour</div>')
+
+                                            $(IdOrClass_Pn + ' .btn_Custom').click(function () {
+                                                var strUrl = $(this).attr('strUrl')
+
+                                                //window.history.pushState("", "", $.pngGetQSVal('module', 'detail'));
+                                                //window.history.replaceState("", "", $.pngGetQSVal('idmdit', guid));
+                                                //coreLoadPage.init()
+
+                                                window.location.href = '/tour/' + strUrl
+                                            })
+
+
+                                        }
+                                    }
+                                }
+                            })
+
+
+
+                        }
+
+                    }
+
+
+                }
+
+
+
+            }
+
+
+
+
+        coreSystem.getLoadPage({
+            OnSuccess: function () {
+
+
+                var Obj_Detail = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(objDetail))
+                    Obj_Detail = Obj_Detail.Table[0]
+
+                var arrBrcbItems = []
+
+                arrBrcbItems.push({ id: '', title: '<i class="fa fa-home" style="font-size:18px"></i>', attr: 'module="home"' })
+                arrBrcbItems.push({
+                    id: '', title: 'Nhà cung cấp', attr: 'module="home"'
+                })
+
+                arrBrcbItems.push({
+                    id: '', title: Obj_Detail.strCompanyName, attr: 'module="agent" strUrl="' + Obj_Detail.strCompanyNameUrl+'"'
+                })
+
+                arrBrcbItems.push({
+                    id: '', title: 'Danh sách Tour', attr: 'module="home"'
+                })
+
+                $.ModuleSystemBreadcrumb({ arrBrcbItems: arrBrcbItems })
+
+                $('app-breadcrumb-root a').click(function () {
+                    var module = $(this).attr('module')
+                    var strUrl = $(this).attr('strUrl')
+
+                    if (module == "agent") {
+                        window.location.href = "/com/" + strUrl + ""
+                    }
+                })
+
+                $('#pnListTour .btn_Custom').click(function () {
+                    var strUrl = $(this).attr('strUrl')
+
+                    //window.history.pushState("", "", $.pngGetQSVal('module', 'detail'));
+                    //window.history.replaceState("", "", $.pngGetQSVal('idmdit', guid));
+                    //coreLoadPage.init()
+
+                    window.location.href = '/tour/' + strUrl
+                })
+
+                $(".txtLangCode").each(function () {
+
+                    var strTr = pngElm.getLangKeyDB({ langkey: $(this).attr('langkeyDB') })
+                    $(this).html(strTr);
+
+                });
+                $("[price]").each(function () {
+                    var strTr = $.pngFormatPrice($(this).attr('price'))
+                    $(this).html(strTr);
+
+                });
+
+                $.ModuleMainLead_Tour_SrcRtl({
+                    strUserGUID: null
+                    , strCompanyPartnerGUID: null
+                    , strCompanyOwnerGUID: Obj_Detail.strCompanyGUID
+                })
+
+            }
+        })
+        </script>
+    </app-content-display>

@@ -1,0 +1,409 @@
+﻿@{
+
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    System.Data.DataSet ds = APP_B2B_PUB.Controllers.TourController.GetListTourPublishInTopByPUB("{"
+                        + "strUserGUID: '47ecbd6d-897a-4a41-a061-95d5d3b166b6'"
+                        + ",strCompanyPartnerGUID: 'e824fd66-a3ca-46f4-a1be-ab7a0d1f6137'"
+                        + ",strCompanyOwnerGUID: null"
+                        + ",strPriceLevelGUID: null"
+                        + ",intLangID:" + langID
+                        + ",intCurPage:1"
+                        + ",intPageSize:15"
+                        + ",strOrder:null"
+                        + ",tblsReturn:'[0]'"
+                        + "}");
+
+    System.Data.DataTable dtTbl_0 = ds.Tables[0];
+
+
+    //System.Data.DataSet ds = APP_B2B_PUB.Controllers.TourController.GetListCompanyDestinationForHmPgTour("{"
+    //    + "strUserGUID: null"
+    //    + ",strCompanyOwnerGUID: null"
+    //    + ",intCurPage:1"
+    //    + ",intPageSize:5"
+    //    + ",strOrder:null"
+    //    + ",tblsReturn:'[0]'"
+    //    + "}");
+
+    //System.Data.DataTable dtCompanyDestination_0 = ds.Tables[0];
+
+    //Dictionary<string, object>
+    //    objLang = APP_B2B_PUB.Controllers.HomeController.GetHomepageByLangID(langID);
+
+    //System.Data.DataSet ds = APP_B2B_PUB.Controllers.HomeController.GetListNewsForHomePage(langID);
+
+    //System.Data.DataTable dtServices = ds.Tables[0];
+    //System.Data.DataTable dtSystem = ds.Tables[1];
+    //System.Data.DataTable dtTbl2 = ds.Tables[2];
+    //System.Data.DataTable dtNews = ds.Tables[3];
+    //System.Data.DataTable dtClient = ds.Tables[4];
+
+    //Dictionary<string, object>
+    //    objWhywork = new Dictionary<string, object>
+    //        ();
+    //Dictionary<string, object>
+    //    objAdvantages = new Dictionary<string, object>
+    //        ();
+
+
+
+    //foreach (System.Data.DataRow dtRow in dtServices.Rows)
+    //{
+    //    dtRow["strMemberTypeName"] = objLang[dtRow["strLangCode"].ToString()];
+    //}
+
+    //foreach (System.Data.DataRow dtRow in dtTbl2.Rows)
+    //{
+    //    if (dtRow["strNewsTypePartCode"].ToString() == "WWW")
+    //    {
+    //        objWhywork = Enumerable.Range(0, dtTbl2.Columns.Count).ToDictionary(i => dtTbl2.Columns[i].ColumnName, i => dtRow.ItemArray[i]);
+    //    }
+    //    if (dtRow["strNewsTypePartCode"].ToString() == "ADV")
+    //    {
+    //        objAdvantages = Enumerable.Range(0, dtTbl2.Columns.Count).ToDictionary(i => dtTbl2.Columns[i].ColumnName, i => dtRow.ItemArray[i]);
+    //    }
+    //}
+
+    var strTitle = "Tour | Itourlink";
+
+    string storageItem = Request.QueryString["lang"];
+
+    string verFile = System.Guid.NewGuid().ToString().Substring(0, 5);
+    //HttpCookieCollection cook = Request.Cookies;
+    //var value = Request.Cookies["lang"].Value;
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle;
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = "Một nền tảng giúp các công ty và các nhà cung cấp dịch vụ du lịch kết nối đến các đại lý của họ.Hệ thống giúp mở rộng kênh bán hàng, tăng doanh số, giảm chi phí.    Tạo mối liên kết mở rộng B2B giữa các doanh nghiệp, giúp các công ty phát triển bền vững";
+}
+<div>
+    <div class="relative w-full bg-center bg-no-repeat bg-cover" style="background-image: url('https://preview.colorlib.com/theme/direngine/images/bg_1.jpg.webp')">
+        <div class="container py-12 z-[20]">
+            <div class="grid grid-cols-2 gap-12">
+                <div class="">
+                    <h4 class="mb-8 text-white text-5xl font-bold capitalize">Trải nghiệm kì nghỉ tuyệt vời</h4>
+                    <h1 class="mb-8 text-[#D0E3F0] text-lg font-semibold capitalize">Combo khách sạn - vé máy bay - đưa đón sân bay giá tốt nhất</h1>
+                </div>
+
+                <div class="flex items-center bg-[rgba(0,0,0,0.2)] rounded-xl p-4">
+                    <a href="/tour/detail/tour-so-1">
+                        <div class='text-white'>
+                            <p class='mb-2 text-lg'>Combo 3N2Đ</p>
+                            <h4 class="uppercase text-xl font-semibold mb-2">Amiana nha trang</h4>
+                            <p>Bay khứ hồi - Ăn sáng - Trái cây tươi mỗi ngày</p>
+                            <p>Miễn phí trẻ em - Phòng Delure Mountain View</p>
+                            <div class='flex items-center'>
+                                <span class='text-3xl font-bold text-[color:var(--primary-color)]'>3.999.000</span>
+                                <span>VNĐ/Khách</span>
+                                <button class="rounded-full bg-blue-900"><MdKeyboardArrowRight color="#fff" fontSize={40} /></button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='bg-gray-100'>
+        <div class="container py-6">
+            <div class='flex grid grid-cols-3 gap-2'>
+                <div class='flex gap-3 items-center bg-gray-200 p-2 rounded'>
+                    <BiSupport size="36" />
+                    <div>
+                        <p class='mb-2 font-medium'>Tư vấn chuyên nghiệp</p>
+                        <p class='text-sm text-gray-400'>Hỗ trợ nhiệt tình, chăm sóc chu đáo</p>
+                    </div>
+                </div>
+                <div class='flex gap-3 items-center bg-gray-200 p-2 rounded'>
+                    <AiOutlineGlobal size="36" />
+                    <div>
+                        <p class='mb-2 font-medium'>Trải nghiệm đa dạng</p>
+                        <p class='text-sm text-gray-400'>Chọn tour phù hợp, giá cả hợp lý</p>
+                    </div>
+                </div>
+                <div class='flex gap-3 items-center bg-gray-200 p-2 rounded'>
+                    <MdOutlinePayment size="36" />
+                    <div>
+                        <p class='mb-2 font-medium'>Thanh toán an toàn</p>
+                        <p class='text-sm text-gray-400'>Linh hoạt, rõ ràng, bảo mật</p>
+                    </div>
+                </div>
+            </div>
+
+
+            @if (dtTbl_0.Rows.Count != 0)
+            {
+                <div class='mt-4'>
+                    <h1 class="text-2xl font-medium mb-6 capitalize">Tour bạn đã xem gần đây</h1>
+                    <div class='flex grid grid-cols-3 gap-6'>
+
+                        @foreach (System.Data.DataRow item in dtTbl_0.Rows)
+                        {
+                            var rowIndex = dtTbl_0.Rows.IndexOf(item);
+
+                            <a href="/tour/@item["strServiceNameUrl"]" class='flex bg-white hover:bg-blue-100'>
+                                <div class='h-28 w-28 bg-no-repeat bg-center bg-cover' style="background-image: url('@(item["strTourImageUrl"] != null ? GetUrl("strImgURL")+item["strTourImageUrl"] : "assets/images/img-noimage.png")')"></div>
+                                <div class='flex-1 flex flex-col justify-between p-2'>
+                                    <h4 class='text-blue-900' title="@item["strTourName"]">@item["strTourName"]</h4>
+                                    <p>@item["intNoOfDay"] ngày/@(@Convert.ToInt32(@item["intNoOfDay"]) - 1) đêm</p>
+                                    <div class='text-right text-[color:var(--primary-color)] font-medium text-lg'><b><span langkey="pg_Main_Tour_LT-PriceFrom">Giá chỉ từ</span>: @( string.IsNullOrEmpty(@item["dblPriceFrom"].ToString()) ? Html.Raw("<b>N/A</b>") : Html.Raw("<span price=\""+ @item["dblPriceFrom"] + "\">"+@item["dblPriceFrom"]+"</span>")) </b></div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+
+
+
+                <div class="container py-12 flex flex-col gap-8">
+                    <div>
+                        <div class="">
+                            <h1 class="text-3xl font-bold mb-6 capitalize">Điểm đến yêu thích trong nước</h1>
+                            <h3 class="text-gray-400 mb-8 capitalize">Lên rừng xuống biển. Trọn vẹn Việt Nam</h3>
+                        </div>
+                        <div class="flex grid grid-cols-3 gap-8 mt-12">
+
+                            @foreach (System.Data.DataRow item in dtTbl_0.Rows)
+                            {
+                                var rowIndex = dtTbl_0.Rows.IndexOf(item);
+
+                                <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                    <div class="relative">
+                                        <div class="w-full pt-[56%] bg-no-repeat bg-center bg-cover" style="padding-top:56%;background-image: url('@(item["strTourImageUrl"] != null ? GetUrl("strImgURL")+item["strTourImageUrl"] : "assets/images/img-noimage.png")')"></div>
+                                        <div class='absolute top-0 left-0 w-[150px] h-[150px]'>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="p-4">
+                                            <div class="flex flex-col gap-4 pb-4 border-b border-dotted">
+                                                <h3 class='text-[color:var(--primary-color)] text-fg font-semibold line-clamp-1' title="@item["strTourName"]">@item["strTourName"]</h3>
+                                                <h4 class='text-3xl font-semibold line-clamp-3'>@item["strTourName"]</h4>
+                                                <p>Du khách có thể tham quan các ngôi chùa, thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Được ví von như một Châu Âu thu nhỏ</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-4 flex gap-2">
+                                            <span>$170.00</span>
+                                            <i>|</i>
+                                            <span>Per person</span>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                
+                            }
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="">
+                            <h1 class="text-3xl font-bold mb-6 capitalize">Tour thám hiểm</h1>
+                            <h3 class="text-gray-400 mb-8 capitalize">Thử Thách Bản Thân, Vượt Lên Chính Mình</h3>
+                        </div>
+                        <div class="flex grid grid-cols-3 gap-8 mt-12">
+                            <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                <div class="relative">
+                                    <img class="w-full" src="https://media.vietravel.com/images/Content/ba-na-hills.jpg" alt="" />
+                                    <div class='absolute top-0 left-0 w-[150px] h-[150px]'>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="p-4">
+                                        <div class="flex flex-col gap-4 pb-4 border-b border-dotted">
+                                            <h3 class='text-[color:var(--primary-color)] text-fg font-semibold'>Đà Nẵng, Việt Nam</h3>
+                                            <h4 class='text-3xl font-semibold'>Bà Nà Hills</h4>
+                                            <p>Du khách có thể tham quan các ngôi chùa, thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Được ví von như một Châu Âu thu nhỏ</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-4 flex gap-2">
+                                        <span>$170.00</span>
+                                        <i>|</i>
+                                        <span>Per person</span>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                <div class="relative">
+                                    <img class="w-full" src="https://media.vietravel.com/images/Content/ba-na-hills.jpg" alt="" />
+                                    <div class='absolute top-0 left-0 w-[150px] h-[150px]'>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="p-4">
+                                        <div class="flex flex-col gap-4 pb-4 border-b border-dotted">
+                                            <h3 class='text-[color:var(--primary-color)] text-fg font-semibold'>Đà Nẵng, Việt Nam</h3>
+                                            <h4 class='text-3xl font-semibold'>Bà Nà Hills</h4>
+                                            <p>Du khách có thể tham quan các ngôi chùa, thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Được ví von như một Châu Âu thu nhỏ</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-4 flex gap-2">
+                                        <span>$170.00</span>
+                                        <i>|</i>
+                                        <span>Per person</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                <div class="relative">
+                                    <img class="w-full" src="https://media.vietravel.com/images/Content/ba-na-hills.jpg" alt="" />
+                                    <div class='absolute top-0 left-0 w-[150px] h-[150px]'>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="p-4">
+                                        <div class="flex flex-col gap-4 pb-4 border-b border-dotted">
+                                            <h3 class='text-[color:var(--primary-color)] text-fg font-semibold'>Đà Nẵng, Việt Nam</h3>
+                                            <h4 class='text-3xl font-semibold'>Bà Nà Hills</h4>
+                                            <p>Du khách có thể tham quan các ngôi chùa, thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Được ví von như một Châu Âu thu nhỏ</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-4 flex gap-2">
+                                        <span>$170.00</span>
+                                        <i>|</i>
+                                        <span>Per person</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                <div class="relative">
+                                    <img class="w-full" src="https://media.vietravel.com/images/Content/ba-na-hills.jpg" alt="" />
+                                    <div class='absolute top-0 left-0 w-[150px] h-[150px]'>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="p-4">
+                                        <div class="flex flex-col gap-4 pb-4 border-b border-dotted">
+                                            <h3 class='text-[color:var(--primary-color)] text-fg font-semibold'>Đà Nẵng, Việt Nam</h3>
+                                            <h4 class='text-3xl font-semibold'>Bà Nà Hills</h4>
+                                            <p>Du khách có thể tham quan các ngôi chùa, thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Được ví von như một Châu Âu thu nhỏ</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-4 flex gap-2">
+                                        <span>$170.00</span>
+                                        <i>|</i>
+                                        <span>Per person</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                <div class="relative">
+                                    <img class="w-full" src="https://media.vietravel.com/images/Content/ba-na-hills.jpg" alt="" />
+                                    <div class='absolute top-0 left-0 w-[150px] h-[150px]'>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="p-4">
+                                        <div class="flex flex-col gap-4 pb-4 border-b border-dotted">
+                                            <h3 class='text-[color:var(--primary-color)] text-fg font-semibold'>Đà Nẵng, Việt Nam</h3>
+                                            <h4 class='text-3xl font-semibold'>Bà Nà Hills</h4>
+                                            <p>Du khách có thể tham quan các ngôi chùa, thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Được ví von như một Châu Âu thu nhỏ</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-4 flex gap-2">
+                                        <span>$170.00</span>
+                                        <i>|</i>
+                                        <span>Per person</span>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+
+
+        </div>
+    </div>
+
+    
+    @* Địa điểm yêu thích nước ngoài *@
+    <div class="container pb-12">
+        <div class="">
+            <h1 class="text-2xl text-[color:var(--primary-color)] font-bold mb-6 capitalize">Địa điểm yêu thích nước ngoài</h1>
+            <h3 class="font-medium mb-8 capitalize">Bao la thế giới. Bốn bể là nhà</h3>
+        </div>
+        <div class="flex flex-col gap-4">
+            <div class="flex gap-4">
+                <div class="w-[28%]">
+                    <a href="/tour/detail/tour-so-1">
+                        <div class="bg-no-repeat bg-center bg-cover w-full h-full rounded-lg relative" style="background-image: url('https://i1-dulich.vnecdn.net/2022/05/09/amiana-resort-nha-trang-2087-1-9439-2178-1652070682.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=1JSGnrxCVKlwjL89p_cJxw')">
+                            <div class="absolute left-0 bottom-0 p-4 text-white">
+                                <p class="text-2xl font-bold">Phú Quốc</p>
+                                <p>200 khách sạn</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex-1 grid grid-rows-2 gap-4">
+                    <div>
+                        <a href="/tour/detail/tour-so-1">
+                            <div class="bg-no-repeat bg-center bg-cover w-full h-[200px] rounded-lg relative" style="background-image: url('https://i1-dulich.vnecdn.net/2022/05/09/amiana-resort-nha-trang-2087-1-9439-2178-1652070682.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=1JSGnrxCVKlwjL89p_cJxw')">
+                                <div class="absolute left-0 bottom-0 p-4 text-white">
+                                    <p class="text-2xl font-bold">Phú Quốc</p>
+                                    <p>200 khách sạn</p>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                    <div class='flex grid grid-cols-2 gap-4'>
+                        <div>
+                            <a href="">
+                                <div class="bg-no-repeat bg-center bg-cover w-full h-[200px] rounded-lg relative" style="background-image: url('https://i1-dulich.vnecdn.net/2022/05/09/amiana-resort-nha-trang-2087-1-9439-2178-1652070682.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=1JSGnrxCVKlwjL89p_cJxw')">
+                                    <div class="absolute left-0 bottom-0 p-4 text-white">
+                                        <p class="text-2xl font-bold">Phú Quốc</p>
+                                        <p>200 khách sạn</p>
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="">
+                                <div class="bg-no-repeat bg-center bg-cover w-full h-[200px] rounded-lg relative" style="background-image: url('https://i1-dulich.vnecdn.net/2022/05/09/amiana-resort-nha-trang-2087-1-9439-2178-1652070682.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=1JSGnrxCVKlwjL89p_cJxw')">
+                                    <div class="absolute left-0 bottom-0 p-4 text-white">
+                                        <p class="text-2xl font-bold">Phú Quốc</p>
+                                        <p>200 khách sạn</p>
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

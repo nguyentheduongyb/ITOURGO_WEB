@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #2BABE2;
+    --secondary-color: #777777;
+}
+
+* {
+    --font-family: 'Poppins', sans-serif;
+    --text-primary: rgb(19, 142, 173);
+    --header-primary-bg: linear-gradient(45deg, #6f86d6, #89f7fe)
+}
+
+body {
+    font-family: var(--font-family);
+    text-rendering: optimizespeed;
+    color: var(--text-color);
+    overflow-y: overlay;
+    font-size: 80%;
+}
+
+.bg-header {
+    background-color: #2BABE2;
+}
+
+.text-gradient {
+    background-image: radial-gradient(at 4% 36%, rgb(14, 13, 13) 0, transparent 53%), radial-gradient(at 100% 60%, rgb(0, 0, 0) 0, transparent 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.focus-input-none:focus {
+    box-shadow: none !important;
+}
+
+input:focus {
+    box-shadow: none !important;
+    border: none;
+}
+
+.item-card {
+    background-color: #fff;
+    box-shadow: 0 0.0625rem 0.125rem 0 rgba(0,0,0,.1);
+    overflow: visible;
+    border: 1px solid transparent;
+}
+
+.blue-glassmorphism {
+    background: rgb(39, 51, 89, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* white glassmorphism */
+.white-glassmorphism {
+    background: transparent;
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.btn-category.active {
+    background-image: linear-gradient(to right, #2BC0E4 0%, #EAECC6 100%);
+    text-align: center;
+    transition: 0.5s;
+    color: rgb(59, 32, 32);
+    box-shadow: 0 0 10px #eee;
+    display: flex;
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.7;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+.eth-card {
+    background-color: #a099ff;
+    background-image: radial-gradient(at 83% 67%, rgb(152, 231, 156) 0, transparent 58%), radial-gradient(at 67% 20%, hsla(357,94%,71%,1) 0, transparent 59%), radial-gradient(at 88% 35%, hsla(222,81%,65%,1) 0, transparent 50%), radial-gradient(at 31% 91%, hsla(9,61%,61%,1) 0, transparent 52%), radial-gradient(at 27% 71%, hsla(336,91%,65%,1) 0, transparent 49%), radial-gradient(at 74% 89%, hsla(30,98%,65%,1) 0, transparent 51%), radial-gradient(at 53% 75%, hsla(174,94%,68%,1) 0, transparent 45%);
+}
+
+.btn-category.active:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.eth-card {
+    background-color: #a099ff;
+    background-image: radial-gradient(at 83% 67%, rgb(152, 231, 156) 0, transparent 58%), radial-gradient(at 67% 20%, hsla(357,94%,71%,1) 0, transparent 59%), radial-gradient(at 88% 35%, hsla(222,81%,65%,1) 0, transparent 50%), radial-gradient(at 31% 91%, hsla(9,61%,61%,1) 0, transparent 52%), radial-gradient(at 27% 71%, hsla(336,91%,65%,1) 0, transparent 49%), radial-gradient(at 74% 89%, hsla(30,98%,65%,1) 0, transparent 51%), radial-gradient(at 53% 75%, hsla(174,94%,68%,1) 0, transparent 45%);
+}
+
+.text-gradient {
+    background-color: #fff;
+    background-image: radial-gradient(at 4% 36%, hsla(0,0%,100%,1) 0, transparent 53%), radial-gradient(at 100% 60%, rgb(0, 0, 0) 0, transparent 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.dropdown-hover:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-subhover:hover .dropdown-submenu {
+    display: block;
+}
+/* Scrollbar CSS */
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+@media (min-width: 570px) {
+    .container {
+        width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        width: 1296px;
+    }
+}

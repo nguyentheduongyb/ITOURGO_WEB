@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div>
+    <div class="bg-[#f5f5f5] py-5">
+        <div class="container">
+            <div class="p-5 bg-white rounded-xl mb-6 flex justify-between">
+                <p class="text-2xl font-medium">Thanh toán dịch vụ của bạn</p>
+                <button class="px-4 py-2 rounded-full bg-teal-500 text-sm text-white font-bold">Hỗ trợ thanh toán</button>
+            </div>
+            <div class="px-8 py-8 pb-0 mb-4 bg-white rounded">
+                <div class="">
+                    <div class="flex items-center mb-4">
+                        <p class="flex-1">Sản phẩm</p>
+                        <p class="w-40 text-center text-center">Đơn giá</p>
+                        <p class="w-24 text-center">Số lượng</p>
+                        <p class="w-40 text-center">Thành tiền</p>
+                    </div>
+                    <div class="flex gap-4 mb-4 items-center">
+                        <p class="text-[color:var(--primary-color)] text-xl font-medium">PNGSOFT</p>
+                        <span>|</span>
+                        <button>Chat ngay</button>
+                    </div>
+                    <div class="flex mb-4 gap-4">
+                        <div class="flex gap-2 items-center">
+                            <div class="bg-no-repeat bg-center bg-cover w-24 h-24 rounded" style="background-image: url('https://cdn2.ivivu.com/2023/04/12/14/ivivu-dali.gif')"></div>
+                            <div class="flex-1">
+                                <p class="text-lg">Tour Trung Quốc 6N5Đ : Hà Nội - Hà Khẩu - Đại Lý - Lệ Giang - Shangrila</p>
+                                <p class="text-[#ccc] text-sm">Loại: Tour</p>
+                            </div>
+                        </div>
+                        <div class="h-24 flex flex-col justify-between">
+                            <div class="flex gap-3">
+                                <div class="w-24">Người lớn</div>
+                                <div class="flex">
+                                    <p class="w-40 text-center font-semibold">{formatter.format(Number(price))}</p>
+                                    <p class="w-24 text-center ">{count1}</p>
+                                    <p class="w-40 text-center font-semibold">{formatter.format(Number(price) * Number(count1))}</p>
+                                </div>
+
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-24">Trẻ em</div>
+                                <div class="flex">
+                                    <p class="w-40 text-center font-semibold">{formatter.format(Number(price) / 2)}</p>
+                                    <p class="w-24 text-center ">{count2}</p>
+                                    <p class="w-40 text-center font-semibold">{formatter.format(Number(price) * Number(count2) / 2)}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="border-y flex justify-end gap-60 py-4 text-sm">
+                    <div class="flex gap-3">
+                        <input class="mt-3" type="checkbox" checked />
+                        <div class="w-24">Phụ thu phòng đơn</div>
+                        <div class="flex">
+                            <p class="w-40 text-center font-semibold">{formatter.format(2000000)}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="border-y flex justify-end gap-60 py-4 text-sm">
+                    <div class="flex gap-3">
+                        <div class="w-24">Giảm giá</div>
+                        <div class="flex">
+
+                            <p class="w-40 text-center font-semibold">-{formatter.format(1000000)}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+                <p class="py-3 text-end border-b ">Tổng số tiền:  <span class="font-medium text-2xl text-orange-500 ml-1">{totalP}</span></p>
+
+                <div class="flex py-3 justify-between">
+                    <div class="flex items-center w-4/12 gap-4 pr-8 border-r">
+                        <Label>Lời nhắn:</Label>
+                        <TextInput class="flex-1" placeholder="Lưu ý cho người bán"></TextInput>
+                    </div>
+                    <button onClick={getQRCode} class="py-2 px-4 bg-[color:var(--primary-color)] text-white font-bold rounded-xl">Thanh toán</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <Modal show={show} size="lg" onClose={() =>
+        { setConfirm(true) }}>
+        <Modal.Header class="p-2" />
+        <h1 class="text-center text-2xl uppercase mt-2 text-medium">Thanh toán tour du lịch</h1>
+        <Modal.Body>
+            <div class="border rounded flex flex-col items-center justify-center pb-6">
+                <img class="w-full" src={imageQR} alt="" />
+                <Button class="rounded-full" color="success" onClick={handleSuccess}>Đã chuyển tiền! Thông báo cho người bán</Button>
+            </div>
+
+        </Modal.Body>
+    </Modal>
+
+    <Modal show={confirm} size="md" popup>
+        <Modal.Body class="pt-4">
+            <div class="text-center">
+                <HiOutlineExclamationCircle class="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                    Nếu bạn đã thanh toán dịch vụ này! Vui lòng chọn đã thanh toán
+                </h3>
+                <div class="flex justify-center gap-4">
+                    <Button color="success" onClick={handleSuccess}>
+                        Tôi đã thanh toán
+                    </Button>
+                    <Button color="failure" onClick={handleCancel}>
+                        Tôi muốn hủy
+                    </Button>
+                </div>
+            </div>
+        </Modal.Body>
+    </Modal>
+</div>

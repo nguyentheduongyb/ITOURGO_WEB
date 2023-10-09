@@ -1,0 +1,379 @@
+﻿@{
+
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    var strTitle = "Danh sách Yêu cầu";
+
+    string storageItem = Request.QueryString["lang"];
+
+    //HttpCookieCollection cook = Request.Cookies;
+    //var value = Request.Cookies["lang"].Value;
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle;
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = "Một nền tảng giúp các công ty và các nhà cung cấp dịch vụ du lịch kết nối đến các đại lý của họ.Hệ thống giúp mở rộng kênh bán hàng, tăng doanh số, giảm chi phí.    Tạo mối liên kết mở rộng B2B giữa các doanh nghiệp, giúp các công ty phát triển bền vững";
+}
+<app-content-display>
+
+    <div id="Content" style="background: #F5F7F8">
+    </div>
+    <script type="text/javascript">
+        $.ModuleAdmin_MainListRequest = function (options) {
+            var defaults = {
+                strUserGUID: null
+                , strCompanyGUID: null
+                , OnSuccess: function () {
+
+                }
+            }
+            options = $.extend(defaults, options);
+
+
+            var IdOrClass_Main = '#Content' // Khai báo Id hoặc Class chính của form  $.pngGetQSVal('menuid'): lay ra menu ID cua
+
+            var ObjUser = JSON.parse(png.ArrLS.UserDetail.get());
+            //---------Obj_XXX      // Khai báo các biến dùng chung cho cả hàm
+            //---------Arr_XXX
+            //---------Is_XXX
+            //---------Int_XXX
+            //---------Str_XXX
+
+            var ObjList_Api = {
+                GetListRequestService: {         // Tên api
+                    strApiLink: 'api/request/GetListRequestService' // api/eeeeeeee: route Prefix
+                    , objParams: {                // Tham số cần cung cấp cho api
+                        strUserGUID: ObjUser.strPassengerGUID
+                        , strRequestServiceGUID: null
+                        , strCompanyGUID: null
+                        , strMemberGUID: null
+                        , strCompanyPartnerGUID: null
+                        , strPassengerGUID: ObjUser.strPassengerGUID
+                        , intRequestStatusID: null
+                        , dtmFilterDateFrom: null
+                        , dtmFilterDateTo: null
+                        , strOrder: null
+                        , intCurPage: 1
+                        , intPageSize: 10
+                        , tblsReturn: '[0]'
+                    }
+                },
+            }
+
+            var ObjList_ComboValue = {          // Khai báo combocode (dropdownlist) muốn sử dụng
+                Arr_ValCode: {
+                    strCombocode: ''             // Mã code
+                }
+                , Arr_RequestStatus: {
+                    strTableName: 'BR34'             // Bảng sử dụng để get dữ liệu
+                    , strFeildSelect: 'BR34_RequestStatusID AS intID,BR34_RequestStatusName AS strName' // Trường cần lựa chọn
+                    , strWhere: 'WHERE IsActive = 1'      // Điều kiện
+                }
+            }
+
+            var Arr_RequestStatus = []
+
+            var Obj_Filter_Dtl = {}
+            var Obj_Filter = {}        // Biến lọc
+
+
+            var Obj_FN_Main = {}
+
+            png.postListApiGetValue({           // Post list các Api phía trên và lấy về dữ liệu
+                objList_ComboValue: ObjList_ComboValue // Tên các Object api dropdownlist đã khai báo phía trên
+                , objListComboValue_RtnVal: {    // Giá trị nhận về từ dropdownlist
+                    'Arr_RequestStatus': {
+                        objParams_Cus: {
+
+                        },
+                        OnSuccess: function (data) {
+                            Arr_RequestStatus = data   // Dữ liệu trả về từ dropdownlist trên
+                            Arr_RequestStatus.unshift({ intID: '', strName: pngElm.getLangKey({ langkey: 'sys_Txt_DdlSelectVal' }) })
+                        }
+                    }
+                }
+                , OnSuccessList: function (data) {      // Hàm thực hiện khi thành công tất cả các api trên
+                    GetMainPanel()
+                }
+            })
+
+
+            // GetMainPanel()
+            function GetMainPanel() {
+
+                var objPanel = {
+                    pnMain: {
+                        tag: 'div', attr: '', childTags: [{ div: 'class="container"' }, { div: 'class="row"' }]
+                        , pnTit: { tag: 'div', attr: 'class="col-md-12 pn-margin-t-b-30" style="display: flow-root;"' }
+                        , pnCnt: {
+                            tag: 'div', attr: 'class="col-md-12 pn-margin-b-30"'
+                            , childTags: [{ div: 'class="bg-white pn-round-1em pn-padding-15"' }, { div: 'class="row pn-margin-t-15"' }]
+
+                            , pnFormFilter: { tag: 'div', attr: 'class="col-md-12"' }
+                            , pnTable: { tag: 'div', attr: 'class="col-md-12"' }
+                        }
+
+                    }
+                }
+                var objEvtPanel = {}
+                objEvtPanel.pnTit = function (_idOrClassPn) {
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    var strHtml = ''
+                    strHtml += '<h1 style="display:inline-block;float: left;"><b>Danh sách Yêu cầu</b></h1>'
+                    //strHtml += '<button class="btn btn-texticon btn-default" id="btnVideoHelper" style="float: left;margin-left:15px"><i class="fa fa-question-circle"></i><span><i class="fa fa-film"></i></span></button>'
+
+                    $(IdOrClass_Pn).html(strHtml)
+
+                    //coreLoadPage.viewVideoHelper({
+                    //    strUserGUID: options.strUserGUID
+                    //    , strTravelHelperSubModuleCode: 'DB8A6'
+                    //    , intLangID: $.pngGetLangID()
+                    //    , idOrClassBtn: '#btnVideoHelper'
+                    //})
+                }
+                objEvtPanel.pnFormFilter = function (_idOrClassPn) {
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    var strHtml = ''
+                    strHtml += '<a id="btnViewFilter" class="btn btn-link" data-toggle="collapse" href="#pnFilterForm">'
+                    strHtml += '    <i class="fa fa-chevron-down"></i>'
+                    strHtml += '    <span langkey="sys_Btn_ViewSrc"></span>'
+                    strHtml += '</a>'
+                    strHtml += '<div id="pnFilterForm" class="panel-collapse collapse panel panel-default panel-itl">'
+                    strHtml += '    <div class="pn-padding-l-r-15">'
+                    strHtml += '     <div class="content"></div>'
+                    strHtml += '      <div class="row">'
+                    strHtml += '        <div class="col-md-12">'
+                    strHtml += '            <button class="btn btn-texticon bg-primary" id="btnFilter"><i class="fa fa-filter"></i><span langkey="sys_Btn_Filter"></span></button>'
+                    strHtml += '            <button class="btn btn-default btn-texticon" id="btnReset"><i class="fa fa-refresh"></i><span langkey="sys_Btn_Reset"></span></button>'
+                    strHtml += '        </div>'
+                    strHtml += '      </div>'
+                    strHtml += '    </div>'
+                    strHtml += '</div>'
+                    $(IdOrClass_Pn).html(strHtml)
+
+
+                    var ObjFormInput = {
+                        dtmFilterDateFrom_dtmFilterDateTo: {
+                            title: 'Khoảng ngày gửi yêu cầu', attr: "class='col-md-3'", isRequire: false
+                            , datePickerRange: { todayHighlight: true, format: 'dd/mm/yyyy', weekStart: 1, startDate: null, endDate: null, diffmin: 0, diffmax: null }
+                        },
+                        intRequestStatusID: {
+                            title: 'Trạng thái', attr: "class='col-md-3'", isRequire: false, IsRtn: true
+                            , input: { type: 'select', classEx: 'form-control', attr: '' }
+                            , dropDown: { arrList: $.pngGetArrComboValue(Arr_RequestStatus, 'intID', 'strName') }//-------------------$.pngGetArrComboValue(Arr_RequestStatus,'intID','strName')
+                        },
+
+                    }
+                    //----------------------------
+                    pnFormFlt()
+                    function pnFormFlt() {
+                        pngPn.getForm({
+                            action: 1,
+                            objInput: ObjFormInput,
+                            idOrClass: IdOrClass_Pn + ' #pnFilterForm .content',
+                            objDetail: Obj_Filter_Dtl
+                        })
+                    }
+
+                    $(IdOrClass_Pn).DefaultButton(IdOrClass_Pn + ' #btnFilter')
+
+                    $(IdOrClass_Pn + ' #btnFilter').click(function () {
+                        pngPn.getForm({
+                            action: 2,
+                            objInput: ObjFormInput,
+                            idOrClass: IdOrClass_Pn + ' #pnFilterForm .content',
+                            OnChkSuccess: chkSuccess
+                        })
+                        function chkSuccess(objRtn) {
+                            Obj_Filter = objRtn
+                            Obj_FN_Main.pnMain('pnTable')
+                        }
+                    })
+                    $(IdOrClass_Pn + ' #btnReset').click(function () {
+                        pnFormFlt()
+                    })
+                }
+                objEvtPanel.pnTable = function (_idOrClassPn) {
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    pngPn.getTable2({
+                        objApi: ObjList_Api.GetListRequestService
+                        , objParams_Cus: Obj_Filter
+                        , editRlt: function (value, key) {
+                            value['strRequestBookingContentView'] = "";
+                            value['strServiceName_View'] = "";
+                            value['strServiceName_View'] = value['strServiceName'];
+                            value['strServiceName_View'] += `
+                            <div>- ${$.pngFormatDateTime(value['dtmDateFrom'])} - ${$.pngFormatDateTime(value['dtmDateTo'])}</div>
+                            <div>- <b><span langkey="pg_ListReq_Txt_NumberAdult"></span>:</b> ${value.intAdult}</div>
+                            <div>- <b><span langkey="pg_ListReq_Txt_NumberChildren"></span>:</b> ${value.intChildren}</div>
+
+                        `
+
+                            // value['strHtmlAction']= '<button class="btnDelete btn btn-danger" data="' + key + '"><i class="fa fa-trash"></i></button>'
+                            value['dtmDateFromView'] = $.pngFormatDateTime(value['dtmDateFrom'], "DD MMM YYYY")
+                            value['dtmDateToView'] = $.pngFormatDateTime(value['dtmDateTo'], "DD MMM YYYY")
+                            value['dtmCreatedDate_View'] = $.pngFormatDateTime(value['dtmCreatedDate']) + '<br>' + $.pngFormatDateTime(value['dtmCreatedDate'], 'HH:mm:ss')
+
+                            value['strRequestServiceDescription_View'] = '<a class="detailContent" data="' + key + '">' + $.pngLimitText(value['strRequestServiceDescription'], 150) + '</a>'
+
+
+
+
+                            value['strHtmlAction'] = ''
+                            value['strHtmlAction'] += '<button class="btn btn-texticon" intRowID="' + key + '" action="ViewDetail"><i class="fa fa-comment-o"></i><span>Reply</span></button>'
+                        }
+                        , objCols: {
+
+                            No: { name: '<span langkey="sys_Txt_No"></span>' }
+                            , strCompanyName: { name: 'Tên nhà cung cấp' }
+                            // , strServiceName_View: { name: 'Service Name' }
+
+                            // , strRequestBookingCode: { name: '<span langkey="pg_ListBooking_Txt_BookingCode"></span>' }
+                            , strRequestServiceTitle: { name: 'Tiêu đề' }
+                            , strRequestServiceDescription_View: { name: pngElm.getLangKey({ langkey: 'sys_Txt_Content' }) }
+                            // , strContactFullName: { name: '<span langkey="pg_Main_GD_FullName"></span>'}
+                            // , intAdult: {name: '<span langkey="pg_ListReq_Txt_NumberAdult"></span>'}
+                            // , intChildren: {name: '<span langkey="pg_ListReq_Txt_NumberChildren"></span>' }
+                            // , strRequestBookingSolution: {name: '<span langkey="pg_ListReq_Txt_BookingSolution"></span>'}
+                            // , strRequestBookingResultView: { name: '<span langkey="pg_ListReq_Txt_BookingResult"></span>' }
+                            // , strResolveBy: { name: '<span langkey=""> Resolve by</span>' }
+                            //, IsShowMenu: { name: "IsShowMenu", input: { type: 'checkbox', classEx: '', attr: '' } }
+                            , strRequestStatusName: { name: 'Trạng thái' }
+                            , dtmCreatedDate_View: { name: 'Ngày gửi yêu cầu' }
+                            , strHtmlAction: { name: '<span langkey="sys_Txt_Action"></span>' }
+
+                        }
+                        // ,editTableInput:function(){}
+                        , changeCkbMaster: function (IsChecked, intRowID, arrList) {
+                            if (IsChecked)
+                                $(IdOrClass_Pn + ' tr[row=' + intRowID + '] td').css('background', '#e7eefb')
+                            else
+                                $(IdOrClass_Pn + ' tr[row=' + intRowID + '] td').removeAttr('style')
+
+
+                            if ($(IdOrClass_Pn + ' input[chkboxMaster="true"]:checked').length == 0) {
+                                $(IdOrClass_Main + " #pnListBtn .viewedit>span.intITs").text('')
+                                $(IdOrClass_Main + " #pnListBtn .viewedit").hide()
+                            } else {
+                                $(IdOrClass_Main + " #pnListBtn .viewedit>span.intITs").text(' (' + $(IdOrClass_Pn + ' input[chkboxMaster="true"]:checked').length + ' item(s))')
+                                $(IdOrClass_Main + " #pnListBtn .viewedit").show()
+                            }
+
+                            ArrListTbl = arrList
+                        }
+                        , customEvent: function (_iOrClass_Pn, _objDtl) {
+
+                            $(_iOrClass_Pn + ' button').click(function () {
+                                var intRowID = $(this).attr('intRowID')
+                                var action = $(this).attr('action')
+                                if (action == "ViewDetail") {
+                                    window.open('/user/requestdetail?guid=' + ArrListTbl[intRowID].strRequestServiceGUID)
+                                }
+                            })
+
+
+                            $(IdOrClass_Main + ' .btnDelete').click(function () {
+                                var data = $(this).attr('data')
+
+                                $.Confirm({
+                                    strContent: '<span langkey="sys_Cfm_AYS"></span>'
+                                    , OnSuccess: function () {
+
+
+
+
+                                    }
+                                })
+
+                            })
+
+                            $(IdOrClass_Pn + " .isEnableStatus").unbind('click')
+                            $(IdOrClass_Pn + " .isEnableStatus").click(function () {
+                                var data = $(this).attr('data');
+                                var temp = $(this).is(":checked")
+                                var self = this
+                                ArrListTbl[data].strRequestBookingResult = temp
+                                $.ModuleAdmin_MainListRequest_Popup_Resolve({
+                                    strUserGUID: options.strUserGUID
+                                    , strCompanyGUID: options.strCompanyGUID
+                                    , objDetail: ArrListTbl[data]
+                                    , OnSuccess: function () {
+                                        Obj_FN_Main.pnMain('pnTable')
+                                    }
+                                })
+
+                            })
+
+
+                            $(IdOrClass_Pn + ' .detailContent').click(function () {
+                                var data = $(this).attr('data');
+                                pngPn.getPopUp({
+                                    strTitle: 'Detail Content'
+                                    , intTypeSize: 2
+                                    , OnPanel: GetMainPanelDetailContent
+                                    , OnClosePopUp: function () {
+
+                                    }
+                                })
+                                function GetMainPanelDetailContent(_IdOrClassPp, _OnClosePp) {
+                                    $(_IdOrClassPp).html(ArrListTbl[data].strRequestServiceDescription)
+                                }
+
+                            })
+                        }
+                        // ,changeInput:function(){}
+                        , IsViewCheckBoxMain: false
+                        , idOrClass: IdOrClass_Pn
+                    })
+
+                }
+
+
+                //==============================
+                pngPn.getPanelHtml({            // Get ra panel dạng html
+                    objPanel: objPanel
+                    , objEvtPanel: objEvtPanel
+                    , idOrClass: IdOrClass_Main  // Id or class chính
+                    , OnChangeIdPn: function (_Fn) {
+                        Obj_FN_Main.pnMain = _Fn    // Hàm đổi trang
+                    }
+                })
+
+
+
+            }
+
+            //--------------GETLIST     // Các hàm get list dữ liệu tương ứng phía tren
+
+
+
+            //--------------END - GETLIST
+
+
+        }
+        coreSystem.getLoadPage({
+            OnSuccess: function () {
+                pngElm.getLangKey()
+
+                $.ModuleAdmin_MainListRequest()
+            }
+        })
+
+    </script>
+</app-content-display>

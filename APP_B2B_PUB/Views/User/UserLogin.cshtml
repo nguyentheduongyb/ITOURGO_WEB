@@ -1,0 +1,363 @@
+﻿@{
+
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    var strTitle = "Đăng nhập";
+
+    string storageItem = Request.QueryString["lang"];
+
+    //HttpCookieCollection cook = Request.Cookies;
+    //var value = Request.Cookies["lang"].Value;
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle;
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = "Một nền tảng giúp các công ty và các nhà cung cấp dịch vụ du lịch kết nối đến các đại lý của họ.Hệ thống giúp mở rộng kênh bán hàng, tăng doanh số, giảm chi phí.    Tạo mối liên kết mở rộng B2B giữa các doanh nghiệp, giúp các công ty phát triển bền vững";
+}
+<app-content-display>
+
+    <div id="Content" style="background: #F5F7F8">
+        <div class="container">
+            <div class="row">
+                <div id="pnFormLogin" class="col-md-offset-4 col-md-4">
+                    
+                    <div class="login" style="background: #fff;padding: 30px;border-radius: 2em;margin: 40px 0">
+                            <div class="account-login">
+                               <h3 style="margin-top: 0; margin-bottom: 15px; font-weight: bold;">Đăng nhập</h3>
+                               <form action="" id="pnSystemLoginFrom" class="login-form" method="post" novalidate="novalidate">
+                                  <div class="form-group">
+                                      <label>ID</label>
+                                     <input type="text" id="txtFromUserName"  required placeholder="Email"  name="username" class="form-control">
+                                  </div>
+                                  <div class="form-group">
+                                      <label langkey="pg_LogIn_txtPassword"></label>
+                                     <input type="password" required id="txtFromUserPassword" name="password" langkey="pg_Login_Txt_Password-LeastChar" placeholder=" "  class="form-control">
+                                  </div>
+                                  <div class="remember">
+                                     @*<input type="checkbox" id="ckhRemember">
+                                     <span class="custom-checkbox"><span langkey="pg_LogIn_txtRemember"></span>
+                                     <span class="checkmark"></span>
+                                     </span>*@
+                                     <a href="#" class="pull-right" id="forgotPassword"><span langkey="pg_LogIn_txtForgotPassword"></span>?</a>
+                                  </div>
+                                  <button type="submit" class="btn" id="btnLoginSystem" style="width: 100%;background: #257EF8;color: #fff;border-radius: 10em;padding: 10px;margin: 25px 0 7px;"><span langkey="pg_LogIn_btnLogin"></span></button>
+                                    <p style="text-align:center;color: #4e4e4e;"><span langkey="pg_Dft_Login_txtAreYouNew"></span></p>
+                                    <a class="btn" href="./signup" style="width: 100%;background: #ffffff;color: #000;border-radius: 10em;padding: 10px;border-color: #d4d4d4;"><span langkey="pg_LogIn_txtRegister"></span></a>
+                               </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $.ModulePublic_PageLoginMain_PopUpForgotPassword = function (options) {
+            var defaults = {
+                OnSuccess: function () {
+
+                }
+            }
+            options = $.extend(defaults, options);
+
+            var IdOrClass_Main = ''
+
+
+            var ObjList_Api = {
+
+                GetCheckPassengerByEmail:{
+                    strApiLink:'api/public/GetCheckPassengerByEmail'
+                    ,objParams: {
+                        strEmail : null
+                    }
+                },
+                UpdResetPasswordByTraveller:{
+                    strApiLink:'api/public/traveller/UpdResetPasswordByTraveller'
+                    ,objParams: {
+                        strEmail : null
+                        ,strPassword : null
+                    }
+                }
+
+            }
+
+            //---------Obj_ModfigLang
+            //---------Arr_ModfigLang
+            //---------Is_ModuigLang
+            //---------Int_ModfigLang
+            //---------Str_ModfigLang
+
+            var Obj_Detail = {}
+            var Obj_FN_Main = {}
+            var objInput = {}
+
+            pngPn.getPopUp({
+                strTitle: "<span langkey='sys_Register_ForgotPassword'> </span>"
+                , intTypeSize:1
+                , OnPanel: GetMainPanel
+                , OnClosePopUp: function () {
+
+                }
+            })
+            function GetMainPanel(_idOrClassPp,_OnClosePp){
+                IdOrClass_Main = _idOrClassPp
+
+
+                var objPanel = {                 // Khai báo các thành phần của panel
+                    pnMain:{tag:'div',attr:'class=""',childTags:[{div:'class="row"'}]
+                        ,pnTable:{tag:'div',attr:'class="col-md-12"'}
+                        ,pnBtn:{tag:'div',attr:'class="col-md-12"'}
+                    }
+                }
+                var objEvtPanel = {}
+                objEvtPanel.pnTable = function(_idOrClassPn){
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    objInput ={
+
+                        strEmail:{title:'<span langkey="sys_Register_PleaseInputEmail"></span>',attr:"class='col-md-12'",isRequire: true
+                            ,validate:{format:/^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/}
+                            ,input:{type:'text',classEx:'form-control',attr:''}
+                            ,arrValidateEx:[{IsCheckSSAjax:function(strVal,fct){
+
+                                png.postListApiGetValue({
+                                    objList_Api: ObjList_Api
+                                    ,objListApi_RtnVal: {
+                                        'GetCheckPassengerByEmail':{
+                                            objParams_Cus:{
+                                                strEmail: strVal
+                                            }
+                                            , OnSuccess: function(data){
+
+                                                fct((JSON.parse(data)[0][0]['strPassengerGUID'] != null))
+
+                                            }
+                                        }
+                                    }
+                                })
+
+                            },strConfirm:'<span langkey="sys_Register_Email_NotExist"></span>',}]
+                        }
+
+                    }
+
+                    pngPn.getForm({
+                        action:1,
+                        objInput:objInput,
+                        idOrClass:IdOrClass_Pn // "#pnFormRegister2 .panel-body"
+                    })
+
+
+                }
+
+                objEvtPanel.pnBtn = function(_idOrClassPn){
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    var strHtml = ''
+                        strHtml =' <button class="btn btn-texticon bg-primary" id="btnSendRequest" style=""><i class="fa fa-location-arrow"></i><span>'+pngElm.getLangKey({langkey:'sys_Btn_SendEmail'})+'</span></button>'
+                    $(IdOrClass_Pn).html(strHtml)
+
+                    $('#btnSendRequest').click(function(){
+                        pngPn.getForm({
+                            action: 2,
+                            objInput: objInput,
+                            idOrClass: IdOrClass_Main + ' #pnTable',
+                            OnChkSuccess: function(objRtn){
+                                if (objRtn) {
+
+                                    var strPassword =  $.pngGetRamdomPassword(8)
+
+                                    png.postListApiGetValue({
+                                        objList_Api: ObjList_Api
+                                        ,objListApi_RtnVal: {
+                                            'UpdResetPasswordByTraveller':{
+                                                objParams_Cus: $.pngExtendObj(objRtn,{
+                                                    strPassword: strPassword
+                                                })
+                                                , OnSuccess: function(data){
+                                                    var strPassengerGUID = JSON.parse(data)[0][0].strPassengerGUID;
+
+                                                    png.postSendEmail({
+                                                        strUserGUID: null
+                                                        ,strEmailsSendTo: null
+                                                        ,strEmailsCC: null
+                                                        ,strEmailTemplateSubject: null
+                                                        ,IsBodyHtml: 1
+                                                        ,strEmailTemplateContent: null
+                                                        ,strTempApiUrl:'api/public/traveller/GetEmailResetPasswordTraveller'
+                                                        ,objTempPar:{
+                                                            strPassengerGUID: strPassengerGUID
+                                                            ,intLangID: $.pngGetLangID()
+                                                            ,strPassword: strPassword
+                                                        }
+                                                        ,OnSuccess: function (data) {
+                                                            if (data == "1") {
+                                                                $.Confirm({ strContent:'<span langkey="sys_Cfm_SentSuccess"></span>'})
+                                                                $(IdOrClass_Main).html('<h3 align="center">'+pngElm.getLangKey({langkey:'sys_Register_SendRecoveryPassword'})+'</h3>')
+
+                                                            } else {
+                                                                $.Confirm({ strContent:'<span langkey="sys_Cfm_SentFail"></span>'})
+                                                            }
+                                                        }
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    })
+
+                }
+
+                // ===================================
+
+                pngPn.getPanelHtml({            // Get ra panel dạng html
+                    objPanel: objPanel
+                    ,objEvtPanel: objEvtPanel
+                    ,idOrClass: IdOrClass_Main  // Id or class chính
+                    ,OnChangeIdPn: function(_Fn){
+                        Obj_FN_Main.pnMain = _Fn    // Hàm đổi trang
+                    }
+                })
+
+
+            }
+
+
+
+        }
+
+
+        coreSystem.getLoadPage({
+            OnSuccess: function () {
+                pngElm.getLangKey()
+
+                var ObjList_Api = {
+                    AddLoginHistory: {
+                        strApiLink: 'api/user/AddLoginHistory'
+                        , objParams: {
+                            strUserGUID: null
+                            , intMemberTypeID: 5
+                            , strURLName: window.location.href
+                            , strIPFrom: null
+                            , strCountryName: null
+                            , strBrowser: pngElm.getDtlBrowser().name + ' - v' + pngElm.getDtlBrowser().version
+                        }
+                    }
+                }
+
+                $.getJSON('https://extreme-ip-lookup.com/json/', function (data) {
+                    ObjList_Api.AddLoginHistory.objParams['strIPFrom'] = data.query
+                    ObjList_Api.AddLoginHistory.objParams['strCountryName'] = data.country
+                });
+
+                GenderControl();
+                function GenderControl() {
+
+                    $('#ckhRemember').attr('checked', true)
+                    $("#pnSystemLoginFrom").submit(function (e) {
+                        e.preventDefault();
+                    });
+                    $("#pnSystemLoginFrom").validate({
+                        rules: {
+                            username: "required",
+                            password: {
+                                required: true
+                            }
+                        },
+                        messages: {
+                            username: "Please input email",
+                            password: {
+                                required: "Please input password"
+                            }
+                        },
+                        submitHandler: function (e) {
+                            $("#btnLoginSystem").attr("disabled", "");
+                            // $(options.roottab).find(".loading_effect").show()
+                            png.login({
+                                username: $("#txtFromUserName").val(),
+                                password: $("#txtFromUserPassword").val(),
+                                membertype: 5,
+                                OnComplete: function () {
+                                    $("#btnLoginSystem").removeAttr("disabled");
+                                    // $(options.roottab).find(".loading_effect").hide();
+                                },
+                                OnSuccess: function (jsondata) {
+
+                                    png.postListApiGetValue({
+                                        objList_Api: ObjList_Api
+                                        , objListApi_RtnVal: {
+                                            'AddLoginHistory': {
+                                                objParams_Cus: {
+                                                    strUserGUID: jsondata['strUserGUID']
+                                                }
+                                                , OnSuccess: function (data) {
+
+
+                                                    // if($("#ckhRemember").is(":checked")){
+                                                    Cookies.set('B2Busername' + png.APPB2B_Type, $("#txtFromUserName").val(), { expires: 365 });
+                                                    Cookies.set('B2Bpassword' + png.APPB2B_Type, $("#txtFromUserPassword").val(), { expires: 365 });
+                                                    Cookies.set('B2Bmembertype' + png.APPB2B_Type, 5, { expires: 365 });
+                                                    // }
+
+                                                    var urlLoginSuccess = '/'
+
+                                                    if ($.pngGetQSVal('strReturnUrl')) {
+                                                        urlLoginSuccess = decodeURIComponent($.pngGetQSVal('strReturnUrl'));
+
+                                                        //sessionStorage.removeItem('urlBeforeLogin');
+                                                    }
+
+
+                                                    window.location.href = urlLoginSuccess
+
+
+                                                }
+                                            }
+                                        }
+                                    })
+
+
+                                },
+                                OnError: function (respond) {
+                                    console.log(respond)
+                                }
+                            })
+                        }
+                    });
+                    $("#registerNewAcc").unbind('click')
+                    $("#registerNewAcc").click(function () {
+                        $.ModulePublic_PageLoginMain_PopUpRegister({
+                            OnSuccess: function () {
+                            }
+                        })
+
+                    });
+                    $("#forgotPassword").click(function () {
+                        $.ModulePublic_PageLoginMain_PopUpForgotPassword({
+                            OnSuccess: function () {
+                            }
+                        })
+
+                    });
+                }
+            }
+        })
+
+    </script>
+</app-content-display>

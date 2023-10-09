@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "_Header";
+}
+
+<div class="w-full bg-white sticky top-0 z-[40]">
+    @Html.Partial("_Navbar")
+    <div class="w-full h-[64px]">
+        <div class="flex items-center h-full container justify-between">
+            <a href="/"><img class="h-[64px]" src="~/images/itourgo-logo.png" alt="" /></a>
+            <div class="flex gap-4 text-[15px]">
+                <div class="dropdown-hover uppercase flex items-center gap-1 relative py-3 text-[color:var(--primary-color)]">
+                    Trang chủ<MdKeyboardArrowDown fontSize={22} />
+                    <ul class="dropdown-menu hidden w-60 absolute top-[100%] left-0 bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)] text-black">
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white "><a class="block" href="/tour">Tour</a></li>
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white"><a class="block" href="/hotel">Khách sạn</a></li>
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white"><a class="block" href="/restaurant">Nhà hàng</a></li>
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white dropdown-subhover relative">
+                            <div class="flex items-center justify-between">
+                                <span>Phương tiện di chuyển</span>
+                                <MdOutlineKeyboardArrowRight fontSize={22} />
+                            </div>
+                            <div class="dropdown-submenu hidden w-48 absolute left-[100%] top-0 bg-white">
+                                <div class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] text-black hover:text-white"><a class="block" href="">Xe Bus</a></div>
+                                <div class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] text-black hover:text-white"><a class="block" href="">Xe Khách</a></div>
+                                <div class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] text-black hover:text-white"><a class="block" href="">Tàu Thuyền</a></div>
+                                <div class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] text-black hover:text-white"><a class="block" href="/airline-ticket">Vé Máy Bay</a></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown-hover uppercase flex items-center gap-1 relative py-3">
+                    Địa điểm<MdKeyboardArrowDown fontSize={22} />
+                    <ul class="dropdown-menu w-52 hidden overflow-hidden absolute top-[100%] left-0 bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-sm text-">
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white"><a class="block" href="/tour/search/tour-viet-nam">Miền Bắc</a></li>
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white"><a class="block" href="/tour/search/tour-viet-nam">Miền Trung</a></li>
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white"><a class="block" href="/tour/search/tour-viet-nam">Miền Nam</a></li>
+                        <li class="p-3 border-b last:border-b-0 border-dotted hover:bg-[color:var(--primary-color)] hover:text-white"><a class="block" href="/tour/search/tour-viet-nam">Du lịch nước ngoài</a></li>
+                    </ul>
+                </div>
+                <a href="/about" class="dropdown-hover uppercase flex items-center gap-1 relative py-3">Về chúng tôi</a>
+
+                <a href="/blog" class="dropdown-hover uppercase flex items-center gap-1 relative py-3">blog</a>
+                <a href="/" class="dropdown-hover uppercase flex items-center gap-1 relative py-3">Mã giảm giá</a>
+                <button class="p-2">
+                    <BsSearch class="hover:" />
+                </button>
+
+            </div>
+            <div class="flex items-center">
+                <Cart items={userMenu1}>
+                    <a href="/user/cart">
+                        <CgShoppingCart class="text-[color:var(--secondary-color)]" fontSize={32} />
+                    </a>
+
+                </Cart>
+                <a href="/auth/login" class="flex items-center bg-transparent py-3 px-8 uppercase text-[#777777] gap-1">
+                    <AiOutlineUser />
+                    <span>Đăng ký / Đăng nhập</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,130 @@
+﻿@{
+
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    System.Data.DataSet ds = APP_B2B_PUB.Controllers.HotelController.GetListSupplierForHotelByPUB("{"
+        + "strUserGUID: '47ecbd6d-897a-4a41-a061-95d5d3b166b6'"
+        + ",strCompanyPartnerGUID: 'e824fd66-a3ca-46f4-a1be-ab7a0d1f6137'"
+        + ",strCompanyOwnerGUID: null"
+        + ",strSupplierNameURL: null"
+        + ", strFilterSupplierName: null"
+        + ", strFilterLocationCode: null"
+        + ", strPriceFromRange: null"
+        + ", intNoOfRooms: null"
+        + ", dtmFilterCheckIn: null"
+        + ", dtmFilterCheckOut: null"
+        + ", IsShowAll: 1"
+        + ", strListEasiaCateID: null"
+        + ",intCurPage: null"
+        + ",intPageSize: null"
+        + ",strOrder:null"
+        + ",tblsReturn:'[0]'"
+        + "}");
+
+    System.Data.DataTable dtTbl_0 = ds.Tables[0];
+
+
+    var strTitle = "Khách sạn";
+
+    string storageItem = Request.QueryString["lang"];
+
+    string verFile = System.Guid.NewGuid().ToString().Substring(0, 5);
+
+    //HttpCookieCollection cook = Request.Cookies;
+    //var value = Request.Cookies["lang"].Value;
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle;
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = "Một nền tảng giúp các công ty và các nhà cung cấp dịch vụ du lịch kết nối đến các đại lý của họ.Hệ thống giúp mở rộng kênh bán hàng, tăng doanh số, giảm chi phí.    Tạo mối liên kết mở rộng B2B giữa các doanh nghiệp, giúp các công ty phát triển bền vững";
+}
+    <app-content-display>
+
+        <script src="~/Lib_Custom/Hotel/layouts/layout-breadcrumb.js?v=@verFile"></script>
+        <script src="~/Lib_Custom/Hotel/layouts/layout-searchbar.js?v=@verFile"></script>
+        <div id="pnSearchbar"></div>
+        <div id="Content">
+            <div class="panel-itl">
+                <div class="container">
+                    <div class="row">
+                        <div id="pnListHotel">
+                            @if (dtTbl_0.Rows.Count != 0)
+                            {
+
+                                foreach (System.Data.DataRow item in dtTbl_0.Rows)
+                                {
+                                    var rowIndex = dtTbl_0.Rows.IndexOf(item);
+                                    <div class="col-md-6">
+                                        <div style="display:flex;margin-bottom:30px">
+                                            <div class="btn_Custom" strUrl="@item["strSupplierNameURL"]" guid="@item["strSupplierGUID"]" style="cursor: pointer; width: 40%; margin-right: 20px; background: url('@(!string.IsNullOrEmpty(@item["strSupplierImage"].ToString()) ? GetUrl("strImgURL")+item["strSupplierImage"] : "Lib_Common/assets/images/img-noimage.png")') no-repeat center; background-size: cover; border-radius: 1em; cursor: pointer" title="@Html.Raw(item["strSupplierName"])"> </div>
+                                            <div style="width: 55%;">
+                                                <h3 class="btn_Custom" strUrl="@item["strSupplierNameURL"]" guid="@item["strSupplierGUID"]" class="title" style="cursor:pointer; font-size: 18px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;cursor:pointer" title="@Html.Raw(item["strSupplierName"])"><b>@Html.Raw(item["strSupplierName"])</b></h3>
+                                                @*<div style="color: #f19e22; ">' + $.pngHtmlStars(value.intEasiaCateID) + '</div>*@
+                                                <div style="color: #f19e22; " intEasiaCateID="@item["intEasiaCateID"]"></div>
+                                                <div style="height:60px; overflow: auto;">
+                                                    <span>@Html.Raw(item["strSupplierAddr"])</span>
+                                                </div>
+                                                <div style="margin: 20px 0;color: #1076FC;"><b>Giá từ: @(string.IsNullOrEmpty(@item["dblPriceFrom"].ToString()) ? Html.Raw("<b style=\"color:#000\">N/A</b>") : Html.Raw("<span price='"+ @item["dblPriceFrom"] + "'>"+ @item["dblPriceFrom"] + "</span>"))</b></div>
+                                                <button class="btn btn_Custom" style="padding: 5px 40px;background: none;border: 1px solid #000;border-radius: 10em;" strUrl="@item["strSupplierNameURL"]" guid="@item["strSupplierGUID"]">Xem chi tiết</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    if ((rowIndex + 1) % 2 == 0)
+                                    {
+                                        <div class="col-md-12"></div>
+                                    }
+                                }
+                            }
+                        </div>
+                        <script>
+
+
+                            $("[intEasiaCateID]").each(function () {
+                                var strTr = $.pngHtmlStars($(this).attr('intEasiaCateID'))
+                                $(this).html(strTr);
+
+                            });
+
+                            $("[price]").each(function () {
+                                var strTr = $.pngFormatPrice($(this).attr('price'))
+                                $(this).html(strTr);
+
+                            });
+                            $('#pnListHotel .btn_Custom').click(function () {
+                                var strUrl = $(this).attr('strUrl')
+
+                                //window.history.pushState("", "", $.pngGetQSVal('module', 'detail'));
+                                //window.history.replaceState("", "", $.pngGetQSVal('idmdit', guid));
+                                //coreLoadPage.init()
+
+                                window.location.href = '/hotel/' + strUrl
+                            })
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            coreSystem.getLoadPage({
+                OnSuccess: function () {
+                    $.ModuleLayouts_Searchbar({ idOrClass: '#pnSearchbar', IsHome: true })
+                }
+            })
+
+        </script>
+    </app-content-display>

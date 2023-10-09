@@ -1,0 +1,368 @@
+﻿@{
+
+    string strTitleURL = ViewContext.RouteData.Values["strTitleURL"].ToString();
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    System.Data.DataSet ds = APP_B2B_PUB.Controllers.ComController.GetDetailCompanyOwnerByPUB("{"
+        + "strCompanyNameUrl: '" + strTitleURL + "'"
+        + ",tblsReturn:'[0][1][2][3]'"
+        + "}");
+
+
+    System.Data.DataRow objDetail = ds.Tables[0].Rows[0];
+    System.Data.DataTable arrListAgent = ds.Tables[1];
+    System.Data.DataTable arrListTour = ds.Tables[2];
+    System.Data.DataTable arrListHotel = ds.Tables[3];
+
+    var strTitle = objDetail["strCompanyName"];
+
+    string storageItem = Request.QueryString["lang"];
+
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle +" | Itourlink";
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = objDetail["strDescription"];
+}
+<app-content-display>
+
+    @*<script src="~/Lib_Custom/Com/layouts/layout-breadcrumb.js"></script>*@
+    <div id="pnSearchbar"></div>
+    <app-breadcrumb-root></app-breadcrumb-root>
+    <div id="Content">
+        <div class="panel-itl" >
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 style=" margin-bottom: 30px; font-size:24px"><b>@objDetail["strCompanyName"]</b></h1>
+                    </div>
+                    <div class="col-md-3 pn-margin-b-30">
+                        <img src="@( !String.IsNullOrEmpty(objDetail["strCompanyLogo"].ToString()) ? GetUrl("strImgURL")+objDetail["strCompanyLogo"] : "/Lib_Common/assets/images/img-noimage.png")" style=" border: 1px solid #dedede;margin-bottom:20px" width="100%" />
+                        <div class="pnAgentPolicy" style="margin-bottom: 15px;">Bạn có thể đăng ký Đại lý làm đối tác của nhà cung cấp trên</div>
+                        <script>
+
+                            var Obj_Detail = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(objDetail))
+                                Obj_Detail = Obj_Detail.Table[0]
+
+                            if (Obj_Detail.strAgentPolicy) {
+
+                                ViewAgentPolicy(0)
+
+                                function ViewAgentPolicy(_IsViewMore) {
+                                    if (!_IsViewMore) {
+                                        $('.pnAgentPolicy').html($.pngLimitText(Obj_Detail.strAgentPolicy, 200, '...<a class="btnViewMore">Xem thêm</a>'))
+
+                                        $('.pnAgentPolicy .btnViewMore').click(function () {
+                                            ViewAgentPolicy(!_IsViewMore)
+                                        })
+                                    } else {
+                                        $('.pnAgentPolicy').html(Obj_Detail.strAgentPolicy +'<a class="btnHideMore">Ẩn bớt</a>')
+
+                                        $('.pnAgentPolicy .btnHideMore').click(function () {
+                                            ViewAgentPolicy(!_IsViewMore)
+                                        })
+                                    }
+                                }
+                            }
+                        </script>
+                        <a href="@GetUrl("APPB2B_Agent")?page=register&strCodeInvite=@objDetail["strCompanyCode"]&lang=@Request.QueryString["lang"]" target="_Register" class="btn" style="border-radius:10em;background: #fff;color: #3838d1;border:1px solid #3838d1;margin-bottom: 15px;width:100%">Đăng ký làm Đại lý</a>
+
+                        @if (arrListAgent.Rows.Count != 0)
+                        {
+                            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 1em;">
+                                
+                                <h3 style="margin-top: 0;"><b>Các đại lý (@arrListAgent.Rows[0]["intTotal"])</b></h3>
+                                <div style="">
+                                    @foreach (System.Data.DataRow item in arrListAgent.Rows)
+                                    {
+                                        var rowIndex = arrListAgent.Rows.IndexOf(item);
+                                        <div style="">
+                                            <div class="btn_Custom" guid="" title="@item["strCompanyName"]" style="background:url('@( !String.IsNullOrEmpty(item["strCompanyLogo"].ToString())  ? GetUrl("strImgURL")+item["strCompanyLogo"] : "/Lib_Common/assets/images/img-noimage.png")') no-repeat center;background-size: cover;cursor:pointer;height:100px" title=""> </div>
+                                            <div class="pn-padding-t-b-15"><b>@item["strCompanyName"]</b></div>
+                                            @if (rowIndex != arrListAgent.Rows.Count - 1)
+                                            {
+                                                <div style="border-bottom: 2px dotted #ccc; margin-bottom: 15px;"></div>
+                                            }
+                                        </div>
+                                    }
+
+
+                                    @if (Convert.ToInt32(arrListAgent.Rows[0]["intTotal"]) > 5)
+                                    {
+                                    <a href="./@objDetail["strCompanyNameUrl"]/agents" style=" margin: 20px 0 0; display: inline-block;">Hiển thị tất cả @arrListAgent.Rows[0]["intTotal"] Đại lý ></a>
+                                    }
+
+                                    @*<a style=" border: 1px solid #d0d0d0; padding: 5px; text-align: center; display: block;">Xem thêm Đại lý</a>*@
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                    <div class="col-md-9">
+                        <div style="border: 1px solid #ccc; padding: 15px; border-radius: 1em;">
+                            <h3 style="margin-top: 0;"><b>Thông tin công ty</b> <button class="btn bg-success txt-white" action="Chat"><i class="fa fa-comment"></i><span></span></button></h3>
+                            <div style="">
+                                @if (!String.IsNullOrEmpty(objDetail["strCompanyAddr"].ToString()))
+                                {
+                                    <p><b style="width:15px;display: inline-block;text-align:center;font-size: 20px; margin-right: 10px;"><i class="fa fa-map-marker"></i></b> @Html.Raw(objDetail["strCompanyAddr"])</p>
+                                }
+
+                                @if (!String.IsNullOrEmpty(objDetail["strCompanyEmail"].ToString()))
+                                {
+                                    <p><b style="width: 15px;display: inline-block; text-align: center; font-size: 20px; margin-right: 10px;"><i class="fa fa-envelope"></i></b> @Html.Raw(objDetail["strCompanyEmail"])</p>
+                                }
+
+                                @if (!String.IsNullOrEmpty(objDetail["strCompanyPhone"].ToString()))
+                                {
+                                    <p><b style="width: 15px;display: inline-block; text-align: center; font-size: 20px; margin-right: 10px;"><i class="fa fa-phone"></i></b> @Html.Raw(objDetail["strCompanyPhone"])</p>
+                                }
+
+                                @if (!String.IsNullOrEmpty(objDetail["strCompanyWeb"].ToString()))
+                                {
+                                    <p><b style="width: 15px;display: inline-block; text-align: center; font-size: 20px; margin-right: 10px;"><i class="fa fa-globe"></i></b> @Html.Raw(objDetail["strCompanyWeb"])</p>
+                                }
+
+                                @if (!String.IsNullOrEmpty(objDetail["strCompanyTaxCode"].ToString()))
+                                {
+                                    <p><b style="width: 15px;display: inline-block; text-align: center; font-size: 20px; margin-right: 10px;"><i class="fa fa-gavel"></i></b> @Html.Raw(objDetail["strCompanyTaxCode"])</p>
+                                }
+                            </div>
+                            <div class="pnDes"></div>
+                            <script>
+
+
+                                if (Obj_Detail.strDescription) {
+
+                                    ViewDes(0)
+
+                                    function ViewDes(_IsViewMore) {
+                                        if (!_IsViewMore) {
+                                            $('.pnDes').html($.pngLimitText(Obj_Detail.strDescription, 200, '...<a class="btnViewMore">Xem thêm</a>'))
+
+                                            $('.pnDes .btnViewMore').click(function () {
+                                                ViewDes(!_IsViewMore)
+                                            })
+                                        } else {
+                                            $('.pnDes').html(Obj_Detail.strDescription + '<a class="btnHideMore">Ẩn bớt</a>')
+
+                                            $('.pnDes .btnHideMore').click(function () {
+                                                ViewDes(!_IsViewMore)
+                                            })
+                                        }
+                                    }
+                                }
+                                var Obj_User = JSON.parse(png.ArrLS.UserDetail.get());
+
+                                $('button[action=Chat]', '#Content').click(function () {
+
+                                    if (Obj_User) {
+
+                                        coreSystem.viewChat({
+                                            IsBegin: false,
+                                            objProduct: {},
+                                            objFriendDetail: {
+                                                strName: Obj_Detail["strCompanyName"],
+                                                strCode: Obj_Detail["strCompanyCode"],
+                                                strImageUrl: Obj_Detail["strCompanyLogo"],
+                                                strCompanyGUID: Obj_Detail["strCompanyGUID"],
+                                                strMemberGUID: null,
+                                            }
+                                        })
+
+                                    } else {
+                                        window.location.href = '/user/login?strReturnUrl=' + window.location.href
+                                    }
+                                })
+                            </script>
+                        </div>
+
+
+                        @*@if (!String.IsNullOrEmpty(objDetail["strAgentPolicy"].ToString()))
+        {
+            <h3 style="margin-top: 30px;"><b>Yêu cầu/chính sách Đại lý</b></h3>
+
+            <div>
+                @Html.Raw(@objDetail["strAgentPolicy"])
+            </div>
+        }*@
+                        @*@if (!String.IsNullOrEmpty(objDetail["strDescription"].ToString()))
+        {
+            <h3 style="margin-top: 30px;"><b>Mô tả</b></h3>
+
+            <div style="background: #fff; padding: 15px; border-radius: 1em;">
+                @Html.Raw(@objDetail["strDescription"])
+            </div>
+        }*@
+
+                        @if (arrListTour.Rows.Count != 0)
+                        {
+                    <div style="border: 1px solid #ccc; padding: 15px; border-radius: 1em;margin-top: 30px">
+                        <h3 style="margin-top: 0;"><b>Danh sách Tour (@arrListTour.Rows[0]["intTotal"])</b></h3>
+                        <div id="pnListTour" class="row">
+
+                            @foreach (System.Data.DataRow item in arrListTour.Rows)
+                            {
+                                var rowIndex = arrListTour.Rows.IndexOf(item);
+
+                                <div class="col-md-4">
+                                    <div style=" box-shadow: 0px 0px 16px -10px;border-radius:1em;margin-bottom: 10px;">
+                                        <div style="position: relative">
+                                            <div class="btn_Custom" strUrl="@item["strServiceNameUrl"]" guid="@item["strTourGUID"]" style="cursor:pointer;background:url('@(item["strTourImageUrl"] != null ? GetUrl("strImgURL")+item["strTourImageUrl"] : "assets/images/img-noimage.png")') no-repeat center, linear-gradient(#000, #fff0, #000);background-blend-mode: overlay;height: 175px;width:100%;background-size: cover;border-top-left-radius: 1em;border-top-right-radius: 1em;"></div>
+                                            <span class="txtLangCode" langkeyDB="@item["strLangCode"]" style="position: absolute;bottom: 5px;right: 5px;padding: 3px;color:#fff">@item["strLangCode"]</span>
+                                        </div>
+                                        <div style="padding: 10px;">
+                                            <h4 class="title btn_Custom" strUrl="@item["strServiceNameUrl"]" guid="@item["strTourGUID"]" style="cursor: pointer; height: 38px; font-size: 16px; overflow: hidden; font-weight: bold; line-height: 20px; margin-bottom: 5px;" title="@item["strServiceName"]">@item["strServiceName"]</h4>
+                                            <div style="font-size:12px;color: #888;height: 36px;"><b>Bởi: </b><a href="/com/@item["strOwnerCompanyNameUrl"]">@item["strOwnerCompanyName"]</a></div>
+                                            <div style="margin: 0 0 20px;font-weight:bold;color:#ADADAD">@item["intNoOfDay"] ngày/@(@Convert.ToInt32(@item["intNoOfDay"]) - 1) đêm</div>
+                                            <div style="height: 40px;overflow: hidden;">
+                                                <div>@(!string.IsNullOrEmpty(@item["strListTourMainAttractionName"].ToString()) ? @item["strListTourMainAttractionName"] : Html.Raw("")) </div>
+                                            </div>
+                                            <div style="position:absolute;top: 0">
+                                                <div style="color: #ffffff;font-size: 16px; padding-top: 10px;"><b><span langkey="pg_Main_Tour_LT-PriceFrom"></span>: @( string.IsNullOrEmpty(@item["dblPriceFrom"].ToString()) ? Html.Raw("<b>N/A</b>") : Html.Raw("<span price=\""+ @item["dblPriceFrom"] + "\">"+@item["dblPriceFrom"]+"</span>")) </b></div>
+                                            </div>
+                                        </div>
+                                        <div style="padding: 10px;text-align: center;">
+                                            <button class="btn btn_Custom" style="border-radius: 10em;background: none;padding: 7px;width:100%;color: #383838;border: 1px solid #383838;" strUrl="@item["strServiceNameUrl"]" guid="@item["strTourGUID"]">Xem chi tiết</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        @if (Convert.ToInt32(arrListTour.Rows[0]["intTotal"]) > 3)
+                        {
+                            <a href="@objDetail["strCompanyNameUrl"]/tours" style=" margin: 20px 0 0; display: inline-block;">Hiển thị tất cả @arrListTour.Rows[0]["intTotal"] Tour ></a>
+                        }
+                    </div>
+                        }
+
+                        @if (arrListHotel.Rows.Count != 0)
+                        {
+
+                    <div style="border: 1px solid #ccc; padding: 15px; border-radius: 1em;margin-top: 30px">
+                        <h3 style=""><b>Danh sách Khách Sạn (@arrListHotel.Rows[0]["intTotal"])</b></h3>
+                        <div id="pnListHotel" class="row">
+
+                            @foreach (System.Data.DataRow item in arrListHotel.Rows)
+                            {
+                                var rowIndex = arrListHotel.Rows.IndexOf(item);
+
+                                <div class="col-md-4">
+                                    <div style="  box-shadow: 0px 0px 16px -10px;border-radius:1em;margin-bottom: 10px;">
+                                        <div style="position: relative">
+                                            <div class="btn_Custom" strUrl="@item["strSupplierNameURL"]" guid="@item["strSupplierGUID"]" style="background:url('@( !String.IsNullOrEmpty(item["strSupplierImage"].ToString()) ? GetUrl("strImgURL")+item["strSupplierImage"] : "/Lib_Common/assets/images/img-noimage.png")') no-repeat center, linear-gradient(#000, #fff0, #fff0);background-blend-mode: overlay;height: 175px;width:100%;background-size: cover;border-top-left-radius: 1em;border-top-right-radius: 1em;"></div>
+
+                                        </div>
+                                        <div style="padding: 10px;">
+                                            <h4 class="title btn_Custom" strUrl="@item["strSupplierNameURL"]" guid="@item["strSupplierGUID"]" style="height: 38px;font-size: 16px;overflow: hidden;font-weight: bold;line-height: 20px;margin-bottom: 5px;" title="@item["strSupplierName"]">@item["strSupplierName"]</h4>
+                                            <div style="color: #f19e22; " intEasiaCateID="@item["intEasiaCateID"]"></div>
+                                            <div style="height:50px; overflow: auto;">
+                                                <span>@item["strSupplierAddr"]</span>
+
+                                            </div>
+                                            <div style="position:absolute;top: 0">
+                                                <div style="color: #ffffff;font-size: 16px; padding-top: 10px;"><b><span langkey="pg_Main_Tour_LT-PriceFrom"></span>: @(@item["dblPriceFrom"].ToString() == null ? Html.Raw("<b>N/A</b>") : Html.Raw("<span price=\""+ @item["dblPriceFrom"] + "\">"+@item["dblPriceFrom"]+"</span>")) </b></div>
+                                            </div>
+                                        </div>
+                                        <div style="padding: 10px;text-align: center;">
+                                            <button class="btn btn_Custom" style="border-radius: 10em;background: none;padding: 7px;width:100%;color: #383838;border: 1px solid #383838;" strUrl="@item["strSupplierNameURL"]" guid="@item["strSupplierGUID"]">Xem chi tiết</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+
+                        @if (Convert.ToInt32(arrListHotel.Rows[0]["intTotal"]) > 3)
+                        {
+                            <a href="@objDetail["strCompanyNameUrl"]/hotel" style=" margin: 20px 0 0; display: inline-block;">Hiển thị tất cả @arrListHotel.Rows[0]["intTotal"] Khách Sạn ></a>
+                        }
+                    </div>
+
+                        }
+
+                    </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        coreSystem.getLoadPage({
+            OnSuccess: function () {
+
+
+                var Obj_Detail = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(objDetail))
+                    Obj_Detail = Obj_Detail.Table[0]
+
+                var arrBrcbItems = []
+
+                arrBrcbItems.push({ id: '', title: '<i class="fa fa-home" style="font-size:18px"></i>', attr: 'module="home"' })
+                arrBrcbItems.push({
+                    id: '', title: 'Nhà cung cấp', attr: 'module="home"'
+                })
+
+                arrBrcbItems.push({
+                    id: '', title: Obj_Detail.strCompanyName, attr: 'module="home"'
+                })
+
+                $.ModuleSystemBreadcrumb({ arrBrcbItems: arrBrcbItems })
+
+                $('#pnListTour .btn_Custom').click(function () {
+                    var strUrl = $(this).attr('strUrl')
+
+                    //window.history.pushState("", "", $.pngGetQSVal('module', 'detail'));
+                    //window.history.replaceState("", "", $.pngGetQSVal('idmdit', guid));
+                    //coreLoadPage.init()
+
+                    window.location.href = '/tour/' + strUrl
+                })
+
+                $('#pnListHotel .btn_Custom').click(function () {
+                    var strUrl = $(this).attr('strUrl')
+
+                    //window.history.pushState("", "", $.pngGetQSVal('module', 'detail'));
+                    //window.history.replaceState("", "", $.pngGetQSVal('idmdit', guid));
+                    //coreLoadPage.init()
+
+                    window.location.href = '/hotel/' + strUrl
+                })
+
+                $(".txtLangCode").each(function () {
+
+                    var strTr = pngElm.getLangKeyDB({ langkey: $(this).attr('langkeyDB') })
+                    $(this).html(strTr);
+
+                });
+                $("[price]").each(function () {
+                    var strTr = $.pngFormatPrice($(this).attr('price'))
+                    $(this).html(strTr);
+
+                });
+
+
+                $("[intEasiaCateID]").each(function () {
+                    var strTr = $.pngHtmlStars($(this).attr('intEasiaCateID'))
+                    $(this).html(strTr);
+
+                });
+
+            }
+        })
+    </script>
+</app-content-display>

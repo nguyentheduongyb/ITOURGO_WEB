@@ -1,0 +1,369 @@
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll.config
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Infrastructure.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Owin.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\WebActivatorEx.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\WebGrease.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Administration.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CoreCompileInputs.cache
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CopyComplete
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll.config
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Infrastructure.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Owin.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\WebActivatorEx.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\WebGrease.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Administration.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CoreCompileInputs.cache
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CopyComplete
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.dll
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.pdb
+D:\0o-LuuTruDuLieu-o0\Desktop\GitHub\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csprojAssemblyReference.cache
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll.config
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.pdb
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Infrastructure.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Owin.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\WebActivatorEx.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\WebGrease.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Administration.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.pdb
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.pdb
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csprojAssemblyReference.cache
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CoreCompileInputs.cache
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CopyComplete
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.dll
+D:\CongViec\B2B_APP_ALL\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.pdb
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll.config
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.pdb
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Infrastructure.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Owin.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\WebActivatorEx.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\WebGrease.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Administration.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.pdb
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.pdb
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.AssemblyReference.cache
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CoreCompileInputs.cache
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CopyComplete
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.dll
+D:\PNG Soft\APP_B2B_PUB\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.pdb
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll.config
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\APP_B2B_PUB.pdb
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Infrastructure.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Owin.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\WebActivatorEx.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\WebGrease.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Web.Administration.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\MvcSiteMapProvider.WebActivator.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Newtonsoft.Json.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.pdb
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Ninject.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\StructureMap.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Net.Http.Formatting.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Helpers.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Http.WebHost.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Mvc.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Razor.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Deployment.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.WebPages.Razor.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\System.Web.Optimization.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Antlr3.Runtime.pdb
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\EntityFramework.SqlServer.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Core.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Facebook.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Cookies.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.OAuth.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Google.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.Twitter.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.AssemblyReference.cache
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CoreCompileInputs.cache
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.csproj.CopyComplete
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.dll
+D:\PNG Soft\APP_B2B_PUB - Copy\APP_B2B_PUB\APP_B2B_PUB\obj\Debug\APP_B2B_PUB.pdb

@@ -1,0 +1,2997 @@
+﻿@{
+
+    var langID = APP_B2B_PUB.Controllers.HomeController.GetLangID(Request.QueryString["lang"]);
+
+
+    @functions {
+        public static string GetUrl(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetUrl(strTxt);
+        }
+        public static string GetFormatDateTime(string strTxt)
+        {
+            return APP_B2B_PUB.Controllers.HomeController.GetFormatDateTime(strTxt);
+        }
+    }
+
+
+    var strTitle = "Thông tin Đơn hàng";
+
+    string storageItem = Request.QueryString["lang"];
+
+    //HttpCookieCollection cook = Request.Cookies;
+    //var value = Request.Cookies["lang"].Value;
+
+    ViewBag.Lang = Request.QueryString["lang"];
+    ViewBag.Title = strTitle;
+    ViewBag.Keywords = "B2B Du lịch, kết nối đại lý, đại lý bán, đại lý mua, khách du lịch";
+    ViewBag.Description = "Một nền tảng giúp các công ty và các nhà cung cấp dịch vụ du lịch kết nối đến các đại lý của họ.Hệ thống giúp mở rộng kênh bán hàng, tăng doanh số, giảm chi phí.    Tạo mối liên kết mở rộng B2B giữa các doanh nghiệp, giúp các công ty phát triển bền vững";
+}
+<app-content-display>
+
+    <div id="Content" style="background: #F5F7F8">
+    </div>
+    <script type="text/javascript">
+
+        $.ModulePage_OrderStep1 = function (options) {
+            var defaults = {
+                strUserGUID: JSON.parse(png.ArrLS.UserDetail.get()).strPassengerGUID,
+                strCompanyPartnerGUID: null,
+                strCompanyOwnerGUID: null,
+                strOrderBookingGUID: $.pngGetQSVal("GUID"),
+                OnSuccess: function () {
+                }
+            }
+            options = $.extend(defaults, options);
+
+
+            var IdOrClass_Main = '#Content'
+
+
+            var ObjList_Api = {
+                GetFilterPassengerOrderBooking: {
+                    strApiLink: 'api/traveller/GetFilterPassengerOrderBooking'
+                    , objParams: {
+                        strBookingCode: null
+                        , strPassengerOrderGUID: $.pngGetQSVal("GUID")
+                        , intCurPage: 1
+                        , intPageSize: 1
+                        , strPassengerGUID: null
+                        , tblsReturn: '[0][1][2][3][4][5]'
+                    }
+                },
+                GetPaymentAmountAndPeriod: {
+                    strApiLink: 'api/booking/GetPaymentAmountAndPeriod'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strBookingGUID: null
+                        , strOrderBookingGUID: $.pngGetQSVal("GUID")
+                        , strOrderBookingByAgentHostGUID: null
+                        , dtmDateDay: null
+                    }
+                },
+                AddNewBookingByTraveller: {
+                    strApiLink: 'api/public/traveller/AddNewBookingByTraveller'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: $.pngGetQSVal("GUID")
+                        , intOrderStatusID: null
+
+                        , intPaymentMethodID: null
+                        , strCompanyBankAccountGUID: null
+                        , strPaidRemark: null
+                    }
+                },
+                GetTourServiceXMLForTMS: {
+                    strApiLink: 'api/booking/GetTourServiceXMLForTMS'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strBookingGUID: null
+                    }
+                },
+
+                GetCheckRemainForServicesBooking: {
+                    strApiLink: 'api/booking/GetCheckRemainForServicesBooking'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: $.pngGetQSVal("GUID")
+                        , strCompanyOwnerGUID: null
+                    }
+                },
+            }
+
+            //---------
+            // var Obj_Filter = {}         // Biến lọc
+            // var Obj_Input = {}
+            // var Arr_ListTbl = []
+
+            var Obj_FN_Main = {}
+            //---------
+
+            var Obj_OrderDetail = {}
+            var ObjPaymentAmountAndPeriod = {}
+            var arrOrderBookingItem = []
+            var arrOrderBookingItemDetail = []
+            var arrCustomerList = []
+            var Arr_AgentOrderBookingItemDetail = []
+            var Arr_PaymentTerm = []
+            var Arr_OrderBookingByAgentHost = []
+
+            png.postListApiGetValue({
+                objList_Api: ObjList_Api
+                // ,objList_ComboValue: ObjList_ComboValue
+                , objListApi_RtnVal: {
+                    'GetFilterPassengerOrderBooking': {
+                        objParams_Cus: {
+                            tblsReturn: '[0][1][2][3][4][5][6]'
+                        }
+                        , OnSuccess: function (data) {
+                            Obj_OrderDetail = JSON.parse(data)[0][0]
+                            arrOrderBookingItem = JSON.parse(data)[1]
+                            arrOrderBookingItemDetail = JSON.parse(data)[2]
+                            arrCustomerList = JSON.parse(data)[3]
+                            //Arr_AgentOrderBookingItemDetail = JSON.parse(data)[4]
+                            Arr_PaymentTerm = JSON.parse(data)[4]
+                            Arr_OrderBookingByAgentHost = JSON.parse(data)[5]
+                            ObjPaymentAmountAndPeriod = JSON.parse(data)[6][0]
+                        }
+                    },
+                    //'GetPaymentAmountAndPeriod': {
+                    //    objParams_Cus: {
+                    //    }
+                    //    , OnSuccess: function (data) {
+                    //        ObjPaymentAmountAndPeriod = JSON.parse(data)[0][0]
+                    //    }
+                    //},
+                }
+                , OnSuccessList: function (data) {
+                    GetMainPanel()
+                }
+            })
+
+
+            function GetMainPanel() {
+                var objPanel = {
+                    pnMain: {
+                        tag: 'div', attr: 'style="background:#F5F7F8"', childTags: [{ div: 'class="container"' }, { div: 'class="row"' }]
+                        , pnTitle: { tag: 'div', attr: 'class="col-md-12 pn-margin-t-b-30" style="display:flow-root"' }
+                        , pnColLeft: {
+                            tag: 'div', attr: 'class="col-md-9"'
+                            , childTags: [{ div: 'class="row"' }]
+                            , pnDetail: { tag: 'div', attr: 'class="col-md-12"', childTags: [{ div: 'style="background:#fff;padding:15px;border-radius:1em"' }] }
+                            , pnPriceTable: { tag: 'div', attr: 'class="col-md-12"' }
+                            , pnCusTable: { tag: 'div', attr: 'class="col-md-12" style="margin-bottom: 30px"' }
+                        }
+                        , pnPriceBooking: { tag: 'div', attr: 'class="col-md-3"' }
+                    }
+                }
+
+                var objEvtPanel = {}
+
+                objEvtPanel.pnTitle = function (_idOrClassPn) {
+                    var IdOrClassPn = _idOrClassPn
+
+
+                    var strHtml = ''
+                    strHtml += '<h1 style="display:inline-block;float: left;"><span langkey="pg_Dft_TC_LtOrBk_MyOrderBooking"></span></h1>'
+                    $(IdOrClassPn).html(strHtml)
+
+                }
+                objEvtPanel.pnDetail = function (_idOrClassPn) {
+                    var IdOrClassPn = _idOrClassPn + '>div'
+
+
+                    pngPn.getTable2({
+                        objApi: null
+                        , objParams_Cus: null
+                        , editRltArr: function (arr) {
+                            var Arr = []
+                            Arr.push(Obj_OrderDetail)
+                            return Arr
+                        }
+                        , editRlt: function (value, key) {
+                            value['dtmDateFromTo'] = $.pngFormatDateTime(value.dtmDateFrom) + ' - ' + $.pngFormatDateTime(value.dtmDateTo)
+                            value['dtmDateFreeCancellation'] = $.pngFormatDateTime(value.dtmDateFreeCancellation)
+                            value['dblPriceTotal_View'] = $.pngFormatPrice(value.dblPriceTotal)
+                        }
+                        , objCols: {
+
+                            strOrderBookingCode: { name: '<span langkey="pg_Dft_TC_OrDtl_OrderBookingCode"></span>' }
+                            , dtmDateFromTo: { name: '<span langkey="pg_Dft_TC_OrDtl_DateFrom"></span> - <span langkey="pg_Dft_TC_OrDtl_DateTo"></span>' }
+                            //, dtmDateFreeCancellation: { name: '<span langkey="pg_Dft_TC_OrDtl_FreeCancellationTill"></span>' }
+                            , intTotalPax: { name: '<span langkey="pg_Dft_TC_OrDtl_TotalPax"></span>' }
+                            , dblPriceTotal_View: { name: '<span langkey="pg_Dft_TC_OrDtl_TotalPrice"></span>' }
+
+                        }
+                        // ,editTableInput:function(){}
+                        , changeCkbMaster: function (_IsChecked, _intRowID, _arrList) {
+                        }
+                        , customEvent: function (_iOrClass_Pn) {
+
+                        }
+                        // ,changeInput:function(){}
+                        , IsViewCheckBoxMain: false
+                        , idOrClass: IdOrClassPn
+                    })
+
+                    // $(IdOrClassPn).html(strHtml)
+
+
+                }
+
+                objEvtPanel.pnPriceTable = function (_idOrClassPn) {
+                    var IdOrClassPn = _idOrClassPn
+
+                    var strHtml = ''
+                    $(IdOrClassPn).html(strHtml)
+
+
+                    $.ModulePage_OrderStep1_PriceTable({
+                        strUserGUID: options.strUserGUID
+                        , strCompanyPartnerGUID: options.strCompanyPartnerGUID
+                        , strCompanyOwnerGUID: options.strCompanyOwnerGUID
+                        , strOrderBookingGUID: options.strOrderBookingGUID
+                        , arrCustomerList: arrCustomerList
+                        , objOrderDetail: Obj_OrderDetail
+                        , arrOrderBookingItem: arrOrderBookingItem
+                        , arrOrderBookingItemDetail: arrOrderBookingItemDetail
+                        , arrAgentOrderBookingItemDetail: Arr_AgentOrderBookingItemDetail
+                        , arrOrderBookingByAgentHost: Arr_OrderBookingByAgentHost
+                        , objPaymentAmountAndPeriod: ObjPaymentAmountAndPeriod
+                        , arrPaymentTerm: Arr_PaymentTerm
+                        , dblMarkupValue: null
+                        , idOrClass: IdOrClassPn
+                        , changeMarkupVal: function (_dblMarkupValue) {
+                        }
+                    })
+
+                }
+
+                objEvtPanel.pnCusTable = function (_idOrClassPn) {
+                    var IdOrClassPn = _idOrClassPn
+
+
+                    $.ModulePage_OrderStep1_CustomerList({
+                        strUserGUID: options.strUserGUID
+                        , strCompanyPartnerGUID: options.strCompanyPartnerGUID
+                        , strCompanyOwnerGUID: options.strCompanyOwnerGUID
+                        , strOrderBookingGUID: options.strOrderBookingGUID
+                        , objOrderDetail: Obj_OrderDetail
+                        , arrCustomerList: arrCustomerList
+                        , arrOrderBookingItem: arrOrderBookingItem
+                        , idOrClass: IdOrClassPn
+                    })
+
+                }
+
+
+
+                objEvtPanel.pnPriceBooking = function (_idOrClassPn) {
+                    var IdOrClassPn = _idOrClassPn
+
+
+                    if ($(window).width() >= 1024) {
+
+
+                        var strHtml = ''
+                        strHtml += '<div>'
+                        strHtml += '<div class="pnCntBook row" style="background:#fff;box-shadow: 0px 0px 18px -7px;padding:15px;border-radius:1em">'
+                        strHtml += '<div class="col-md-12">'
+                        strHtml += '<div class=""><h3 class="pn-margin-t-b-15" style="font-weight:bold;color:#257EF8"><b>Đặt dịch vụ</b></h3></div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="pnForm col-md-12">'
+                        strHtml += '<div class="row" style="font-weight:bold;background:#F5F7F8;padding:7px 0">'
+                        strHtml += '<div class="col-md-7 col-xs-6">Số dịch vụ</div><div class="col-md-5 col-xs-6" align="right">' + arrOrderBookingItem.length + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="font-weight:bold;padding:7px 0">'
+                        strHtml += '<div class="col-md-7 col-xs-6">' + pngElm.getLangKey({ langkey: 'sys_Txt_SubTotal' }) + '</div><div class="col-md-5 col-xs-6" align="right">' + $.pngFormatPrice(Obj_OrderDetail.dblPriceSubTotal) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="color:#707070;padding:7px 0;border-bottom:1px solid #ccc">'
+                        strHtml += '<div class="col-md-7 col-xs-6">Voucher</div><div class="col-md-5 col-xs-6" align="right">' + $.pngFormatPrice(Obj_OrderDetail.dblPriceDiscount) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="color:#257EF8;font-weight:bold;padding:7px 0">'
+                        strHtml += '<div class="col-md-7 col-xs-6">Tổng giá:</div><div class="col-md-5 col-xs-6" align="right">' + $.pngFormatPrice(Obj_OrderDetail.dblPriceTotal) + '</div>'
+                        strHtml += '</div>'
+                        //strHtml += '<div class="row" style="color:#F7904D;padding:7px 0;font-size: 12px">'
+                        //strHtml += '<div class="col-md-7 col-xs-6">Hoa hồng được nhận</div><div class="col-md-5 col-xs-6" align="right">' + $.pngFormatPrice(Obj_OrderDetail.dblPriceTotalAgentCom) + '</div>'
+                        //strHtml += '</div>'
+                        //strHtml += '<div class="row" style="color:#F7904D;padding:7px 0">'
+                        //strHtml += '<div class="col-md-7 col-xs-6">Lợi nhuận</div><div class="col-md-5 col-xs-6" align="right">' + $.pngFormatPrice(Obj_OrderDetail.dblTotalProfitAgent) + '</div>'
+                        //strHtml += '</div>'
+                        //strHtml += '</div>'
+                        strHtml += '<div class="row">'
+                        strHtml += '<div class="col-md-12">'
+                        if (!Obj_OrderDetail.dblPriceDiscount || Obj_OrderDetail.dblPriceDiscount == 0)
+                            strHtml += '<button class="btn" style="width:100%;border-radius:10em;padding:5px;margin-bottom:10px;background:#F5F7F8;" id="btnPromotion"><i class="fa fa-plus-square-o" style="margin-right:5px"></i>' + pngElm.getLangKey({ langkey: 'pg_Dft_TC_OrDtl_PROMOTIONCODE' }) + '</button>'
+                        strHtml += '<span class="txtErr" style="color:red"></span>'
+                        strHtml += '<button class="btn" style="width:100%;border-radius:10em;padding:5px;margin-bottom:10px;background:#257EF8;color:#fff" id="Proceed"><span langkey="sys_Btn_ProceedtoBook"></span></button>'
+                        strHtml += '<button class="btn" style="width:100%;border-radius:10em;padding:5px;background:#F7904D;color:#fff" id="btnHoldBK"><span langkey="sys_Btn_HoldonTimeLimit"></span></button>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        $(IdOrClassPn).html(strHtml)
+
+                        var objPassengerLead = arrCustomerList.filter(function (item) { return item.IsLeader })[0]
+                        //if (!objPassengerLead.strPassengerName) {
+
+                        //    $('.txtErr', IdOrClassPn).html('Bạn hãy điền thông tin của Trưởng đoàn trước khi tiến hành Book đặt/Giữ trước')
+                        //    $('#Proceed,#btnHoldBK', IdOrClassPn).attr('disabled', true)
+                        //}
+
+
+                        $(IdOrClassPn + ' .showhide').hide()
+                        //$(window).scroll(function () {
+                        //    if ($(IdOrClassPn + '>div').length) {
+                        //        var strPn = $(IdOrClassPn).width();
+                        //        if ($(this).scrollTop() + 20 > $(IdOrClassPn).offset().top) {
+                        //            $(IdOrClassPn + '>div').attr('style', 'position:fixed;top: 20px;width:' + strPn + 'px')
+                        //        } else {
+                        //            $(IdOrClassPn + '>div').attr('style', '')
+                        //        }
+                        //    }
+
+                        //});
+
+
+                        var lastScrollTop = 20;
+
+                        var intTop = 20
+                        $(window).scroll(function () {
+
+                            var st = $(this).scrollTop();
+
+                            if ($(IdOrClassPn + '>div').height() < $(IdOrClassPn).parent().height()) {
+
+                                var strPn = $(IdOrClassPn + '>div').width();
+                                if ($(this).scrollTop() + 20 > $(IdOrClassPn).offset().top) {
+
+                                    if (st > lastScrollTop) {
+                                        // downscroll code
+
+                                        if (($(this).scrollTop() + $(window).height()) < ($(IdOrClassPn + '>div').offset().top + $(IdOrClassPn + '>div').height()) || ($(this).scrollTop() + $(window).height()) > $('app-footer-root').offset().top) {
+
+
+                                            intTop = intTop + (lastScrollTop - st)
+
+                                        }
+
+
+                                    } else {
+                                        // upscroll code
+
+                                        intTop = intTop + (lastScrollTop - st)
+
+
+                                    }
+
+                                    if (intTop > 20) {
+                                        intTop = 20
+                                    }
+
+                                    $(IdOrClassPn + '>div').attr('style', 'position:fixed;top: ' + intTop + 'px;width:' + strPn + 'px')
+
+                                } else {
+                                    intTop = 20
+                                    $(IdOrClassPn + '>div').attr('style', '')
+                                }
+
+                            } else {
+                                $(IdOrClassPn + '>div').attr('style', '')
+                            }
+
+                            lastScrollTop = st;
+
+                        });
+
+
+                    } else {
+
+                        var strHtml = ''
+                        strHtml += '<div class=" pn-round-1em" style="position:fixed;bottom:0;right:0;left:0;z-index:1;background:#fff;box-shadow: 0px 0px 18px -7px;">'
+                        // strHtml+= '<div class="pnCntBook row" style="background:#fff;box-shadow: 0px 0px 18px -7px;padding:15px;border-radius:1em">'
+                        // strHtml+= '<div class="col-md-12">'
+                        //     strHtml+='<div class=""><h3 class="pn-margin-t-b-15" style="font-weight:bold;color:#257EF8"><b>Đặt dịch vụ</b></h3></div>'
+                        // strHtml+= '</div>'
+
+
+                        strHtml += '<div class="showhide" style="background: #e6e6e6;text-align: center;"><i class="fa fa-angle-double-down"></i></div>'
+                        strHtml += '<div style="background:#fff;padding:15px;" class="pnCntBook">'
+                        strHtml += '<div class="pnForm col-xs-6">'
+                        strHtml += '<div class="row" style="font-weight:bold;background:#F5F7F8;padding:2px 0">'
+                        strHtml += '<div class="">Số dịch vụ: ' + arrOrderBookingItem.length + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="font-weight:bold;padding:2px 0">'
+                        strHtml += '<div class="">' + pngElm.getLangKey({ langkey: 'sys_Txt_SubTotal' }) + ': ' + $.pngFormatPrice(Obj_OrderDetail.dblPriceSubTotal) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="color:#707070;padding:2px 0">'
+                        strHtml += '<div class="">Voucher: ' + $.pngFormatPrice(Obj_OrderDetail.dblPriceDiscount) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="color:#257EF8;font-weight:bold;padding:2px 0">'
+                        strHtml += '<div class="">Tổng giá: ' + $.pngFormatPrice(Obj_OrderDetail.dblPriceTotal) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="color:#F7904D;padding:2px 0;font-size: 12px">'
+                        strHtml += '<div class="">Hoa hồng được nhận: ' + $.pngFormatPrice(Obj_OrderDetail.dblPriceTotalAgentCom) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '<div class="row" style="color:#F7904D;padding:2px 0">'
+                        strHtml += '<div class="">Lợi nhuận: ' + $.pngFormatPrice(Obj_OrderDetail.dblTotalProfitAgent) + '</div>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        // strHtml+= '<div class="row">'
+                        strHtml += '<div class="col-xs-6">'
+                        if (!Obj_OrderDetail.dblPriceDiscount || Obj_OrderDetail.dblPriceDiscount == 0)
+                            strHtml += '<button class="btn" style="width:100%;border-radius:10em;padding:5px;margin-bottom:10px;background:#F5F7F8;" id="btnPromotion"><i class="fa fa-plus-square-o" style="margin-right:5px"></i>' + pngElm.getLangKey({ langkey: 'pg_Dft_TC_OrDtl_PROMOTIONCODE' }) + '</button>'
+                        strHtml += '<span class="txtErr" style="color:red"></span>'
+                        strHtml += '<button class="btn" style="width:100%;border-radius:10em;padding:5px;margin-bottom:10px;background:#257EF8;color:#fff" id="Proceed"><span langkey="sys_Btn_ProceedtoBook"></span></button>'
+                        strHtml += '<button class="btn" style="width:100%;border-radius:10em;padding:5px;background:#F7904D;color:#fff" id="btnHoldBK"><span langkey="sys_Btn_HoldonTimeLimit"></span></button>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        strHtml += '</div>'
+                        $(IdOrClassPn).html(strHtml)
+
+
+                        $(IdOrClassPn + ' .showhide').click(function () {
+                            if ($(this).find('i').hasClass('fa-angle-double-down')) {
+                                $(IdOrClassPn + ' .pnCntBook').hide()
+                                $(this).find('i').removeClass('fa-angle-double-down').addClass('fa-angle-double-up')
+                            } else {
+                                $(IdOrClassPn + ' .pnCntBook').show()
+                                $(this).find('i').removeClass('fa-angle-double-up').addClass('fa-angle-double-down')
+                            }
+                        })
+
+                        var objPassengerLead = arrCustomerList.filter(function (item) { return item.IsLeader })[0]
+                        //if (!objPassengerLead.strPassengerName) {
+                        //    $('.txtErr', IdOrClassPn).html('Bạn hãy điền thông tin của Trưởng đoàn trước khi tiến hành Book đặt/Giữ trước')
+                        //    $('#Proceed,#btnHoldBK', IdOrClassPn).attr('disabled', true)
+                        //}
+                    }
+
+
+
+                    $('#btnPromotion').click(function () {
+                        $.ModulePage_BookingDetailMain_PopUpPromotion({
+                            strUserGUID: options.strUserGUID
+                            , strCompanyPartnerGUID: options.strCompanyPartnerGUID
+                            , strCompanyOwnerGUID: options.strCompanyOwnerGUID
+                            , intCateID: arrOrderBookingItemDetail[0].intCateID
+                            , strOrderBookingGUID: options.strOrderBookingGUID
+                        })
+                    })
+
+                    $('#btnHoldBK').click(function () {
+                        //GetCheckEnable({
+                        //    OnSuccess: function (_IsCheck) {
+                        //        if (_IsCheck) {
+                                    $.Confirm({
+                                        strContent: '<span langkey="sys_Cfm_AYS"></span>'
+                                        , OnSuccess: function () {
+
+
+                                            png.postListApiGetValue({
+                                                objList_Api: ObjList_Api
+                                                , objListApi_RtnVal: {
+                                                    'GetCheckRemainForServicesBooking': {
+                                                        objParams_Cus: {}
+                                                        , OnSuccess: function (data) {
+
+                                                            var obj = JSON.parse(data)[0][0]
+                                                            if (obj.IsCheckBooking) {
+
+                                                                png.postListApiGetValue({
+                                                                    objList_Api: ObjList_Api
+                                                                    , objListApi_RtnVal: {
+                                                                        'AddNewBookingByTraveller': {
+                                                                            objParams_Cus: {
+                                                                                intOrderStatusID: 3
+                                                                            }
+                                                                            , OnSuccess: function (data) {
+                                                                                var obj = JSON.parse(data)[0][0]
+
+
+                                                                                //png.postSendEmail({
+                                                                                //    strUserGUID: null
+                                                                                //    , strEmailsSendTo: null
+                                                                                //    , strEmailsCC: null
+                                                                                //    , strEmailTemplateSubject: null
+                                                                                //    , IsBodyHtml: 1
+                                                                                //    , strEmailTemplateContent: null
+                                                                                //    , strTempApiUrl: 'api/system/GetEmailSendAgentHostByAgentHold'
+                                                                                //    , objTempPar: {
+                                                                                //        strUserGUID: options.strUserGUID
+                                                                                //        , strBookingGUID: obj.strBookingGUID
+                                                                                //        , intLangID: $.pngGetLangID()
+                                                                                //        , strEmailTemplateCode: 'HOL'
+                                                                                //    }
+                                                                                //    , OnSuccess: function (data) {
+                                                                                        GetLinkBooking()
+                                                                                //    }
+                                                                                //})
+
+
+                                                                                function GetLinkBooking() {
+                                                                                    //var strUrl = coreLoadPage.getUrlHost()
+                                                                                    //strUrl = $.pngGetQSVal('cname', $.pngGetQSVal('cname'), strUrl)
+                                                                                    //strUrl = $.pngGetQSVal('page', 'listbooking', strUrl)
+                                                                                    // strUrl = $.pngGetQSVal('page', 'bookingdetail',strUrl)
+                                                                                    // strUrl = $.pngGetQSVal('BKID', obj.strBookingGUID,strUrl)
+
+                                                                                    window.location.href = '/user/bookings'
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                })
+
+                                                            } else {
+                                                                $.Confirm({ strContent: 'Service: ' + obj.strServiceName + ' > ' + obj.intTotalPaxRemain + ' Pax' });
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            })
+
+                                        }
+                                    })
+
+                        //        } else {
+                        //            $.Confirm({
+                        //                strContent: 'Bạn hãy xóa các Dịch vụ không thể Book được.'
+                        //            })
+                        //        }
+                        //    }
+                        //})
+                    })
+
+                    $("#Proceed").click(function () {
+                        //GetCheckEnable({
+                        //    OnSuccess: function (_IsCheck) {
+                        //        if (_IsCheck) {
+
+                                    $.ModulePage_OrderStep1_PopUpPaymentBooking({
+                                        strUserGUID: options.strUserGUID
+                                        , strCompanyPartnerGUID: options.strCompanyPartnerGUID
+                                        , strCompanyOwnerGUID: null
+                                        , strOrderBookingGUID: options.strOrderBookingGUID
+                                        , objPaymentAmountAndPeriod: ObjPaymentAmountAndPeriod
+                                        , objOrderDetail: Obj_OrderDetail
+                                        , arrPaymentTerm: Arr_PaymentTerm
+                                        , arrOrderBookingByAgentHost: Arr_OrderBookingByAgentHost
+                                        , OnSuccess: function () {
+                                        }
+                                    })
+
+                        //        } else {
+                        //            $.Confirm({
+                        //                strContent: 'Bạn hãy xóa các Dịch vụ không thể Book được.'
+                        //            })
+                        //        }
+                        //    }
+                        //})
+                    })
+
+
+                }
+
+                pngPn.getPanelHtml({            // Get ra panel dạng html
+                    objPanel: objPanel
+                    , objEvtPanel: objEvtPanel
+                    , idOrClass: IdOrClass_Main  // Id or class chính
+                    , OnChangeIdPn: function (_Fn) {
+                        Obj_FN_Main.pnMain = _Fn    // Hàm đổi trang
+                    }
+                })
+            }
+
+            function GetCheckEnable(_Opt) {
+                var Dft = {
+                    OnSuccess: function () {
+                    }
+                }
+                _Opt = $.extend(Dft, _Opt);
+
+                var arrOrderBookingItemDetail = []
+                png.postListApiGetValue({
+                    objList_Api: ObjList_Api
+                    // ,objList_ComboValue: ObjList_ComboValue
+                    , objListApi_RtnVal: {
+                        'GetListOrderBooking': {
+                            objParams_Cus: {
+                                tblsReturn: '[0][2][3][5][6]'
+                            }
+                            , OnSuccess: function (data) {
+                                Obj_OrderDetail = JSON.parse(data)[0][0]
+                                arrOrderBookingItemDetail = JSON.parse(data)[2]
+                                Arr_PaymentTerm = JSON.parse(data)[5]
+                                Arr_OrderBookingByAgentHost = JSON.parse(data)[6]
+                            }
+                        },
+                        'GetPaymentAmountAndPeriod': {
+                            objParams_Cus: {
+                            }
+                            , OnSuccess: function (data) {
+                                ObjPaymentAmountAndPeriod = JSON.parse(data)[0][0]
+                            }
+                        },
+                    }
+                    , OnSuccessList: function (data) {
+                        var IsCheck = true
+                        if (arrOrderBookingItemDetail.filter(function (item) { return !item.IsEnable }).length > 0) {
+                            IsCheck = false
+                        }
+                        _Opt.OnSuccess.call(this, IsCheck)
+                    }
+                })
+
+
+            }
+        }
+
+
+        $.ModulePage_OrderStep1_PriceTable = function (options) {
+            var defaults = {
+                strUserGUID: ''
+                , strCompanyPartnerGUID: ''
+                , strCompanyOwnerGUID: ''
+                , strOrderBookingGUID: ''
+                , arrCustomerList: []
+                , objOrderDetail: {}
+                , arrOrderBookingItem: []
+                , arrOrderBookingItemDetail: []
+                , arrAgentOrderBookingItemDetail: []
+                , arrOrderBookingByAgentHost: []
+                , objPaymentAmountAndPeriod: {}
+                , arrPaymentTerm: []
+                , dblMarkupValue: 0
+                , idOrClass: ''
+                , OnSuccess: function () {
+                }
+                , changeMarkupVal: function (_dblMarkupValue) {
+                    Dbl_MarkupValue = _dblMarkupValue
+                }
+            }
+            options = $.extend(defaults, options);
+
+
+            var Arr_OrderBookingByAgentHost = options.arrOrderBookingByAgentHost
+
+
+            var ObjCustomerLeader = options.arrCustomerList.filter(function (item) { return item.IsLeader })[0]
+
+            var ObjList_Api = {
+                UpdAgentOrderBookingItemDetailForPrice: {
+                    strApiLink: 'api/booking/UpdAgentOrderBookingItemDetailForPrice'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: options.strOrderBookingGUID
+                        , strAgentOrderBookingItemDetailGUID: null
+                        , intMakupTypeID: null
+                        , dblMarkupService: null
+                        , dblPriceUnitAgent: null
+                        , IsLastUpdate: null
+                    }
+                },
+                GetCheckPassengerByEmail: {
+                    strApiLink: 'api/traveller/GetCheckPassengerByEmail'
+                    , objParams: {
+                        strEmail: null
+                    }
+                },
+                AddPassengerToRegister: {
+                    strApiLink: 'api/traveller/AddPassengerToRegister'
+                    , objParams: {
+                        strCountryGUID: null
+                        , intSaluteID: null
+                        , strFirstName: null
+                        , strLastName: null
+                        , strMobileNumber: null
+                        , dtmDateOfBirth: null
+                        , strPassengerAddress: null
+                        , strRemark: null
+                        , strEmail: null
+                        , IsEnable: 1
+                        , strUserGUID: options.strUserGUID
+                    }
+                },
+                AddOrUpdPassengerOrderBooking: {
+                    strApiLink: 'api/traveller/AddOrUpdPassengerOrderBooking'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: options.strOrderBookingGUID
+                        , strPassengerGUID: null
+                    }
+                },
+                DelOrderBookingItem: {
+                    strApiLink: 'api/booking/DelOrderBookingItem'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingItemGUID: null
+                    }
+                },
+
+            }
+
+
+            var ObjList_ComboValue = {
+                'Arr_Markup_Ddl': {
+                    strTableName: 'MC57'
+                    , strFeildSelect: 'MC57_MakupTypeID AS intID,MC57_MakupName AS strName'
+                    , strWhere: ' WHERE IsActive=1 ORDER BY MC57_MakupTypeID'
+                }
+            }
+
+            var ArrPriceTable = []
+            var ArrPriceTable_HT = []
+
+
+            var Arr_PriceTableAgent_Tour = []
+
+            var Arr_Markup_Ddl = []
+
+            var ObjOrderDetail = options.objOrderDetail
+
+
+            var strHtmlMain = ''
+
+            strHtmlMain += '<h3 class="pn-margin-t-30 pn-margin-b-15"><b>Bảng giá</b></h3>'
+            strHtmlMain += '<div id="pnTabList"></div>'
+            strHtmlMain += '<div id="pnTabCnt" style="padding:20px 15px; background:#fff;border-radius:1em;"></div>'
+            strHtmlMain += '<style>'
+            strHtmlMain += '#FTD-Itltheme-1.style-1 .pnTab .tab.active{background: #ffffff; color: #257ef8; font-weight: bold;padding:10px 30px}'
+            strHtmlMain += '#FTD-Itltheme-1.style-1 .pnTab .tab{background: #EBEDEE; cursor: pointer;color:#000; padding: 10px 30px;display: inline-block;font-size: 16px;}'
+            strHtmlMain += '#FTD-Itltheme-1.style-1 .pnTab .tab:first-child{border-top-left-radius:1em;}'
+            strHtmlMain += '#FTD-Itltheme-1.style-1 .pnTab{border-bottom:none}'
+            strHtmlMain += '</style>'
+
+
+
+            $(options.idOrClass).html(strHtmlMain)
+
+
+            var intRowIDTour = 0
+
+            var strOrderBookingItemGUID = ''
+            console.log(options.arrOrderBookingItemDetail)
+            options.arrOrderBookingItemDetail.forEach(function (value2, key2) {
+
+                // if(value2.intCateID == 18 || value2.intCateID == 19 || value2.intCateID == 33)
+                if (value2.intQuantity) {
+                    // if(value2.intQuantityTypeID == 1){
+                    intRowIDTour++
+                    var objBookingItem = $.pngExtendObj(value2, {
+                        'No': intRowIDTour,
+                        strBookingServiceName: value2.strServiceName,
+                        strBookingDateFrom: $.pngFormatDateTime(value2.dtmDateFrom),
+                        strBookingDateTo: $.pngFormatDateTime(value2.dtmDateTo),
+                        intTotalPax: value2.intQuantity,
+                        strDtmDateFreeCancellation: $.pngFormatDateTime(value2.strDtmDateFreeCancellation),
+                        dblPriceUnit: value2.intUnitPrice,
+                        dblPriceUnitView: $.pngFormatPrice(value2.intUnitPrice),
+                        dblPriceTotal: value2.dblPriceTotal,
+                        dblPriceTotalView: $.pngFormatPrice(value2.dblPriceTotal),
+                        dblPriceAgentComUnit: value2.dblPriceAgentComUnit,
+                        dblPriceTotalAgentCom: value2.dblPriceTotalAgentCom,
+                        IsEnable: value2.IsEnable,
+                        IsMainService: true,
+
+                        strHtmlAction: '<button class="btnDelete btn " intRowID="' + key2 + '" style="background: #ECEDEE;"><i class="fa fa-trash"></i></button>',
+                    })
+
+                    if (value2.intCateID == 18 || value2.intCateID == 19 || value2.intCateID == 33) {
+                        if (value2.strOrderBookingItemGUID != strOrderBookingItemGUID) {
+                            strOrderBookingItemGUID = value2.strOrderBookingItemGUID
+                        } else {
+                            objBookingItem.strBookingServiceName = '- ' + objBookingItem.strBookingServiceName
+                            objBookingItem.strBookingDateFrom = null
+                            objBookingItem.strBookingDateTo = null
+                            objBookingItem.strDtmDateFreeCancellation = null
+                            objBookingItem.IsMainService = false
+                            objBookingItem['strHtmlAction'] = null
+                        }
+                    }
+                    if (value2.intCateID == 1 || value2.intCateID == 31 || value2.intCateID == 34) {
+
+                        if (!value2.strFocGUID) {
+                            if (value2.strOrderBookingItemGUID != strOrderBookingItemGUID) {
+                                strOrderBookingItemGUID = value2.strOrderBookingItemGUID
+                                objBookingItem.strBookingServiceName = value2.strSupplierName + ' - ' + value2.strItemTypeName + ' - ' + objBookingItem.strBookingServiceName
+                            } else {
+                                objBookingItem.strBookingServiceName = '- ' + objBookingItem.strBookingServiceName
+                                objBookingItem.strBookingDateFrom = null
+                                objBookingItem.strBookingDateTo = null
+                                objBookingItem.strDtmDateFreeCancellation = null
+                                objBookingItem.IsMainService = false
+                                objBookingItem['strHtmlAction'] = null
+                            }
+                        }
+                        else {
+                            if (value2.strOrderBookingItemGUID != strOrderBookingItemGUID) {
+                                strOrderBookingItemGUID = value2.strOrderBookingItemGUID
+                                objBookingItem.strBookingServiceName = value2.strSupplierName + ' - ' + objBookingItem.strBookingServiceName
+                            } else {
+                                objBookingItem.strBookingServiceName = '- ' + objBookingItem.strBookingServiceName
+                                objBookingItem.strBookingDateFrom = null
+                                objBookingItem.strBookingDateTo = null
+                                objBookingItem.strDtmDateFreeCancellation = null
+                            }
+
+                            objBookingItem.IsMainService = false
+                            objBookingItem['strHtmlAction'] = null
+                        }
+                    }
+
+                    if (objBookingItem.strBookingDateFrom)
+                        objBookingItem['dtmDateFromTo_View'] = objBookingItem.strBookingDateFrom + ' - ' + objBookingItem.strBookingDateTo
+
+                    objBookingItem = $.pngExtendObj(value2, objBookingItem)
+                    ArrPriceTable.push(objBookingItem)
+                    // }else{
+                    //     ArrPriceTable.push({
+                    //         'No':''
+                    //         ,strBookingServiceName:value2.strServiceName
+                    //         ,strBookingDateFrom:null
+                    //         ,strBookingDateTo:null
+                    //         ,intTotalPax: value2.intQuantity
+                    //         ,strDtmDateFreeCancellation: null
+                    //         ,dblPriceUnit: value2.intUnitPrice
+                    //         ,dblPriceUnitView: $.pngFormatPrice (value2.intUnitPrice)
+                    //         ,dblPriceTotal: value2.dblPriceTotal
+                    //         ,dblPriceTotalView: $.pngFormatPrice (value2.dblPriceTotal)
+                    //         ,dblPriceAgentComUnit: value2.dblPriceAgentComUnit
+                    //         ,dblPriceTotalAgentCom: value2.dblPriceTotalAgentCom
+                    //     })
+                    // }
+                }
+
+                // if(value2.intCateID == 1)
+                //     ArrPriceTable_HT.push({
+                //         'No':null
+                //         ,strBookingServiceName:value2.strServiceName
+                //         ,strBookingDateFrom:value2.dtmDateFrom
+                //         ,strBookingDateTo:value2.dtmDateTo
+                //         ,intTotalPax: value2.intQuantity
+                //         ,strDtmDateFreeCancellation: value2.strDtmDateFreeCancellation
+                //         ,dblPriceUnitView: $.pngFormatPrice (value2.intUnitPrice)
+                //         ,dblPriceTotalView: $.pngFormatPrice (value2.dblPriceTotal)
+                //     })
+
+
+                // options.arrOrderBookingChildAgeDetail.forEach(function(value3,key3){
+                //     if(value2.strOrderBookingItemDetailGUID==value3.strOrderBookingItemDetailGUID){
+                //         ArrPriceTable.push({
+                //             'No':''
+                //             ,strBookingServiceName:value3.strOrderBookingChildAgeDetailName
+                //             ,strBookingDateFrom:''
+                //             ,strBookingDateTo:''
+                //             ,intTotalPax: value3.intQuantity
+                //             ,dblPriceUnit:$.pngFormatPrice (value3.dblPriceUnit)
+                //             ,dblPriceTotal: $.pngFormatPrice (value3.dblPriceTotal)
+                //         })
+                //     }
+                // })
+
+            })
+
+            options.arrAgentOrderBookingItemDetail.forEach(function (value, key) {
+                // if(value.intCateID == 18 || value.intCateID == 19 || value.intCateID == 33)
+                if (value.intQuantity) {
+                    Arr_PriceTableAgent_Tour.push(value)
+                }
+            })
+
+            var intRowID = 0
+
+            Arr_PriceTableAgent_Tour.forEach(function (value, key) {
+                // if(value.intQuantityTypeID == 1){
+                intRowID++
+                value['No'] = intRowID
+
+                value.strBookingDateFrom = $.pngFormatDateTime(value.dtmDateFrom)
+                value.strBookingDateTo = $.pngFormatDateTime(value.dtmDateTo)
+
+                if (value.strBookingDateFrom)
+                    value['dtmDateFromTo_View'] = value.strBookingDateFrom + ' - ' + value.strBookingDateTo
+                // }else{
+                //     value['strBookingDateFrom']=null
+                //     value['strBookingDateTo']=null
+                // }
+
+                value.dblPriceUnitView = $.pngFormatPrice(value.dblPriceUnit)
+                value.dblPriceUnitAgentView = $.pngFormatPrice(value.dblPriceUnitAgent)
+                value.dblPriceTotalAgentView = $.pngFormatPrice(value.dblPriceTotalAgent)
+                value.dblPriceTotalView = $.pngFormatPrice(value.dblPriceTotal)
+            })
+
+            var Str_PassengerGUID = null
+
+            png.postListApiGetValue({
+                // objList_Api: ObjList_Api
+                objList_ComboValue: ObjList_ComboValue
+                , objListComboValue_RtnVal: {
+                    Arr_Markup_Ddl: {
+                        objParams_Cus: {}, OnSuccess: function (data) {
+                            Arr_Markup_Ddl.push({ '0': 'Input Price' })
+                            data.forEach(function (value, key) {
+                                var obj = {}
+                                obj[value.intID] = value.strName
+                                Arr_Markup_Ddl.push(obj)
+                            });
+                        }
+                    }
+                }
+                , OnSuccessList: function (data) {
+
+                    if (ObjCustomerLeader.strPassengerEmail) {
+                        png.postListApiGetValue({
+                            objList_Api: ObjList_Api
+                            , objListApi_RtnVal: {
+                                'GetCheckPassengerByEmail': {
+                                    objParams_Cus: {
+                                        strEmail: ObjCustomerLeader.strPassengerEmail
+                                    }
+                                    , OnSuccess: function (data) {
+                                        var obj = JSON.parse(data)[0][0]
+                                        if (obj.strPassengerGUID) {
+                                            Str_PassengerGUID = obj.strPassengerGUID
+                                        }
+
+                                        GetMainPanel()
+                                    }
+                                }
+                            }
+                        })
+                    } else {
+                        GetMainPanel()
+                    }
+                }
+            })
+
+
+
+            function GetMainPanel() {
+                //pngElm.getTabs({
+                //    idOrClassPnTab: options.idOrClass + ' #pnTabList'
+                //    , arrTab: {
+                //        'Price-Agent': {
+                //            name: pngElm.getLangKey({ langkey: 'pg_Dft_TC_OrDtl_PriceAgent' }), isDefault: true,
+                //            OnClick: function () {
+                //            }
+                //        },
+                //        'Your-Markup': {
+                //            name: pngElm.getLangKey({ langkey: 'pg_Dft_TC_OrDtl_YourMarkup' }), isDefault: false,
+                //            OnClick: function () {
+
+
+                //                GetMainPanel_TabMarkup({ idOrClass: options.idOrClass + ' #pnTabCnt' })
+
+
+                //            }
+                //        },
+                //    }
+                //    , IsPushUrl: true
+                //    // ,strQueryName:'tab'
+                //})
+                GetMainPanel_TabPriceCost({ idOrClass: options.idOrClass + ' #pnTabCnt' })
+            }
+
+
+            function GetMainPanel_TabPriceCost(_Opt) {
+                var Dft = {
+                    idOrClass: ''
+                    , OnSuccess: function () { }
+                }
+                _Opt = $.extend(Dft, _Opt);
+
+                var IdOrClass_Pn = _Opt.idOrClass
+
+                var strHtml = ''
+                strHtml += '<div class="">'
+                strHtml += '<div id="pnListPrice"></div>'
+                strHtml += '</div>'
+
+                //if (!ArrPriceTable.filter(function (item) { return item.intCateID == 34 }).length) {
+                //    strHtml += '<div style="display:flex;margin-bottom: 15px;">'
+                //    strHtml += '<div style="width:100%"><b>' + pngElm.getLangKey({ langkey: 'sys_Btn_AddMoreService' }) + ': </b></div>'
+                //    // strHtml+= '<div style="width:100%" align="right"><b>Sub Total: <span style="color:#257EF8">'+$.pngFormatPrice(ObjOrderDetail.dblPriceSubTotal)+'</span></b></div>'
+                //    strHtml += '</div>'
+                //    strHtml += '<div style="display: inline-block;background: #7BC719;padding: 0 7px;border-radius: 1em;">'
+                //    strHtml += '  <select id="ddlServiceType" class="form-control" style="display: inline-block;width: inherit;padding: 0;height: 27px;"></select>'
+                //    strHtml += '  <button class="btn btn-texticon" id="AddMoreService" style="background: #7BC719;color: #fff;"><i class="fa fa-plus-square-o" style="margin-right:5px"></i>' + pngElm.getLangKey({ langkey: 'sys_Btn_AddMoreService' }) + '</button>'
+                //    strHtml += '</div>'
+                //}
+                strHtml += '  <button class="btn btn-texticon txt-white bg-warning" id="btnExport" style="border: none;border-radius: 1em;padding: 9px;"><i class="fa fa-print" style="margin-right:5px"></i>Export</button>'
+
+                $(IdOrClass_Pn).html(strHtml)
+
+
+                //coreLoadPage.viewMenu({
+                //    strUserGUID: options.strUserGUID
+                //    , strCompanyGUID: options.strCompanyOwnerGUID
+                //    , OnSuccess: function (_arr) {
+                //        console.log(_arr)
+                //        var strHtml = ''
+                //        _arr.forEach(function (value) {
+                //            if (value.intCateID != 34)
+                //                strHtml += '<option value="' + value.strWebMenuGUID + '">' + value.strMenuName + '</option>'
+                //        })
+                //        $('#ddlServiceType').html(strHtml)
+                //    }
+                //})
+
+
+                // menuid=
+                $('#btnExport').click(function () {
+                    $.ModulePage_BookingDetailMain_PopUpViewQuote({
+                        strUserGUID: options.strUserGUID
+                        , arrListAgentBookingItemDetail: ArrPriceTable
+                        , arrOrderBookingByAgentHost: Arr_OrderBookingByAgentHost
+                        , intPriceType: 1
+                    })
+                })
+
+
+                $('#AddMoreService').click(function () {
+                    window.history.pushState("", "", coreLoadPage.getUrlHost());
+                    window.history.replaceState("", "", $.pngGetQSVal('menuid', $('#ddlServiceType').val()));
+                    window.history.replaceState("", "", $.pngGetQSVal('module', 'home'));
+
+                    var ArrChildAge = []
+                    options.arrCustomerList.forEach(function (value) {
+                        if (value.intAgeID == 4)
+                            ArrChildAge.push(value.intPassengerAges)
+                    })
+
+                    ObjOrderDetail.arrChildren = ArrChildAge
+
+                    ObjOrderDetail.arrListBookingItem = options.arrOrderBookingItem
+                    ObjOrderDetail.intTotalOrderBookingItem = options.arrOrderBookingItem.length
+                    coreLoadPage.viewOrderBooking({
+                        objOrderDetail: ObjOrderDetail
+                        , IsAdd: true
+                    })
+                    coreLoadPage.init()
+                })
+
+                var strHtml = ''
+                Arr_OrderBookingByAgentHost.forEach(function (value, key) {
+                    strHtml = ''
+                    strHtml += '<div class="pn-margin-t-b-15" style="display: flow-root;">'
+                    strHtml += '<b>' + (key + 1) + '. </b>' + value.strCompanyName + (value.strCompanyPhone ? ' - <b>' + pngElm.getLangKey({ langkey: 'sys_Txt_PhoneNumber' }) + ':</b> ' + value.strCompanyPhone : '') + (value.strCompanyEmail ? ' - <b>Email:</b> ' + value.strCompanyEmail : '')
+                    strHtml += '<div style="float: right;">'
+                    // strHtml+='<button class="btn bg-primary txt-white pn-round-10em" action="Booking" guid="'+value.strCompanyGUID+'" title="Chưa phát triển" disabled><span langkey="sys_Btn_ProceedtoBook"></span></button>'
+                    strHtml += '</div>'
+                    strHtml += '</div>'
+                    strHtml += '<div class="' + value.strOrderBookingByAgentHostGUID + '"></div>'
+                    //strHtml += '<div align="right"><b>' + pngElm.getLangKey({ langkey: 'sys_Txt_TotalCommission' }) + ': <span style="color:red">' + $.pngFormatPrice(value.strPriceTotalAgentCom) + '</span></b></div>'
+                    strHtml += '<div align="right"><b>' + pngElm.getLangKey({ langkey: 'sys_Txt_SubTotal' }) + ': <span style="color:#257EF8">' + $.pngFormatPrice(value.dblPriceSubTotal) + '</span></b></div>'
+
+
+                    $(IdOrClass_Pn + ' #pnListPrice').append(strHtml)
+
+                    var arr = ArrPriceTable.filter(function (item) { return item.strOrderBookingByAgentHostGUID == value.strOrderBookingByAgentHostGUID })
+
+                    GetListPriceForCompany(arr, IdOrClass_Pn + ' #pnListPrice .' + value.strOrderBookingByAgentHostGUID)
+                })
+
+                $('button', IdOrClass_Pn + ' #pnListPrice').click(function () {
+                    var action = $(this).attr('action')
+
+                    if (action == 'Booking') {
+                        $.ModulePage_OrderStep1_PopUpPaymentBooking({
+                            strUserGUID: options.strUserGUID
+                            , strCompanyPartnerGUID: options.strCompanyPartnerGUID
+                            , strCompanyOwnerGUID: $(this).attr('guid')
+                            , strOrderBookingGUID: options.strOrderBookingGUID
+                            , objPaymentAmountAndPeriod: options.objPaymentAmountAndPeriod
+                            , arrPaymentTerm: options.arrPaymentTerm
+                            , arrOrderBookingByAgentHost: Arr_OrderBookingByAgentHost
+                            , OnSuccess: function () {
+                            }
+                        })
+                    }
+                })
+
+
+
+
+                function GetListPriceForCompany(_arrPriceTable, _idOrClass) {
+
+                    var IdOrClass_Pn_Item = _idOrClass
+                    var ArrPriceTableItem = _arrPriceTable
+
+                    var strHtml = ''
+                    strHtml += '<div class="pnTbl"></div>'
+                    $(IdOrClass_Pn_Item).html(strHtml)
+
+                    var objCols = {
+                        'No': { name: '<span langkey="sys_Txt_Tbl-No"></span>' }
+                        , strServiceName_View: { name: '<span langkey="pg_Dft_TC_OrDtl_ServiceName"></span>' }
+                        // ,strDtmDateFreeCancellation: {name: pngElm.getLangKey({langkey:'pg_Dft_TC_OrDtl_FreeCancellationTill'})}
+                        , dtmDateFromTo_View: { name: '<span langkey="pg_Dft_TC_OrDtl_DateFrom"></span> - <span langkey="pg_Dft_TC_OrDtl_DateTo"></span>' }
+                        // ,strBookingDateTo: {name:''}
+                        , intTotalPax_View: { name: '<span langkey="pg_Dft_TC_OrDtl_TotalPax"></span>', strAttrTD: 'style="text-align:right"' }
+                        , dblPriceUnitView: { name: '<span langkey="pg_Dft_TC_OrDtl_PriceUnit"></span>', strAttrTD: 'style="text-align:right"' }
+                        , dblPriceTotalView: { name: '<span langkey="pg_Dft_TC_OrDtl_PriceTotal"></span>', strAttrTD: 'style="text-align:right"' }
+                        , strHtmlAction: { name: '<span langkey="sys_Txt_Action"></span>', strAttrTD: '' }
+                    }
+
+                    if ($(window).width() < 767) {
+                        objCols = {
+                            'No': { name: '<span langkey="sys_Txt_Tbl-No"></span>' }
+
+                            , strServiceName_View: {
+                                name: '<span langkey="pg_Dft_TC_OrDtl_ServiceName"></span>', strAttrTD: "style='vertical-align: top' "
+                                , list_input: {
+
+                                    strServiceName_View: {
+                                        title: '', attr: "class='col-md-12' "
+                                        , input: { IsNoInput: true, IsViewDtl: true }
+                                    },
+                                    dtmDateFromTo_View: {
+                                        title: '', attr: "class='col-md-12' style='margin-bottom:5px"
+                                        , input: { IsNoInput: true, IsViewDtl: true }
+                                    },
+
+                                }
+                            }
+                            , dblPriceUnitView: {
+                                name: '<span langkey="pg_Dft_TC_OrDtl_PriceUnit"></span>', strAttrTD: 'style="vertical-align:top"'
+                                , list_input: {
+                                    dblPriceUnitView: {
+                                        title: '', attr: "class='col-md-12'"
+                                        , input: { IsNoInput: true, IsViewDtl: true }
+                                    },
+                                    intTotalPax_View: {
+                                        title: '<span langkey="pg_Dft_TC_OrDtl_TotalPax"></span>', attr: "class='col-md-12' style='margin-bottom:5px'"
+                                        , input: { IsNoInput: true, IsViewDtl: true }
+                                    },
+                                    dblPriceTotalView: {
+                                        title: '<span langkey="pg_Dft_TC_OrDtl_PriceTotal"></span>', attr: "class='col-md-12' style='margin-bottom:5px'"
+                                        , input: { IsNoInput: true, IsViewDtl: true }
+                                    },
+                                    strHtmlAction: {
+                                        title: '', attr: "class='col-md-12' style='margin-bottom:5px'"
+                                        , input: { IsNoInput: true, IsViewDtl: true }
+                                    },
+
+                                }
+                            }
+                        }
+
+                    }
+                    console.log(ArrPriceTableItem)
+                    pngPn.getTable2({
+                        objApi: null
+                        , objParams_Cus: null
+                        , editRltArr: function (arr) {
+                            return ArrPriceTableItem
+                        }
+                        , editRlt: function (value, key) {
+                            value['No'] = (key + 1)
+
+                            value.intTotalPax_View = value.intTotalPax
+                            if (value['IsEnable']) {
+                                value.intTotalPax_View = '<a action="ViewQuantity" intRowID="' + key + '">' + value.intTotalPax + '</a>'
+                            }
+                            // valTbl['strHtmlAction']= '<button class="btnDelete btn btn-danger" data="' + keyTbl + '"><i class="fa fa-trash"></i></button>'
+
+                            var IsRoom = false
+                            if ((value.intQuantityTypeID >= 5 && value.intQuantityTypeID <= 8) || (value.intQuantityTypeID >= 18 && value.intQuantityTypeID <= 25))
+                                IsRoom = true
+
+                            value['strServiceName_View'] = value['strBookingServiceName'] + (value['intProductID'] == 2 && IsRoom ? ' <b>(Giá GIT)</b>' : '')
+
+                            if (value['strPriceListGUID'] && value['IsSystemPriceList'] != 1 && !value['strFocGUID'] && IsRoom) {
+                                value['strServiceName_View'] += '<br><i>(' + value['strPriceListName'] + ')</i>'
+                            }
+
+                            if (value['strTourGUID']) {
+                                if (value['IsEnable'])
+                                    value['strServiceName_View'] = '<a action="ViewTourDetail" intRowID="' + key + '">' + value['strBookingServiceName'] + '</a>'
+                                else
+                                    value['strServiceName_View'] += '<br><b>(Tour của bạn không thể Book được)</b>'
+                            }
+                        }
+                        , objCols: objCols
+                        // ,editTableInput:function(){}
+                        , changeCkbMaster: function (IsChecked, intRowID, arrList) {
+
+
+                            ArrPriceTableItem = arrList
+                        }
+                        , customEvent: function (_idOrClassPn) {
+
+                            $('a', _idOrClassPn).click(function () {
+                                var action = $(this).attr('action')
+                                var intRowID = $(this).attr('intRowID')
+
+                                if (action == 'ViewQuantity') {
+
+                                    if (ArrPriceTableItem[intRowID].intCateID == 18 || ArrPriceTableItem[intRowID].intCateID == 19 || ArrPriceTableItem[intRowID].intCateID == 33) {
+
+                                        $.ModulePage_OrderStep1_PriceTable_PopUpUpdQuantity({
+                                            strUserGUID: options.strUserGUID
+                                            , strOrderBookingGUID: options.strOrderBookingGUID
+                                            , strOrderBookingItemGUID: ArrPriceTableItem[intRowID].strOrderBookingItemGUID
+                                            , arrCustomerList: options.arrCustomerList
+
+                                            , OnSuccess: function () {
+                                                coreLoadPage.init()
+                                            }
+                                        })
+                                    }
+                                    if (ArrPriceTableItem[intRowID].intCateID == 1) {
+                                        $.ModulePage_OrderStep1_PriceTable_PopUpUpdQuantity_HT({
+                                            strUserGUID: options.strUserGUID
+                                            , strOrderBookingGUID: options.strOrderBookingGUID
+                                            , strOrderBookingItemGUID: ArrPriceTableItem[intRowID].strOrderBookingItemGUID
+                                            , arrOrderBookingItem: options.arrOrderBookingItem
+
+                                            , OnSuccess: function () {
+                                                coreLoadPage.init()
+                                            }
+                                        })
+                                    }
+
+                                    if (ArrPriceTableItem[intRowID].intCateID == 2) {
+                                        $.ModulePage_OrderStep1_PriceTable_PopUpUpdQuantity_TP({
+                                            strUserGUID: options.strUserGUID
+                                            , strOrderBookingGUID: options.strOrderBookingGUID
+                                            , strOrderBookingItemGUID: ArrPriceTableItem[intRowID].strOrderBookingItemGUID
+                                            , arrOrderBookingItem: options.arrOrderBookingItem
+
+                                            , OnSuccess: function () {
+                                                coreLoadPage.init()
+                                            }
+                                        })
+                                    }
+
+                                    if (ArrPriceTableItem[intRowID].intCateID == 31) {
+                                        $.ModulePage_OrderStep1_PriceTable_PopUpUpdQuantity_TP({
+                                            strUserGUID: options.strUserGUID
+                                            , strOrderBookingGUID: options.strOrderBookingGUID
+                                            , strOrderBookingItemGUID: ArrPriceTableItem[intRowID].strOrderBookingItemGUID
+                                            , arrOrderBookingItem: options.arrOrderBookingItem
+
+                                            , OnSuccess: function () {
+                                                coreLoadPage.init()
+                                            }
+                                        })
+                                    }
+
+                                    if (ArrPriceTableItem[intRowID].intCateID == 34) {
+                                        $.ModulePage_OrderStep1_PriceTable_PopUpUpdQuantity_VC({
+                                            strUserGUID: options.strUserGUID
+                                            , strOrderBookingGUID: options.strOrderBookingGUID
+                                            , strOrderBookingItemGUID: ArrPriceTableItem[intRowID].strOrderBookingItemGUID
+                                            , arrOrderBookingItem: options.arrOrderBookingItem
+
+                                            , OnSuccess: function () {
+                                                coreLoadPage.init()
+                                            }
+                                        })
+                                    }
+                                }
+
+
+                                if (action == "ViewTourDetail") {
+
+                                    var obj = ArrPriceTableItem[intRowID]
+                                    $.ModulePage_BookingDetailMain_PopUpTourDetail({
+                                        strUserGUID: options.strUserGUID
+                                        , strTourGUID: obj['strTourGUID']
+                                    })
+                                }
+                            })
+
+
+                            $('.btnDelete', _idOrClassPn).click(function () {
+                                var intRowID = $(this).attr('intRowID')
+                                if (ArrPriceTableItem.filter(function (item) { return item.IsMainService }).length == 1) {
+                                    $.Confirm({
+                                        strContent: 'Đơn hàng này của bạn hiện tại chỉ còn một dịch vụ. Nếu bạn xóa dịch vụ này thì đơn hàng này sẽ không tồn tại nữa. <br>Bạn chắc chắn chứ'
+                                        , OnSuccess: function () {
+
+                                            png.postListApiGetValue({
+                                                objList_Api: ObjList_Api
+                                                , objListApi_RtnVal: {
+                                                    'DelOrderBookingItem': {
+                                                        objParams_Cus: options.arrOrderBookingItemDetail[intRowID]
+                                                        , OnSuccess: function (data) {
+
+                                                            coreLoadPage.viewMenu({
+                                                                strUserGUID: options.strUserGUID
+                                                                , strCompanyGUID: options.strCompanyOwnerGUID
+                                                                , OnSuccess: function (_arr) {
+                                                                    window.history.replaceState("", "", coreLoadPage.getUrlHost());
+                                                                    window.history.replaceState("", "", $.pngGetQSVal('menuid', _arr[0].strWebMenuGUID));
+                                                                    window.history.replaceState("", "", $.pngGetQSVal('module', 'home'));
+                                                                    coreLoadPage.init()
+                                                                }
+                                                            })
+
+                                                        }
+                                                    }
+                                                }
+                                            })
+
+                                        }
+                                    })
+                                } else {
+                                    $.Confirm({
+                                        strContent: 'Bạn xóa dịch vụ này có thể ảnh hưởng đến giá của các dịch vụ khác trong đơn hàng của bạn.<br> Bạn chắc chắn chứ'
+                                        , OnSuccess: function () {
+
+                                            png.postListApiGetValue({
+                                                objList_Api: ObjList_Api
+                                                , objListApi_RtnVal: {
+                                                    'DelOrderBookingItem': {
+                                                        objParams_Cus: options.arrOrderBookingItemDetail[intRowID]
+                                                        , OnSuccess: function (data) {
+                                                            $.Confirm({ strContent: '<span langkey="sys_Cfm_DelSuccess"></span>' });
+                                                            coreLoadPage.init()
+                                                        }
+                                                    }
+                                                }
+                                            })
+
+                                        }
+                                    })
+                                }
+                            })
+
+
+
+                        }
+                        // ,changeInput:function(){}
+                        , IsViewCheckBoxMain: false
+                        , idOrClass: IdOrClass_Pn_Item + ' .pnTbl'
+                    })
+
+
+                }
+
+
+
+            }
+
+
+
+        }
+
+        $.ModulePage_OrderStep1_CustomerList = function (options) {
+            var defaults = {
+                strUserGUID: ''
+                ,strCompanyPartnerGUID: ''
+                ,strCompanyOwnerGUID: ''
+                ,strOrderBookingGUID: ''
+                ,objOrderDetail: {}
+                ,arrCustomerList: []
+                ,idOrClass: ''
+                ,OnSuccess: function () {
+                }
+            }
+            options = $.extend(defaults, options);
+
+            var IdOrClass_Main = options.idOrClass
+
+            var ObjOrderDetail = options.objOrderDetail
+            var Dtm_OrderBkDateFrom = ObjOrderDetail.strDtmDateFrom
+
+            var Arr_ListTbl = options.arrCustomerList
+
+            var Int_TotalPaxCur = Arr_ListTbl.length
+
+            var ObjList_Api = {
+                UpdPassengerForOrderBookingStep1ByPUB:{
+                    strApiLink:'api/traveller/UpdPassengerForOrderBookingStep1ByPUB'
+                    ,objParams:{
+                        strUserGUID: options.strUserGUID
+                        ,strOrderBookingGUID: options.strOrderBookingGUID
+                        ,strPassengerGUID: null
+                        ,intSaluteID: null
+                        ,intAgeID: null
+                        ,intPassengerAges: null
+                        ,strPassengerFirstName: null
+                        ,strPassengerLastName: null
+                        ,dtmPassengerBirthday: null
+                        ,dtmPasspostExpirationDate: null
+                        ,strPassengerEmail: null
+                        ,strPassengerPhone: null
+                        ,strRemark: null
+                        ,strPassport: null
+                        ,strCountryGUID: null
+                        ,IsDelete: null
+                    }
+                },
+                UpdOrderBookingStep1ByPassengerByPUB:{
+                    strApiLink:'api/traveller/UpdOrderBookingStep1ByPassengerByPUB'
+                    ,objParams:{
+                        strUserGUID: options.strUserGUID
+                        ,strOrderBookingGUID: options.strOrderBookingGUID
+                        ,strListOrderBookingItemGUID: null
+                        ,IsDelete: null
+                    }
+                },
+            }
+
+            var ObjList_ComboValue = {
+                arrCountry:{
+                    strTableName:'MC02'
+                    ,strFeildSelect:'MC02_CountryGUID AS intID,MC02_CountryName AS strName'
+                    ,strWhere:' WHERE IsActive=1 ORDER BY MC02_CountryName'
+                }
+                ,arrSalute:{
+                    strTableName:'MC16'
+                    ,strFeildSelect:'MC16_SaluteID AS intID, MC16_SaluteName AS strName'
+                    ,strWhere:'WHERE IsActive = 1 ORDER BY MC16_SaluteID'
+                }
+                ,arrAge:{
+                    strTableName:'MC23'
+                    ,strFeildSelect:'MC23_AgeID AS intID,MC23_AgeName AS strName'
+                    ,strWhere:'WHERE IsEnableB2B=1 ORDER BY MC23_Order'
+                }
+            }
+
+
+            var objInput_Main= {
+            }
+            var objInput = {
+            }
+
+
+            var strHtmlOptChild = ''
+            for(var i = 0; i<=17;i++){
+                var textAgeChild = i
+                if(i==0)
+                    textAgeChild = '< 1'
+                strHtmlOptChild+='<option value="'+i+'">'+textAgeChild+' '+pngElm.getLangKey({langkey:'sys_Txt_YsO'})+'</option>'
+            }
+
+
+
+
+
+
+            png.postListApiGetValue({
+                objList_ComboValue: ObjList_ComboValue
+                ,objListComboValue_RtnVal: {
+                    'arrCountry':{
+                        objParams_Cus:{}, OnSuccess: function(data){
+                            options.arrCountry = $.pngGetArrComboValue(data,'intID','strName')
+                        }
+                    }
+                    ,'arrSalute':{
+                        objParams_Cus:{}, OnSuccess: function(data){
+                            options.arrSalute = $.pngGetArrComboValue(data,'intID','strName')
+                            options.arrSalute.unshift({'':pngElm.getLangKey({langkey:'sys_Txt_DdlSelectVal'})});
+                        }
+                    }
+                    ,'arrAge':{
+                        objParams_Cus:{}, OnSuccess: function(data){
+                            options.arrAge = $.pngGetArrComboValue(data,'intID','strName')
+                        }
+                    }
+                }
+                ,OnSuccessList:function(data){
+
+                    GetMainPanel()
+                }
+            })
+
+
+
+
+            function GetMainPanel(){
+
+                objInput_Main= {
+                    intSaluteID:{title:'<span langkey="pg_Dft_TC_OrDtl_Salute"></span>',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                        ,input:{type:'select',classEx:'form-control',attr:''}
+                        ,dropDown:{arrList:options.arrSalute}
+                    }
+                    ,strPassengerFirstName: {title: pngElm.getLangKey({langkey:'sys_Txt_FirstName'}),isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                        ,input:{type:'text',classEx:'form-control',attr:''}
+                    }
+                    ,strPassengerLastName: {title: pngElm.getLangKey({langkey:'sys_Txt_LastName'}),isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                        ,input:{type:'text',classEx:'form-control',attr:''}
+                    }
+                    ,strCountryGUID:{title:'<span langkey="pg_Dft_TC_OrDtl_Country"></span>',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                            ,input:{type:'text',classEx:'require',attr:' style="width:100%" placeholder="'+pngElm.getLangKey({langkey:'sys_Txt_DdlSelectVal-Country'})+'"'}
+                            ,dropDown:{Select2:{IsMultiple:false}, arrList:options.arrCountry}
+                    }
+                    ,intAgeID:{title:'<span langkey="pg_Dft_TC_OrDtl_Age"></span>',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                            ,input:{type:'select',classEx:'form-control',attr:''}
+                            ,dropDown:{arrList:options.arrAge}
+                    }
+                    ,dtmPassengerBirthday: {title:'<span langkey="pg_Dft_TC_OrDtl_DateOfBirth"></span>',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                            ,input:{type:'text',classEx:'form-control',attr:''}
+                            ,datePicker:{todayHighlight: true,format: 'dd/mm/yyyy',startDate: null}
+                    }
+                    ,strPassengerEmail:{title:'Email',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                            ,input:{type:'text',classEx:'form-control',attr:''}
+                            ,validate:{format:/^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/}
+                    }
+                    ,strPassengerPhone: {title: pngElm.getLangKey({langkey:'sys_Txt_PhoneNumber'}),isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                            ,input:{type:'text',classEx:'form-control',attr:''}
+                            ,validate:{format: /^([+]\d{2})?\d{9,15}$/}
+                    }
+                    ,strRemark: {title:'<span langkey="pg_Dft_TC_OrDtl_Remark"></span>',isRequire:false,attr:"class='col-md-12'",IsRtn:true
+                            ,input:{type:'textarea',classEx:'form-control',attr:'rows="3" cols="30"'}
+                    }
+                }
+                objInput = {
+                    intSaluteID:{title:'<span langkey="pg_Dft_TC_OrDtl_Salute"></span>',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                        ,input:{type:'select',classEx:'form-control',attr:''}
+                        ,dropDown:{arrList:options.arrSalute}
+                    }
+                    ,strPassengerFirstName: {title: pngElm.getLangKey({langkey:'sys_Txt_FirstName'}),isRequire:false,attr:"class='col-md-4'",IsRtn:true
+                        ,input:{type:'text',classEx:'form-control',attr:''}
+                    }
+                    ,strPassengerLastName: {title: pngElm.getLangKey({langkey:'sys_Txt_LastName'}),isRequire:false,attr:"class='col-md-5'",IsRtn:true
+                        ,input:{type:'text',classEx:'form-control',attr:''}
+                    }
+                    ,intAgeID:{title:'<span langkey="pg_Dft_TC_OrDtl_Age"></span>',isRequire:false,attr:"class='col-md-3'",IsRtn:true
+                            ,input:{type:'select',classEx:'form-control',attr:''}
+                            ,dropDown:{arrList:options.arrAge}
+                    }
+                    ,dtmPassengerBirthday: {title:'<span langkey="pg_Dft_TC_OrDtl_DateOfBirth"></span>',isRequire:false,attr:"class='col-md-4'",IsRtn:true
+                            ,input:{type:'text',classEx:'form-control',attr:''}
+                            ,datePicker:{todayHighlight: true,format: 'dd/mm/yyyy',startDate: null}
+                    }
+                }
+
+
+                var ObjCusMain = Arr_ListTbl.filter(function(item){ return item.IsLeader })[0]
+
+
+                console.log(Arr_ListTbl)
+                var strHtml = ''
+
+                strHtml+='<h3 class="pn-margin-t-30 pn-margin-b-15"><b>Danh sách khách hàng</b></h3>'
+                strHtml+='<div style="padding: 15px;background:#fff;border-radius:1em">'
+                    strHtml+='<div class="pnCus" data="0" style="">'
+                        strHtml+='<h3 style="margin: 10px 0 20px;">'+pngElm.getLangKey({langkey:'sys_Txt_CustomerLeader'})+' <span style="color:red">*</span></h3>'
+                        strHtml+='<div class="pnForm"></div>'
+                    strHtml+='</div>'
+                    strHtml+='<div id="pnCusNoMain" class="pn-margin-b-15"></div>'
+                    strHtml+='<div>'
+                    strHtml+='    <button class="btn btn-texticon bg-success txt-white" id="btnAddCustomer"><i class="fa fa-plus"></i><span langkey="pg_Dft_TC_OrDtl_btn-AddCustomer"></span></button>'
+                    strHtml+='    <button class="btn btn-texticon bg-primary txt-white" id="btnSaveCustomer"><i class="fa fa-floppy-o"></i><span langkey="sys_Btn_Save"></span></button>'
+                    strHtml+='</div>'
+                strHtml+='</div>'
+
+                $(IdOrClass_Main).html(strHtml)
+
+                pngPn.getForm({
+                    action: 1,
+                    objInput: objInput_Main,
+                    idOrClass: IdOrClass_Main + ' .pnCus[data="0"] .pnForm',
+                    objDetail: ObjCusMain,
+                })
+                $(IdOrClass_Main + ' .pnCus[data="0"]').find('.intAgeID').attr('disabled',true)
+
+
+                Arr_ListTbl.forEach(function(value,key){
+                    if(!value.IsLeader)
+                        GetCusNoMain(value,key)
+                })
+
+                pngElm.getLangKey()
+                function GetCusNoMain(_objDetail,_intRowID){
+                    var strHtml = ''
+                    strHtml+='<div class="pnCus row" data="'+_intRowID+'" style="padding-top: 15px;position: relative;">'
+                        strHtml+='<div class="col-md-12">'
+                            strHtml+='<h3 style="margin: 10px 0 20px;">'+pngElm.getLangKey({langkey:'sys_Txt_Customer'})+' '+(_intRowID+1)+'</h3>'
+                            strHtml+='<button class="btn" style="position: absolute;top: 0;right: 15px;font-size: 16px;background: #ECEDEE;cursor: pointer;" action="delete"  data="'+_intRowID+'"><i class="fa fa-trash"></i></button>'
+                            strHtml+='<div class="pnForm"></div>'
+                        strHtml+='</div>'
+                    strHtml+='</div>'
+                    $('#pnCusNoMain').append(strHtml)
+                    pngPn.getForm({
+                        action: 1,
+                        objInput: objInput,
+                        idOrClass: IdOrClass_Main + ' .pnCus[data="'+_intRowID+'"] .pnForm',
+                        objDetail: _objDetail,
+                    })
+
+                }
+
+                $(IdOrClass_Main).find('.intAgeID').each(function(){
+                    var data = $(this).parents('.pnCus').attr('data')
+                    if(!$(this).parent().find('.intPassengerAges')[0]){
+                        $(this).parent().append('<select class="intPassengerAges form-control" data="'+data+'">'+strHtmlOptChild+'</select>')
+                        // $(IdOrClass_Main).find('.intPassengerAges[data='+data+']').val(Arr_ListTbl[data].intPassengerAges)
+                    }
+                })
+
+                $(options.idOrClass+' button').click(function(){
+                    var action = $(this).attr('action')
+                    var data = $(this).parents('.pnCus').attr('data')
+
+                    if(action=='delete'){
+                        $.Confirm({
+                            strContent: '<span langkey="sys_Cfm_AYS"></span>'
+                            ,OnSuccess: function(){
+
+                                if(Arr_ListTbl[data].strPassengerGUID){
+                                    png.postListApiGetValue({
+                                        objList_Api: ObjList_Api
+                                        ,objListApi_RtnVal: {
+                                            'UpdPassengerForOrderBookingStep1ByPUB':{
+                                                objParams_Cus:{
+                                                    strCoPassengerGUID: Arr_ListTbl[data].strPassengerGUID
+                                                    ,IsDelete:1
+                                                }, OnSuccess: function(data){ }
+                                            }
+                                        }
+                                        ,OnSuccessList:function(data){
+
+                                            png.postListApiGetValue({
+                                                objList_Api: ObjList_Api
+                                                ,objListApi_RtnVal: {
+                                                    'UpdOrderBookingStep1ByPassengerByPUB':{
+                                                        objParams_Cus:{
+                                                            IsDelete:1
+                                                        }, OnSuccess: function(data){
+                                                            $.Confirm({ strContent: '<span langkey="sys_Cfm_DelSuccess"></span>' });
+                                                            coreLoadPage.init()
+                                                        }
+                                                    }
+                                                }
+                                            })
+
+
+                                        }
+                                    })
+                                }else{
+                                    Arr_ListTbl.splice(data, 1);
+                                    GetMainPanel()
+                                }
+
+
+
+                                // if(!Arr_ListTbl[data].strPassengerGUID){
+                                // }else{
+                                //     Arr_ListTbl[data].IsDelete = 1
+                                //     IsDelete = true
+                                // }
+
+                            }
+                        })
+                    }
+
+                })
+
+                $(IdOrClass_Main).find('.intAgeID').change(function(){
+                    var data = $(this).parents('.pnCus').attr('data')
+                    var idOrClassPn = IdOrClass_Main + " .pnCus[data="+data+"]"
+
+                    var self = this
+                    $(idOrClassPn+' .intPassengerAges').change(function(){
+                        var data = $(this).attr('data')
+                        if(self.value == 4){
+                            var dtmStartDate = moment(Dtm_OrderBkDateFrom).add('years', -this.value-1).add('days', 1).format('DD/MM/YYYY')
+                            var dtmEndDate = moment(Dtm_OrderBkDateFrom).add('years', -this.value).format('DD/MM/YYYY')
+
+                            // if(Arr_ListTbl[data]['intPassengerAges'] != this.value){
+
+                            //     Arr_ListTbl[data]['intPassengerAges'] = this.value
+
+                            //     $(idOrClassPn+" .dtmPassengerBirthday").val('').change()
+                            // }
+                            $(idOrClassPn+" .dtmPassengerBirthday").datepicker('setStartDate',dtmStartDate)
+                            $(idOrClassPn+" .dtmPassengerBirthday").datepicker('setEndDate',dtmEndDate)
+
+                        }
+                    })
+
+                    var dtmStartDate,dtmEndDate
+
+                    var intPassengerAges = null
+                    intPassengerAges = Arr_ListTbl[data].intPassengerAges
+                    if(intPassengerAges==null)
+                        intPassengerAges=9
+
+                    if(this.value == 4){
+                        $(idOrClassPn+' .intPassengerAges').parent().find('label').css('display','block')
+                        $(idOrClassPn+' .intPassengerAges').css('display','inline-block').css('width','50%')
+                        $(idOrClassPn+' .intAgeID').css('display','inline-block').css('width','50%')
+                        $(idOrClassPn+' .intPassengerAges').show()
+                        $(idOrClassPn+' .intPassengerAges').val(intPassengerAges).change()
+
+
+                    }else{
+                        $(idOrClassPn+' .intAgeID').css('width','100%')
+                        $(idOrClassPn+' .intPassengerAges').hide()
+
+                        dtmStartDate = ''
+                        dtmEndDate = moment(Dtm_OrderBkDateFrom).add('years', -18).format('DD/MM/YYYY')
+                        // ArrCustomerList[ArrCustomerListNoDelete[data].intKey]['intPassengerAges'] = null
+
+                        $(idOrClassPn+" .dtmPassengerBirthday").datepicker('setStartDate',dtmStartDate)
+                        $(idOrClassPn+" .dtmPassengerBirthday").datepicker('setEndDate',dtmEndDate)
+
+                    }
+
+                    if(Arr_ListTbl[data]['intAgeID'] != this.value){
+
+                        $(idOrClassPn+" .dtmPassengerBirthday").val('').change()
+                    }
+
+                }).change()
+
+
+                $(IdOrClass_Main).find('select,input,textarea').change(function(){
+                    var data = $(this).parents('.pnCus').attr('data')
+                    if(data>0){
+                        Arr_ListTbl[data].IsEnableInput = 1
+                        $(this).parents('.pnCus').css('background','#fff4ef')
+                    }
+
+                })
+                Arr_ListTbl.forEach(function(value,key){
+                    if(value.IsEnableInput == 1)
+                        $(IdOrClass_Main + " .pnCus[data="+key+"]").css('background','#fff4ef')
+                })
+
+
+                $('#btnAddCustomer').click(function(){
+                    Arr_ListTbl.push({
+                        IsDelete:0,intAgeID: 3,IsEnableInput: 1
+                    })
+                    GetMainPanel()
+                })
+
+
+                $('#btnSaveCustomer').click(function(){
+                    var ArrInput = []
+
+                    pngPn.getForm({
+                        action: 2,
+                        objInput: objInput_Main,
+                        idOrClass:IdOrClass_Main + ' .pnCus[data="0"] .pnForm',
+                        OnChkSuccess: function(objRtn){
+                            if(objRtn){
+                                objRtn = $.pngExtendObj(Arr_ListTbl[0],objRtn)
+                                ArrInput.push(objRtn)
+
+                                var intAdd = Arr_ListTbl.filter(function(item){ return !item.strPassengerGUID}).length
+
+                                var ArrOrderBookingItem_Tour = []
+                                options.arrOrderBookingItem.forEach(function(value){
+                                    if(value.intCateID == 18 || value.intCateID == 19 || value.intCateID == 33){
+                                        ArrOrderBookingItem_Tour.push(value)
+                                    }
+                                })
+
+                                if(intAdd > 0 && ArrOrderBookingItem_Tour.length){
+                                    $.ModulePage_OrderStep1_CustomerList_PopUpListCustomerAdd({
+                                        strUserGUID: options.strUserGUID
+                                        ,arrOrderBookingItem: ArrOrderBookingItem_Tour
+                                        ,intTotalPax: Int_TotalPaxCur
+                                        ,OnSuccess: function(strListOrderBookingItemGUID){
+                                            GetSave(strListOrderBookingItemGUID)
+                                        }
+                                    })
+                                }else{
+                                    GetSave(null)
+                                }
+
+                            }
+                        }
+                    })
+
+                    function GetSave(_strListOrderBookingItemGUID){
+                        Arr_ListTbl.forEach(function(value,key){
+                            if(value.IsEnableInput){
+                                pngPn.getForm({
+                                    action: 2,
+                                    objInput: objInput,
+                                    idOrClass:IdOrClass_Main + ' .pnCus[data="'+key+'"] .pnForm',
+                                    OnChkSuccess: function(objRtn){
+                                        if(objRtn){
+                                            if(objRtn.intAgeID ==4)
+                                                objRtn.intPassengerAges = $(IdOrClass_Main + ' .pnCus[data="'+key+'"] .intPassengerAges').val()
+
+                                                objRtn = $.pngExtendObj(value,objRtn)
+                                            ArrInput.push(objRtn)
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                        png.postList({
+                            objApi: ObjList_Api.UpdPassengerForOrderBookingStep1ByPUB,
+                            arrInput: ArrInput,
+                            intCallApiPerTime:1,
+                            //GEN
+                            OnSuccess: function (data) {
+
+                                // if(_strListOrderBookingItemGUID)
+                                    png.postListApiGetValue({
+                                        objList_Api: ObjList_Api
+                                        ,objListApi_RtnVal: {
+                                            'UpdOrderBookingStep1ByPassengerByPUB':{
+                                                objParams_Cus:{
+                                                    strListOrderBookingItemGUID:_strListOrderBookingItemGUID
+                                                }, OnSuccess: function(data){
+                                                    $.Confirm({ strContent: '<span langkey="sys_Cfm_UpdSuccess"></span>' });
+                                                    coreLoadPage.init()
+                                                }
+                                            }
+                                        }
+                                    })
+                                // else{
+                                //     var confirmSuccess = '<span langkey="sys_Cfm_UpdSuccess"></span>'
+                                //     $.Confirm({ strContent: confirmSuccess });
+                                //     coreLoadPage.init()
+                                // }
+
+                            }
+                        })
+                    }
+
+
+
+
+                })
+            }
+
+
+
+
+
+
+
+        }
+
+        $.ModulePage_OrderStep1_PopUpPaymentBooking = function (options) {
+            var defaults = {
+                strUserGUID: ''
+                , strCompanyPartnerGUID: ''
+                , strCompanyOwnerGUID: ''
+                , strOrderBookingGUID: ''
+                , objPaymentAmountAndPeriod: {}
+                , objOrderDetail: {}
+                , arrPaymentTerm: []
+                , arrOrderBookingByAgentHost: []
+                , OnSuccess: function () {
+                }
+            }
+            options = $.extend(defaults, options);
+
+
+            var IdOrClass_Main = ''
+
+
+            //---------Obj_XXX
+            //---------Arr_XXX
+            //---------Is_XXX
+            //---------Int_XXX
+            //---------Str_XXX
+            var Arr_PaymentTerm = options.arrPaymentTerm
+            var Arr_OrderBookingByAgentHost = options.arrOrderBookingByAgentHost
+            var Obj_PaymentAmountAndPeriod = options.objPaymentAmountAndPeriod
+            var Obj_OrderDetail = options.objOrderDetail
+            console.log(Arr_OrderBookingByAgentHost)
+            console.log(Obj_OrderDetail)
+
+            var Str_ReturnUrl = png.ObjClnUrl.APPB2B_Agent
+            Str_ReturnUrl = $.pngGetQSVal('cname', $.pngGetQSVal('cname'), Str_ReturnUrl)
+            Str_ReturnUrl = $.pngGetQSVal('page', 'payonline-return', Str_ReturnUrl)
+
+            var ObjList_Api = {
+                GetFilterCompanyBankAccount: {
+                    strApiLink: 'api/user/GetFilterCompanyBankAccount'
+                    , objParams: {
+                        strAgentCode: null
+                        , strWhere: null
+                        , strOrder: null
+                        , strCompanyGUID: options.strCompanyOwnerGUID
+                        , intCurPage: null
+                        , intPageSize: null
+                        , tblsReturn: null
+                    }
+                },
+                GetReportCommissionByAgentHost: {
+                    strApiLink: 'api/booking/GetReportCommissionByAgentHost'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strCompanyGUID: null
+                        , strPayableBookingItemGUID: ''
+                        , strFilterAgentName: null
+                        , strFilterBookingCode: null
+                        , strFilterGroupName: null
+                        , dtmFilterDateFrom: null
+                        , dtmFilterDateTo: null
+                        , intPaymentStatusID: 3
+                        , strPartnerCompanyGUID: options.strCompanyPartnerGUID
+                        , strPartnerMemberGUID: (options.strCompanyPartnerGUID ? null : options.strUserGUID)
+                        , strPaidBookingItemGUID: ''
+                        , intAgentHostPaymentTypeID: 2
+                        , intCurPage: 1
+                        , intPageSize: 10
+                        , strOrder: null
+                        , tblsReturn: '[0]'
+                    }
+                },
+
+                AddNewBookingByTraveller: {
+                    strApiLink: 'api/public/traveller/AddNewBookingByTraveller'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: options.strOrderBookingGUID
+                        , intOrderStatusID: 4
+
+                        , intPaymentMethodID: null
+                        , strCompanyBankAccountGUID: null
+                        , strPaidRemark: null
+                    }
+                },
+                GetTourServiceXMLForTMS: {
+                    strApiLink: 'api/booking/GetTourServiceXMLForTMS'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strBookingGUID: null
+                    }
+                },
+                GetPaymentAmountAndPeriod: {
+                    strApiLink: 'api/booking/GetPaymentAmountAndPeriod'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strBookingGUID: null
+                        , strOrderBookingGUID: $.pngGetQSVal("GUID")
+                        , strOrderBookingByAgentHostGUID: null
+                        , dtmDateDay: null
+                    }
+                },
+                GetUrlPayOnline: {
+                    strApiLink: 'api/payonline/GetUrlPayOnline'
+                    , objParams: {
+                        strOrderBeforePaymentCode: null
+                        , strReturnUrl: Str_ReturnUrl
+                        , dblAmount: 0
+                        , strDescription: "payment online"
+                    }
+                },
+                GetCheckRemainCreditByAgent: {
+                    strApiLink: 'api/booking/GetCheckRemainCreditByAgent'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: $.pngGetQSVal("GUID")
+                        , strCompanyGUID: options.strCompanyPartnerGUID
+                    }
+                },
+
+                GetCheckRemainForServicesBooking: {
+                    strApiLink: 'api/booking/GetCheckRemainForServicesBooking'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingGUID: $.pngGetQSVal("GUID")
+                        , strCompanyOwnerGUID: null
+                    }
+                },
+
+                AddPaymentTransactionByAgent: {
+                    strApiLink: 'api/booking/AddPaymentTransactionByAgent'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strOrderBookingCode: Obj_OrderDetail.strOrderBookingCode
+                        , intOrderStatusID: 1
+                        , strAgentCode: JSON.parse(png.ArrLS.UserDetail.get()).strAgentCode
+                        , dblPaymentTransactionAmount: null
+                        , strRemark: null
+                    }
+                },
+
+                AddPayableBookingUsed: {
+                    strApiLink: 'api/booking/AddPayableBookingUsed'
+                    , objParams: {
+                        strUserGUID: options.strUserGUID
+                        , strListPayableBookingItemGUID: null
+                    }
+                },
+            }
+
+            var ObjList_ComboValue = {
+                Arr_ValCode: {
+                    strCombocode: ''
+                }
+                , Arr_SQL: {
+                    strTableName: ''
+                    , strFeildSelect: ' AS intID, AS strName'
+                    , strWhere: 'WHERE IsActive = 1'
+                }
+            }
+
+            var Arr_PaymentMethod = []
+            var Obj_Payment = {}
+            var Arr_ListAccount = []
+            var Obj_ListArrListAcount = {}
+
+            //---------
+            var Obj_FormInput = {}
+            var Obj_FN_Main = {}
+            //---------
+
+            png.postListApiGetValue({
+                // objList_Api: ObjList_Api
+                objList_ComboValue: ObjList_ComboValue
+                // ,objListApi_RtnVal: {
+                //     'SSSSSSSSS':{
+                //         objParams_Cus:{
+                //         }
+                //         ,OnSuccess: function(data){
+                //             // return JSON.parse(data)[0]
+                //         }
+                //     }
+                // }
+                , objListComboValue_RtnVal: {
+                    'Arr_SQL': {
+                        objParams_Cus: {
+                            strTableName: 'OB12'
+                            , strFeildSelect: 'OB12_PaymentMethodID AS intID,OB12_PaymentMethodName AS strName'
+                            , strWhere: 'WHERE IsActive=1 AND OB12_PaymentMethodID = 1 ORDER BY OB12_Order'
+                        },
+                        OnSuccess: function (data) {
+                            Arr_PaymentMethod = data   // Dữ liệu trả về từ dropdownlist trên
+                        }
+                    }
+                }
+                , OnSuccessList: function (data) {
+
+                        GetPopUp()
+                   
+                }
+            })
+
+            // GetPopUp()
+            function GetPopUp() {
+                pngPn.getPopUp({
+                    strTitle: 'Payment'
+                    , intTypeSize: 2//------------1 small ---2 medium ---3 large
+                    , OnPanel: GetMainPanel
+                    , OnClosePopUp: function () {
+                        //------Chọn sự kiện khi Đóng PopUP
+                    }
+                })
+            }
+
+            function GetMainPanel(_IdOrClassPp, _OnClosePp) {
+
+                IdOrClass_Main = _IdOrClassPp
+                Obj_FN_Main.OnClosePp = _OnClosePp
+
+                // Obj_FN_Main.OnClosePp(true)----------- chạy câu lệnh trong OnClosePopUp: function (){} khi tắt PopUp
+                // Obj_FN_Main.OnClosePp(true,true)-----------Đóng Pop Up + chạy câu lệnh trong OnClosePopUp: function (){}
+
+                var objPanel = {
+                    pnMain: {
+                        tag: 'div', attr: 'class=""', childTags: [{ div: 'class="row"' }]
+                        , pnContent: { tag: 'div', attr: 'class="col-md-12"' }
+                        , pnBtn: { tag: 'div', attr: 'class="col-md-12" style="text-align:right"' }
+                    }
+                }
+
+                var objEvtPanel = {}
+                objEvtPanel.pnContent = function (_idOrClassPn) {
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    if (options.strCompanyOwnerGUID) {
+                        Obj_Payment = JSON.parse(JSON.stringify(Arr_OrderBookingByAgentHost[0]))
+                    } else {
+                        Obj_Payment = JSON.parse(JSON.stringify(Obj_OrderDetail))
+                    }
+
+                    Obj_Payment['IsPayment'] = Obj_PaymentAmountAndPeriod['IsPayment']
+
+                    Obj_Payment['dtmInvoiceDeadline'] = $.pngFormatDateTime(Obj_PaymentAmountAndPeriod['dtmDateDeadline'], 'l')
+                    Obj_Payment['dtmInvoiceDeadline_View'] = $.pngFormatDateTime(Obj_Payment['dtmInvoiceDeadline'])
+                    Obj_Payment['dblPricePayment'] = Obj_PaymentAmountAndPeriod['dblPriceCharge']
+                    Obj_Payment['dblPriceTotal_View'] = $.pngFormatPrice(Obj_Payment['dblPriceTotal'])
+                    Obj_Payment['dblPricePayment_View'] = '<a action="ViewListTerm">' + $.pngFormatPrice(Obj_Payment['dblPricePayment']) + "</a>"
+
+
+                    Obj_Payment['intPaymentMethodID'] = 1
+
+                    var DblPriceCharge = Obj_Payment['dblPricePayment']
+                    var DblCreditRemain = 0
+
+                    //coreLoadPage.getCredit({
+                    //    OnSuccess: function (obj) {
+                    //        DblCreditRemain = obj.dblCreditRemain
+                    //    }
+                    //})
+
+
+                    Obj_FormInput = {
+                        // dblPriceTotal_View:{title:'Total Price',attr:"class='col-md-4'"
+                        //     ,input:{IsNoInput:true,IsViewDtl:true}
+                        // },
+                        // // dtmInvoiceDeadline_View:{title:'Deadline',attr:"class='col-md-4'"
+                        // //     ,input:{IsNoInput:true,IsViewDtl:true}
+                        // // },
+                        // dblPricePayment_View:{title:'Price Payment',attr:"class='col-md-4'"
+                        //     ,input:{IsNoInput:true,IsViewDtl:true}
+                        // },
+
+                        // IsUseCommisssion:{title:'Use Commission</label> <span class="txtTotalComPrice"></span>',isRequire:false,attr:"class='col-md-12 '",IsRtn:true
+                        //     ,input:{type:'checkbox',classEx:'chkCustom-1',attr:'style="float: left;margin-right: 5px;margin-top: 2px;"'}
+                        // },
+
+                        intPaymentMethodID: {
+                            title: 'Phương thức thanh toán', attr: "class='col-md-4'", isRequire: false, IsRtn: true
+                            , input: { type: 'select', classEx: 'form-control', attr: '' }
+                            , dropDown: { arrList: $.pngGetArrComboValue(Arr_PaymentMethod, 'intID', 'strName') }
+                        },
+                        pnTotalPayment: {
+                            title: '', attr: "class='col-md-12' style='border-bottom:1px solid #ccc;margin-bottom:15px'"
+                            , input: { IsNoInput: true }
+                        },
+                        // IsPayment:{title:'Các dịch vụ chưa đến thời hạn trả tiền. Bạn có muốn đặt luôn không?',isRequire:false,attr:"class='col-md-12' ",IsRtn:false
+                        //     ,input:{IsNoInput:true}
+                        // },
+                        pnPayment: {
+                            title: '', attr: "class='col-md-offset-6 col-md-6'"
+                            , input: { IsNoInput: true }
+                        },
+
+                        // _______1:{title:'',attr:"class='col-md-12' style='margin:0'"
+                        //     ,input:{IsNoInput:true}
+                        // },
+                        // pnPayEx:{title:'',attr:"class='col-md-12'"
+                        //     ,input:{IsNoInput:true}
+                        // },
+                        // strPaidRemark:{title:'Remark',isRequire:false,attr:"class='col-md-12'",IsRtn:true
+                        //     ,input:{type:'textarea',classEx:'form-control',attr:'rows="5" '}//====> Có Attr ckeditor sẽ hiển thị CK Editor
+                        // }
+                    }
+
+                    pngPn.getForm({
+                        action: 1,
+                        objInput: Obj_FormInput,
+                        idOrClass: IdOrClass_Pn,
+                        objDetail: Obj_Payment,
+                    })
+
+                    Arr_OrderBookingByAgentHost.forEach(function (value, key) {
+                        $('.pnElm-pnTotalPayment', IdOrClass_Pn).append(`
+                    <div class="${value.strOrderBookingByAgentHostGUID}"></div>
+                `)
+                        GetAgentHostItem(value, IdOrClass_Pn + ' .pnElm-pnTotalPayment .' + value.strOrderBookingByAgentHostGUID)
+                    })
+
+
+                    function GetAgentHostItem(_objDetail, _idOrClass) {
+                        var IdOrClass_Pn = _idOrClass
+
+                        _objDetail['dblPricePayment'] = 0
+                        Arr_PaymentTerm.forEach(function (value) {
+                            if (value.strOrderBookingByAgentHostGUID.toLowerCase() == _objDetail.strOrderBookingByAgentHostGUID.toLowerCase()) {
+                                _objDetail['dblPricePayment'] += value['dblPriceCharge']
+                            }
+                        })
+
+
+                        //png.postListApiGetValue({
+                        //    objList_Api: ObjList_Api
+                        //    , objListApi_RtnVal: {
+                        //        'GetReportCommissionByAgentHost': {
+                        //            objParams_Cus: {
+                        //                strCompanyGUID: _objDetail.strCompanyGUID
+                        //                , strOrder: 'dblPayableBalance desc'
+                        //            }
+                        //            , OnSuccess: function (data) {
+                        //                _objDetail['arrListCom'] = JSON.parse(data)[0]
+
+                        //                var dblTotalPricePayment = 0
+                        //                _objDetail['arrListCom'].forEach(function (value) {
+                        //                    dblTotalPricePayment += value['dblPayableBalance']
+                        //                    if (_objDetail['dblPricePayment'] >= (dblTotalPricePayment - value['dblPayableBalance']))
+                        //                        value.IsEnableInput = 1
+                        //                })
+
+                        //            }
+                        //        }
+                        //    }
+                        //    , OnSuccessList: function (data) {
+                        //    }
+                        //})
+
+                        var strHtml = ''
+                        strHtml += `
+                    <div class="row" style="background: #adadad;padding: 10px 0;color: #fff;margin-bottom: 15px;">
+                        <div class="col-md-12">
+                            ${_objDetail.strCompanyName}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="display: flex;align-items: center;justify-content: space-between;">   
+                                <b>Tổng tiền dịch vụ phải trả:</b>    
+                                <span>${$.pngFormatPrice(_objDetail.dblPriceSubTotal)}</span>
+                            </p>
+                            
+                            <p style="display: flex;align-items: center;justify-content: space-between;">   
+                                <b>Tổng tiền dịch vụ thanh toán trước:</b>    
+                                <span><a action="ViewListTerm">${$.pngFormatPrice(_objDetail.dblPricePayment)}</a></span>
+                            </p>
+                            
+                            `
+                        // strHtml+=`
+                        // <p style="display: flex;align-items: center;justify-content: space-between;">   
+                        //     <span>
+                        //         <input type="checkbox" class="IsUseCredit chkCustom-1" style="float: left;margin-right: 5px;margin-top: 2px;"> <b>Sử dụng Credit</b> (${$.pngFormatPrice(DblCreditRemain)})
+                        //     </span>   
+                        //     <span class="txtCreditPricePay"></span>
+                        // </p>
+
+                        // `
+                        strHtml += `
+                            
+                        </div>
+                    </div>
+
+                    <div class="pnForm" style='border: 1px solid #ccc; border-radius: 1em; padding: 15px; margin-bottom: 15px;'></div>
+                `
+                        $(IdOrClass_Pn).html(strHtml)
+
+                        $('a', IdOrClass_Pn).click(function () {
+                            var action = $(this).attr('action')
+
+                            if (action == "ViewListTerm") {
+                                $.ModulePage_OrderStep1_PopUpViewListTerm({
+                                    strUserGUID: options.strUserGUID
+                                    , arrPaymentTerm: Arr_PaymentTerm.filter(function (item) { return item.strOrderBookingByAgentHostGUID.toLowerCase() == _objDetail.strOrderBookingByAgentHostGUID.toLowerCase() })
+                                    , arrOrderBookingByAgentHost: Arr_OrderBookingByAgentHost.filter(function (item) { return item.strOrderBookingByAgentHostGUID.toLowerCase() == _objDetail.strOrderBookingByAgentHostGUID.toLowerCase() })
+                                    , OnSuccess: function () { }
+                                })
+                            }
+                        })
+
+
+
+                        $('.txtTotalCredit', IdOrClass_Pn).html($.pngFormatPrice(DblPriceCharge))
+                        // $('.txtRemain',IdOrClass_Pn).html($.pngFormatPrice(_objDetail.dblSumPayableBalance))
+
+                        _objDetail.dblComPricePay = 0
+                        $('.txtComPricePay', IdOrClass_Pn).html($.pngFormatPrice(_objDetail.dblComPricePay))
+                        // $('.txtCreditPricePay',IdOrClass_Pn).html($.pngFormatPrice(0))
+
+                        $('.IsUseCommission', IdOrClass_Pn).change(function () {
+                            _objDetail.IsUseCommission = this.checked
+                            if (this.checked) {
+                                GetPriceCommission()
+                            } else {
+
+                                _objDetail.dblComPricePay = 0
+                                $('.txtComPricePay', IdOrClass_Pn).html($.pngFormatPrice(0))
+                                // $('.txtRemain',IdOrClass_Pn).html($.pngFormatPrice(_objDetail.dblSumPayableBalance))
+                            }
+
+
+
+
+                            GetUpdTotalPrice()
+                        })
+
+                        function GetPriceCommission() {
+
+                            var dblSumPayableBalance = 0
+                            _objDetail['arrListCom'].forEach(function (value) {
+                                if (value.IsEnableInput == 1) {
+                                    dblSumPayableBalance += value.dblPayableBalance
+                                }
+                            });
+
+                            if (dblSumPayableBalance) {
+                                _objDetail.dblComPricePay = (dblSumPayableBalance > _objDetail.dblPricePayment ? _objDetail.dblPricePayment : dblSumPayableBalance)
+
+                                // $('.txtRemain',IdOrClass_Pn).html($.pngFormatPrice(0))
+                                $('.txtComPricePay', IdOrClass_Pn).html('<a action="ViewListCom">-' + $.pngFormatPrice(_objDetail.dblComPricePay) + '</a>')
+                                $('.txtComPricePay a', IdOrClass_Pn).click(function () {
+
+                                    GetPopUp_ListCommission({
+                                        strCompanyGUID: _objDetail.strCompanyGUID,
+                                        arrListCom: _objDetail.arrListCom,
+                                        OnSuccess: function (_arr) {
+                                            _objDetail['arrListCom'] = _arr
+                                            GetPriceCommission()
+                                            GetUpdTotalPrice()
+                                        }
+                                    })
+                                })
+                            } else {
+                                $('.IsUseCommission', IdOrClass_Pn).prop('checked', false).change()
+                            }
+                        }
+
+                        setTimeout(function () {
+                            GetUpdTotalPrice()
+                        }, 100)
+
+
+                        pngPn.getForm({
+                            action: 1,
+                            objInput: {
+                                pnPayEx2: {
+                                    title: '', attr: "class='col-md-12' "
+                                    , input: { IsNoInput: true }
+                                },
+                                strPaidRemark: {
+                                    title: 'Lời nhắn riêng', isRequire: false, attr: "class='col-md-12' style=''", IsRtn: true
+                                    , input: { type: 'text', classEx: 'form-control', attr: ' ' }//====> Có Attr ckeditor sẽ hiển thị CK Editor
+                                }
+                            },
+                            idOrClass: IdOrClass_Pn + ' .pnForm',
+                            objDetail: {},
+                        })
+
+                        $('.strPaidRemark', IdOrClass_Pn + ' .pnForm').change(function () {
+                            _objDetail['strPaidRemark'] = this.value
+                        })
+
+                        var ArrListAccount = []
+                        // if(Arr_ListAccount.length==0){
+                        png.postListApiGetValue({
+                            objList_Api: ObjList_Api
+                            , objListApi_RtnVal: {
+                                'GetFilterCompanyBankAccount': {
+                                    objParams_Cus: {
+                                        strCompanyGUID: _objDetail.strCompanyGUID
+                                    }
+                                    , OnSuccess: function (data) {
+                                        ArrListAccount = JSON.parse(data)[0]
+
+                                        GetPanelAccount()
+                                    }
+                                }
+                            }
+                        })
+                        // }
+
+                        function GetPanelAccount() {
+                            strHtml = ''
+                            strHtml += '<b>Chọn tài khoản:</b> '
+                            strHtml += '<select class="form-control" style="width:inherit; display:inline-block">'
+                            ArrListAccount.forEach(function (value) {
+                                strHtml += '<option value="' + value.strCompanyBankAccountGUID + '">' + value.strNameDisplay + '</option>'
+                            })
+                            strHtml += '</select>'
+                            strHtml += '<div id="pnCnt" class="pn-margin-t-15"></div>'
+                            $('.pnElm-pnPayEx2', IdOrClass_Pn + ' .pnForm').html(strHtml)
+
+
+                            $('.pnElm-pnPayEx2', IdOrClass_Pn + ' .pnForm').find('select').change(function () {
+                                var self = this
+                                _objDetail['strCompanyBankAccountGUID'] = this.value
+                                var obj = ArrListAccount.filter(function (item) { return item.strCompanyBankAccountGUID == self.value })[0]
+
+                                strHtml = ''
+                                strHtml += '<b>Account Name:</b> ' + obj.strCompanyBankAccountName
+                                strHtml += '<br><b>Account Code:</b> ' + obj.strCompanyBankAccountCode
+                                strHtml += '<br><b>Bank Name:</b> ' + obj.strCompanyBankAccountInfo
+                                strHtml += '<br><b>Bank Add:</b> ' + obj.strBankAddress
+                                strHtml += '<br><b>SwiftCode:</b> ' + obj.strSwiftCode
+                                $('.pnElm-pnPayEx2 #pnCnt', IdOrClass_Pn + ' .pnForm').html(strHtml)
+
+                            }).change()
+                        }
+
+
+                    }
+
+
+
+
+                    if (Obj_PaymentAmountAndPeriod['IsPayment']) {
+                        $('.pnElm-IsPayment', IdOrClass_Pn).parent().hide()
+                    } else {
+                        $('.pnElm-IsPayment', IdOrClass_Pn).parent().show()
+
+                        Obj_Payment['dtmInvoiceDeadline'] = null
+                        Obj_Payment['dblPricePayment'] = null
+
+                        $('#btnPayment', IdOrClass_Main).attr('disabled', false)
+                        $('.intPaymentMethodID,.pnElm-pnPayEx2', IdOrClass_Pn).parent().hide()
+                        // $('.IsPayment',IdOrClass_Pn).change(function(){
+
+                        //     if(this.checked){
+                        //         Obj_Payment['dtmInvoiceDeadline'] = $.pngFormatDateTime(Obj_PaymentAmountAndPeriod['dtmDateDeadline'],'l')
+                        //         Obj_Payment['dblPricePayment'] = Obj_PaymentAmountAndPeriod['dblPriceCharge']
+
+                        //         $('.intPaymentMethodID,.pnElm-pnPayEx',IdOrClass_Pn).parent().show()
+                        //         $(".intPaymentMethodID",IdOrClass_Pn).change()
+                        //     }else{
+
+                        //         Obj_Payment['dtmInvoiceDeadline'] = null
+                        //         Obj_Payment['dblPricePayment'] = null
+
+                        //         $('#btnPayment',IdOrClass_Main).attr('disabled',false)
+                        //         $('.intPaymentMethodID,.pnElm-pnPayEx',IdOrClass_Pn).parent().hide()
+                        //     }
+                        // }).change()
+                    }
+
+                    if (Obj_PaymentAmountAndPeriod['IsPayment']) {
+                        strHtml = `
+                            <p style="display: flex;align-items: center;justify-content: space-between;">   
+                                <b class="pn">
+                                    Tổng tiền các dịch vụ phải trả:
+                                </b>   
+                                <b>${$.pngFormatPrice(Obj_Payment.dblPricePayment)}</b>
+                            </p>
+                    
+                    
+                            <p style="display: flex;align-items: center;justify-content: space-between;">   
+                                <b class="pn">
+                                    Tổng thanh toán:
+                                </b>   
+                                <b class="dblSumRemain"></b>
+                            </p>
+                
+                         `
+                    } else {
+                        strHtml = `Các dịch vụ chưa đến thời hạn trả tiền. Bạn có muốn đặt luôn không?`
+                    }
+
+                    $('.pnElm-pnPayment', IdOrClass_Pn).html(strHtml)
+
+
+                    function GetUpdTotalPrice() {
+                        var dblPricePayment = 0
+                        var dblComPricePay = 0
+                        Arr_OrderBookingByAgentHost.forEach(function (value, key) {
+                            dblPricePayment += value.dblPricePayment
+                            dblComPricePay += value.dblComPricePay
+
+                            $('.txtRemain', IdOrClass_Pn + ' .pnElm-pnTotalPayment .' + value.strOrderBookingByAgentHostGUID).html($.pngFormatPrice(value.dblPricePayment - value.dblComPricePay))
+                        })
+
+                        $('.pnElm-pnPayment .dblSumComPay', IdOrClass_Pn).html((dblComPricePay ? '-' + $.pngFormatPrice(dblComPricePay) : $.pngFormatPrice(0)))
+                        $('.pnElm-pnPayment .dblSumRemain', IdOrClass_Pn).html($.pngFormatPrice(dblPricePayment - dblComPricePay))
+
+                    }
+
+
+                }
+                objEvtPanel.pnBtn = function (_idOrClassPn) {
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    var strHtml = ''
+                    if (Obj_PaymentAmountAndPeriod['IsPayment']) {
+                        strHtml = '<button id="btnPayment" class="btn bg-primary txt-white">Thanh toán</button>'
+                    } else {
+                        strHtml = '<button id="btnPayment" class="btn bg-primary txt-white">Đặt luôn</button>'
+                    }
+                    $(IdOrClass_Pn).html(strHtml)
+
+                    $('#btnPayment').click(function () {
+
+                        $.Confirm({
+                            strContent: '<span langkey="sys_Cfm_AYS"></span>'
+                            , OnSuccess: function () {
+
+                                var strListPayableBookingItemGUID = ''
+
+                                Arr_OrderBookingByAgentHost.forEach(function (value) {
+                                    if (value['arrListCom'] && value['arrListCom'].length && value['IsUseCommission']) {
+                                        value['arrListCom'].forEach(function (val) {
+                                            strListPayableBookingItemGUID += value.strOrderBookingByAgentHostGUID + '!' + val.strPayableBookingItemGUID + '#'
+                                        })
+                                    }
+                                })
+                                // console.log(strListPayableBookingItemGUID)
+
+                                pngPn.getForm({
+                                    action: 2,
+                                    objInput: Obj_FormInput,
+                                    idOrClass: IdOrClass_Main + ' #pnContent',
+                                    OnChkSuccess: function (objRtn) {
+                                        if (objRtn) {
+                                            Obj_Payment = $.pngExtendObj(Obj_Payment, objRtn)
+
+                                            png.postListApiGetValue({
+                                                objList_Api: ObjList_Api
+                                                , objListApi_RtnVal: {
+                                                    'GetCheckRemainForServicesBooking': {
+                                                        objParams_Cus: {}
+                                                        , OnSuccess: function (data) {
+
+                                                            var obj = JSON.parse(data)[0][0]
+
+                                                            // Obj_Payment.strOrderBeforePaymentCode = obj.strOrderBeforePaymentCode
+                                                            if (obj.IsCheckBooking) {
+                                                                if (Obj_PaymentAmountAndPeriod['IsPayment']) {
+                                                                    if (Obj_Payment.intPaymentMethodID == 1) {
+                                                                        // if(!options.strCompanyOwnerGUID){
+                                                                        Obj_Payment['strCompanyBankAccountGUID'] = ''
+                                                                        Arr_OrderBookingByAgentHost.forEach(function (value) {
+                                                                            Obj_Payment['strCompanyBankAccountGUID'] += value.strOrderAgentHostCode + '!' + value.strCompanyBankAccountGUID + '#'
+                                                                        })
+                                                                        // }
+                                                                        if (strListPayableBookingItemGUID)
+                                                                            png.postListApiGetValue({
+                                                                                objList_Api: ObjList_Api
+                                                                                , objListApi_RtnVal: {
+                                                                                    'AddPayableBookingUsed': {
+                                                                                        objParams_Cus: {
+                                                                                            strListPayableBookingItemGUID: strListPayableBookingItemGUID
+                                                                                        }
+                                                                                        , OnSuccess: function (data) {
+
+                                                                                            var obj = JSON.parse(data)[0][0]
+                                                                                            if (obj.IsCheckSucc) {
+                                                                                                GetAddBooking()
+                                                                                            } else {
+                                                                                                $.Confirm({ strContent: 'You do not have enough Commission.' });
+                                                                                            }
+
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            })
+                                                                        else {
+                                                                            GetAddBooking()
+                                                                        }
+                                                                        // GetAddBooking()
+                                                                    }
+
+                                                                    if (Obj_Payment.intPaymentMethodID == 3) {
+                                                                        GetPayOnline()
+                                                                    }
+
+                                                                    if (Obj_Payment.intPaymentMethodID == 11) {
+
+                                                                        png.postListApiGetValue({
+                                                                            objList_Api: ObjList_Api
+                                                                            , objListApi_RtnVal: {
+                                                                                'GetCheckRemainCreditByAgent': {
+                                                                                    objParams_Cus: {}
+                                                                                    , OnSuccess: function (data) {
+
+                                                                                        var obj = JSON.parse(data)[0][0]
+                                                                                        if (obj.IsCheckCredit) {
+                                                                                            GetAddBooking()
+                                                                                        } else {
+                                                                                            $.Confirm({ strContent: 'You do not have enough Credit Limit. Your current credit amount is ' + $.pngFormatPrice(obj.dblCreditRemain) });
+                                                                                        }
+
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                } else {
+                                                                    Obj_Payment.intPaymentMethodID = null
+                                                                    GetAddBooking()
+                                                                }
+                                                            } else {
+                                                                $.Confirm({ strContent: 'Service: ' + obj.strServiceName + ' > ' + obj.intTotalPaxRemain + ' Pax' });
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+                                            })
+
+
+                                        }
+                                    }
+                                })
+                            }
+                        })
+
+                        function GetAddBooking() {
+
+                            png.postListApiGetValue({
+                                objList_Api: ObjList_Api
+                                , objListApi_RtnVal: {
+                                    'AddNewBookingByTraveller': {
+                                        objParams_Cus: $.pngReplaceObj(Obj_Payment, {
+                                            intOrderStatusID: 4
+                                        })
+                                        , OnSuccess: function (data) {
+                                            var obj = JSON.parse(data)[0][0]
+
+                                            //coreLoadPage.viewOrderBooking({
+                                            //    IsDelete: true
+                                            //})
+
+
+                                            //png.postSendEmail({
+                                            //    strUserGUID: null
+                                            //    , strEmailsSendTo: null
+                                            //    , strEmailsCC: null
+                                            //    , strEmailTemplateSubject: null
+                                            //    , IsBodyHtml: 1
+                                            //    , strEmailTemplateContent: null
+                                            //    , strTempApiUrl: 'api/system/GetEmailSendAgentHostByAgentBook'
+                                            //    , objTempPar: {
+                                            //        strUserGUID: options.strUserGUID
+                                            //        , strBookingGUID: obj.strBookingGUID
+                                            //        , intLangID: $.pngGetLangID()
+                                            //        , strEmailTemplateCode: 'BKK'
+                                            //    }
+                                            //    , OnSuccess: function (data) {
+                                            //        GetLinkBooking()
+                                            //    }
+                                            //})
+                                            GetLinkBooking()
+                                            function GetLinkBooking() {
+
+
+                                                    //var strUrl = coreLoadPage.getUrlHost()
+                                                    //strUrl = $.pngGetQSVal('cname', $.pngGetQSVal('cname'), strUrl)
+                                                    //strUrl = $.pngGetQSVal('page', 'listbooking', strUrl)
+                                                    // strUrl = $.pngGetQSVal('page', 'bookingdetail',strUrl)
+                                                    // strUrl = $.pngGetQSVal('BKID', obj.strBookingGUID,strUrl)
+
+                                                    window.location.href = '/user/bookings' //strUrl
+                                            }
+
+                                        }
+                                    }
+                                }
+                            })
+
+                        }
+
+                        function GetPayOnline() {
+
+                            png.postListApiGetValue({
+                                objList_Api: ObjList_Api
+                                , objListApi_RtnVal: {
+                                    'AddPaymentTransactionByAgent': {
+                                        objParams_Cus: {
+                                            dblPaymentTransactionAmount: Obj_PaymentAmountAndPeriod['dblPriceCharge']
+                                            , strRemark: (Obj_Payment.strPaidRemark || "payment online")
+                                        }
+                                        , OnSuccess: function (data) {
+                                            var obj = JSON.parse(data)[0][0]
+                                            png.postListApiGetValue({
+                                                objList_Api: ObjList_Api
+                                                , objListApi_RtnVal: {
+                                                    'GetUrlPayOnline': {
+                                                        objParams_Cus: {
+                                                            strOrderBeforePaymentCode: obj['strPaymentTransactionCode']
+                                                            , dblAmount: Obj_PaymentAmountAndPeriod['dblPriceCharge']
+                                                            , strDescription: (Obj_Payment.strPaidRemark || "payment online")
+                                                        }
+                                                        , OnSuccess: function (data) {
+                                                            window.location.href = JSON.parse(data).strPaymentUrl
+                                                        }
+                                                    },
+                                                }
+                                            })
+                                        }
+                                    },
+                                }
+                            })
+
+
+
+                        }
+                    })
+
+                }
+
+                // ===================================
+
+                pngPn.getPanelHtml({            // Get ra panel dạng html
+                    objPanel: objPanel
+                    , objEvtPanel: objEvtPanel
+                    , idOrClass: IdOrClass_Main  // Id or class chính
+                    , OnChangeIdPn: function (_Fn) {
+                        Obj_FN_Main.pnMain = _Fn    // Hàm đổi trang
+                    }
+                })
+
+            }
+
+
+
+            function GetPopUp_ListCommission(_Opt) {
+                var Dft = {
+                    strCompanyGUID: null,
+                    arrListCom: null,
+                    OnSuccess: function () {
+
+                    }
+                }
+                _Opt = $.extend(Dft, _Opt);
+
+                var IdOrClass_Main = ''
+
+
+                //---------Obj_XXX      // Khai báo các biến dùng chung cho cả hàm
+                //---------Arr_XXX
+                //---------Is_XXX
+                //---------Int_XXX
+                //---------Str_XXX
+
+
+
+                //------------------- Khái báo biển chính của giao diện
+                var Obj_Filter_Dtl = {}
+                var Obj_Filter = {}
+
+                // var Obj_FormInput = {}
+                var Arr_ListTbl = JSON.parse(JSON.stringify(_Opt.arrListCom))
+
+                var Obj_FN_Main = {}
+                //-------------------
+
+
+                GetPopUp()
+
+                function GetPopUp() {
+                    var strTitle = 'Danh sách hoa hồng'
+                    pngPn.getPopUp({
+                        strTitle: strTitle
+                        , intTypeSize: 1//------------1 small ---2 medium ---3 large
+                        , OnPanel: GetMainPanel
+                        , OnClosePopUp: function () {
+                            //------Chọn sự kiện khi Đóng PopUP
+                        }
+                    })
+                }
+
+                function GetMainPanel(_IdOrClassPp, _OnClosePp) {
+
+                    IdOrClass_Main = _IdOrClassPp
+                    Obj_FN_Main.OnClosePp = _OnClosePp
+
+                    // _Obj_FN_Main.OnClosePp(true)----------- chạy câu lệnh trong OnClosePopUp: function (){} khi tắt PopUp
+                    // _Obj_FN_Main.OnClosePp(true,true)-----------Đóng Pop Up + chạy câu lệnh trong OnClosePopUp: function (){}
+
+
+                    var objPanel = {
+                        pnMain: {
+                            tag: 'div', attr: 'class=""'
+                            , childTags: [{ div: 'class="row"' }]
+                            , pnTable: { tag: 'div', attr: 'class="col-md-12"' }
+                            , pnBtn: { tag: 'div', attr: 'class="col-md-12"' }
+                        }
+                    }
+                    var objEvtPanel = {}
+                    objEvtPanel.pnTable = function (_idOrClassPn) {
+                        var IdOrClass_Pn = _idOrClassPn
+
+                        // setTimeout(function(){
+                        //     $(IdOrClass_MainItem+ " .viewSave").attr('disabled',true)
+                        // },100)
+
+                        pngPn.getTable2({
+                            objApi: null
+                            , objParams_Cus: null
+                            , objCols: {
+                                No: {
+                                    name: 'No.', IsViewInputWhenCheck: true
+                                }
+                                // , strAgentName: { name: 'Tên Đại lý' }
+                                , strOrderAgentHostCode_View: { name: 'Mã Booking/Group Name' }
+                                , strServiceName: { name: 'Tên dịch vụ' }
+                                // , strGroupName: { name: 'Group Name' }
+                                , dtmDateFromTo_View: { name: 'Ngày bắt đầu - Ngày kết thúc' }
+                                // , dtmDateTo_View: { name: 'Ngày kết thúc' }
+                                , intTotalPax: { name: 'Tổng số Pax' }
+                                , dblPayableBalance_View: { name: 'Số tiền còn lại', strAttrTD: ' style="text-align:right"' }
+                            }
+                            , editRltArr: function (arr) {
+                                return Arr_ListTbl
+                            }
+                            , editRlt: function (value, key) {
+
+                                value['No'] = (key + 1)
+                                value['strOrderAgentHostCode_View'] = '<a href="/?page=bookingdetail&BKID=' + value['strBookingGUID'] + '" target="_Booking">' + value['strOrderAgentHostCode'] + '/' + value['strGroupName'] + '</a>'
+
+                                value['dtmDateFromTo_View'] = $.pngFormatDateTime(value['dtmDateFrom'], 'DD MMM YYYY') + ' - ' + $.pngFormatDateTime(value['dtmDateTo'], 'DD MMM YYYY')
+                                // value['dtmDateTo_View'] = $.pngFormatDateTime(value['dtmDateTo'])
+                                value['dblPriceTotal_View'] = $.pngFormatPrice(value['dblPriceTotal'])
+                                value['dblPayableBalance_View'] = $.pngFormatPrice(value['dblPayableBalance'])
+                                value['dblPaid_View'] = $.pngFormatPrice(value['dblPaid'])
+                            }
+                            , customEvent: function (idOrClassPn) {
+
+                            }
+                            , changeCkbMaster: function (IsChecked, intRowID, arrList) {
+                                // if (IsChecked)
+                                //     $(IdOrClass_Pn + ' tr[row=' + intRowID + '] td').css('background', '#e7eefb')
+                                // else
+                                //     $(IdOrClass_Pn + ' tr[row=' + intRowID + '] td').removeAttr('style')
+
+
+                                // if($(IdOrClass_Pn+' input[chkboxMaster="true"]:checked').length == 0){
+                                //     $(IdOrClass_MainItem+ " .viewSave>span.intITs").text('')
+                                //     $(IdOrClass_MainItem+ " .viewSave").attr('disabled',true)
+                                // }else{
+                                //     $(IdOrClass_MainItem+ " .viewSave>span.intITs").text(' (' + $(IdOrClass_Pn+' input[chkboxMaster="true"]:checked').length + ')')
+                                //     $(IdOrClass_MainItem+ " .viewSave").attr('disabled',false)
+                                // }
+
+                                Arr_ListTbl = arrList;
+                            }
+                            , IsViewCheckBoxMain: true
+                            , idOrClass: IdOrClass_Pn
+                        })
+
+
+
+                    }
+                    objEvtPanel.pnBtn = function (_idOrClassPn) {
+                        var IdOrClass_Pn = _idOrClassPn
+
+                        var strHtml = ''
+                        strHtml += '<button id="btnSave" class="viewSave btn btn-texticon bg-primary txt-white"><i class="fa fa-floppy-o"></i><span>Save</span><span class="intITs"></span></button>'
+                        $(IdOrClass_Pn).html(strHtml)
+
+                        $('#btnSave').click(function () {
+                            _Opt.OnSuccess.call(this, Arr_ListTbl)
+                            Obj_FN_Main.OnClosePp(false, true)
+                        })
+                    }
+                    // ===================================
+
+                    pngPn.getPanelHtml({            // Get ra panel dạng html
+                        objPanel: objPanel
+                        , objEvtPanel: objEvtPanel
+                        , idOrClass: IdOrClass_Main  // Id or class chính
+                        , OnChangeIdPn: function (_Fn) {
+                            Obj_FN_Main.pnMain = _Fn    // Hàm đổi trang
+                        }
+                    })
+
+
+
+                }
+            }
+
+
+        }
+
+
+        $.ModulePage_OrderStep1_PopUpViewListTerm = function (options) {
+            var defaults = {
+                strUserGUID: ''
+                , arrPaymentTerm: []
+                , arrOrderBookingByAgentHost: []
+                , OnSuccess: function () {
+                }
+            }
+            options = $.extend(defaults, options);
+
+            var IdOrClass_Main = options.idOrClass
+
+
+            var Arr_PaymentTerm = options.arrPaymentTerm
+            var Arr_OrderBookingByAgentHost = options.arrOrderBookingByAgentHost
+            var Obj_FN_Main = {}
+            GetPopUp()
+            function GetPopUp() {
+                pngPn.getPopUp({
+                    strTitle: 'List Price Charge'
+                    , intTypeSize: 2//------------1 small ---2 medium ---3 large
+                    , OnPanel: GetMainPanel
+                    , OnClosePopUp: function () {
+                        //------Chọn sự kiện khi Đóng PopUP
+                    }
+                })
+            }
+
+            function GetMainPanel(_IdOrClassPp, _OnClosePp) {
+
+                IdOrClass_Main = _IdOrClassPp
+                Obj_FN_Main.OnClosePp = _OnClosePp
+
+                // Obj_FN_Main.OnClosePp(true)----------- chạy câu lệnh trong OnClosePopUp: function (){} khi tắt PopUp
+                // Obj_FN_Main.OnClosePp(true,true)-----------Đóng Pop Up + chạy câu lệnh trong OnClosePopUp: function (){}
+
+                var objPanel = {
+                    pnMain: {
+                        tag: 'div', attr: '', childTags: [{ div: 'class="container"' }, { div: 'class="row"' }]
+                        , pnContent: { tag: 'div', attr: 'class="col-md-12"' }
+                    }
+                }
+
+                var objEvtPanel = {}
+                objEvtPanel.pnContent = function (_idOrClassPn) {
+                    var IdOrClass_Pn = _idOrClassPn
+
+                    var strHtml = ''
+                    Arr_OrderBookingByAgentHost.forEach(function (value, key) {
+
+                        var arr = Arr_PaymentTerm.filter(function (item) { return item.strOrderBookingByAgentHostGUID.toLowerCase() == value.strOrderBookingByAgentHostGUID.toLowerCase() })
+
+                        if (arr.length) {
+                            strHtml = ''
+                            strHtml += '<div class="pn-margin-t-b-15"><b>' + (key + 1) + '. </b>' + value.strCompanyName + (value.strCompanyPhone ? ' - <b>Phone:</b> ' + value.strCompanyPhone : '') + (value.strCompanyEmail ? ' - <b>Email:</b> ' + value.strCompanyEmail : '') + '</div>'
+                            strHtml += '<div class="' + value.strOrderBookingByAgentHostGUID + '"></div>'
+                            $(IdOrClass_Pn).append(strHtml)
+
+                            GetListPriceForCompany(arr, IdOrClass_Pn + ' .' + value.strOrderBookingByAgentHostGUID)
+                        }
+                    })
+
+
+                    function GetListPriceForCompany(_arrPriceTable, _idOrClass) {
+
+                        var IdOrClass_Pn_Item = _idOrClass
+                        var ArrPriceTableItem = _arrPriceTable
+
+                        var strHtml = ''
+                        strHtml += '<div class="pnTbl"></div>'
+                        $(IdOrClass_Pn_Item).html(strHtml)
+
+
+                        pngPn.getTable2({
+                            objApi: null
+                            , objParams_Cus: null
+                            , editRltArr: function (arr) {
+                                return ArrPriceTableItem
+                            }
+                            , editRlt: function (value, key) {
+                                value['No'] = (key + 1)
+
+                                value['dtmDateFrom_View'] = $.pngFormatDateTime(value['dtmDateFrom'])
+                                value['dtmDateTo_View'] = $.pngFormatDateTime(value['dtmDateTo'])
+                                value['dblPriceCharge_View'] = $.pngFormatPrice(value['dblPriceCharge'], value['intCurrencyID'])
+
+
+                            }
+                            , objCols: {
+                                'No': { name: '<span langkey="sys_Txt_Tbl-No"></span>' }
+                                , strServiceName: { name: 'Tên Dịch vụ', IsMergeRow: true }
+                                , dtmDateFrom_View: { name: '<span langkey="pg_Dft_TC_OrDtl_DateFrom"></span>' }
+                                , dtmDateTo_View: { name: '<span langkey="pg_Dft_TC_OrDtl_DateTo"></span>' }
+                                , dblPriceCharge_View: { name: 'Price Charge', strAttrTD: 'style=""' }
+                            }
+                            // ,editTableInput:function(){}
+                            , changeCkbMaster: function (IsChecked, intRowID, arrList) {
+
+
+                                ArrPriceTableItem = arrList
+                            }
+                            , customEvent: function (_idOrClassPn) {
+
+
+
+                            }
+                            // ,changeInput:function(){}
+                            , IsViewCheckBoxMain: false
+                            , idOrClass: IdOrClass_Pn_Item + ' .pnTbl'
+                        })
+
+
+                    }
+
+
+
+                }
+
+                pngPn.getPanelHtml({
+                    objPanel: objPanel
+                    , objEvtPanel: objEvtPanel
+                    , idOrClass: IdOrClass_Main
+                    , OnChangeIdPn: function (_Fn) {
+                        Obj_FN_Main.pnMain = _Fn
+                    }
+                })
+
+            }
+
+        }
+
+
+        coreSystem.getLoadPage({
+            OnSuccess: function () {
+                pngElm.getLangKey()
+
+                $.ModulePage_OrderStep1();
+            }
+        })
+
+    </script>
+</app-content-display>
