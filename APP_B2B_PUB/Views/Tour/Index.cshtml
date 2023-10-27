@@ -28,7 +28,7 @@
                         + "}");
 
     System.Data.DataTable dtTbl_0 = ds.Tables[0];
-
+    Console.WriteLine(dtTbl_0);
 
     //System.Data.DataSet ds = APP_B2B_PUB.Controllers.TourController.GetListCompanyDestinationForHmPgTour("{"
     //    + "strUserGUID: null"
@@ -181,7 +181,7 @@
                             {
                                 var rowIndex = dtTbl_0.Rows.IndexOf(item);
 
-                                <a href="/tour/detail/day-la-bai-viet-1" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
+                                <a href="/tour/@item["strServiceNameUrl"]" class="overflow-hidden rounded bg-white drop-shadow-[0_0_10px_rgba(0,0,0,0.25)]">
                                     <div class="relative">
                                         <div class="w-full pt-[56%] bg-no-repeat bg-center bg-cover" style="padding-top:56%;background-image: url('@(item["strTourImageUrl"] != null ? GetUrl("strImgURL")+item["strTourImageUrl"] : "assets/images/img-noimage.png")')"></div>
                                         <div class='absolute top-0 left-0 w-[150px] h-[150px]'>

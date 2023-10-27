@@ -3616,6 +3616,7 @@
     <Content Include="Lib_Custom\itl-theme-1\fonts\Open_Sans\LICENSE.txt" />
     <Content Include="Lib_Custom\itl-theme-1\public-mkt\css\default.css" />
     <Content Include="Lib_Custom\itl-theme-1\public-mkt\css\style1.css" />
+    <Content Include="Lib_Custom\payment\bokunPayment.js" />
     <Content Include="Lib_Custom\Tour\layouts\layout-breadcrumb.js" />
     <Content Include="Lib_Custom\Tour\layouts\layout-searchbar.js" />
     <Content Include="Lib_Custom\UserDetail\surveydetail.js" />

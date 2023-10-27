@@ -45,6 +45,7 @@
     <link rel="stylesheet" type="text/css" href="~/Lib_Common/vendor/owl-carousel/ver-1/owl.theme.css?v=1.8">
     <link rel="stylesheet" type="text/css" href="~/Lib_Common/vendor/owl-carousel/ver-1/owl.transitions.css?v=1.8">
 
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" type="text/css" href="~/Lib_Common/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="~/Lib_Common/assets/css/site.css">
@@ -68,10 +69,11 @@
     <script type="text/javascript" src="~/Lib_Common/core/WebLiberary.js?v=1.8"></script>
     <script type="text/javascript" src="~/Lib_Common/core/B2B_ConnectTMS.js?v=1.8"></script>
     <script type="text/javascript" src="~/Lib_Custom/coreSystem.js?v=1.8"></script>
-
     <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
 </head>
-<body id="PUB-MKT-Itltheme-1" class="style-1">
+<body id="PUB-MKT-Itltheme-1" class="style-1 relative">
     @if (Request.QueryString["lang"] == null || Request.Cookies["Currency"] == null || Request.Cookies["Language"] == null)
     {
         <script>
@@ -89,6 +91,6 @@
     @Html.Partial("_Header")
     @RenderBody()
     @Html.Partial("_Footer")
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
 </body>
 </html>
