@@ -51,7 +51,6 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-/* white glassmorphism */
 .white-glassmorphism {
     background: transparent;
     border-radius: 16px;
@@ -90,7 +89,7 @@ body {
 }
 
 .btn-category.active:hover {
-    background-position: right center; /* change the direction of the change here */
+    background-position: right center;
     color: #fff;
     text-decoration: none;
 }
@@ -103,7 +102,6 @@ body {
 .text-gradient {
     background-color: #fff;
     background-image: radial-gradient(at 4% 36%, hsla(0,0%,100%,1) 0, transparent 53%), radial-gradient(at 100% 60%, rgb(0, 0, 0) 0, transparent 50%);
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -121,7 +119,7 @@ body {
 .dropdown-subhover:hover .dropdown-submenu {
     display: block;
 }
-/* Scrollbar CSS */
+
 html *::-webkit-scrollbar {
     border-radius: 0;
     width: 8px;
